@@ -1,7 +1,7 @@
 # livescore-cli
 This is simple python script to show the livescore of football/soccer scores.
 
-![alt tag](https://github.com/codeezer/livescore-cli/blob/master/score.png)
+![alt tag](https://raw.githubusercontent.com/codeezer/livescore-cli/master/score.png)
 
     : Work on Progress 
     
