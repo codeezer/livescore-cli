@@ -7,6 +7,9 @@ This is simple python script to show the livescore of football/soccer scores.
 
 # USAGE (Linux-Ubuntu)
   sudo apt-get install python3 python3-bs4 
+  
   git clone https://github.com/codeezer/livescore-cli.git
+  
   cd livescore-cli
+  
   python3 livescore.py
