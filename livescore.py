@@ -35,7 +35,7 @@ def _process(rows,flag):
 
 
 def print_scores(x):
-    _message = [[]]
+    _message = []
     COLOR2 = c.GREEN
     COLOR3 = c.GREEN
     scores = 'BPL SCORES'        
@@ -46,7 +46,7 @@ def print_scores(x):
     for i in range(len(x)-1):
         piss = [p.strip() for p in x[i]]
         try:
-            if int(piss[2]) == int(score1[i]) or int(piss[3]) == int(score2[i]) :
+            if int(piss[2]) != int(score1[i]) or int(piss[3]) != int(score2[i]) :
                 sendAlert(piss[0]+'   '+piss[1]+' '+piss[2]+' - '+piss[3]+' '+piss[4])
             
             if int(piss[2]) > int(piss[3]):
@@ -64,15 +64,14 @@ def print_scores(x):
         
         score1.append(piss[2])
         score2.append(piss[3])
+        
         print(piss[0]+'\t'+COLOR2+''.join(piss[1].ljust(16))+'\t'+piss[2]+c.END+' - '+COLOR3+piss[3]+'\t'+piss[4]+c.END)
     
-    for msz in _message:
-        if msz == '':
-            return True        
-        else:
-            print(msz)
     print(c.BLUE+'------------------------------------------------------------')
-    
+    print(c.RED+'\n******************************************************************'+c.END)
+    for msz in _message:
+        print(msz)
+    print(c.RED+'******************************************************************'+c.END)
 
 def main():
     
