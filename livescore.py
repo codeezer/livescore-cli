@@ -81,7 +81,7 @@ def main():
     while True:
         try:
             os.system('clear')
-            print(' ... Fetching scores from livescore ... ')
+            print(' ... Fetching scores from http://www.livescore.com ... ')
             rows = get_livescore(url)
             print_scores(_process(rows,'scores'))
             time.sleep(15)
