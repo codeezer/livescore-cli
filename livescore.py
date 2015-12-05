@@ -73,13 +73,36 @@ def print_scores(x):
         print(msz)
     print(c.RED+'******************************************************************'+c.END)
 
+
+
+
 def print_table(x):
     table = 'BPL TABLE'        
-    print(c.BLUE+'\n------------------------------------------------------------')
-    print('\t\t\t'+c.GREEN+table)
-    print(c.BLUE+'------------------------------------------------------------'+c.END)
+    tables = []
+    _table = []
+    a = re.compile("\s+(?![a-zA-Z]+)")
+    print(c.BLUE+'\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+    print('\t\t\t\t\t'+c.GREEN+table)
+    print(c.BLUE+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
+    for i in range(1,len(x)):
+        #print(lala[i])
+        temp = re.split('  ',x[i][1])
+        tables.append(temp[1])
 
-    print(c.BLUE+'------------------------------------------------------------')
+    for each_row in tables:
+        _table.append(a.split(each_row))
+
+    position = 1
+
+    print('LP'+'\t'+''.join('Club Name'.ljust(16))+'\t'+'GP'+'\t'+'W'+'\t'+'D'+'\t'+'L'+'\t'+'GF'+'\t'+'GA'+'\t'+'GD'+'\t'+'Pts')
+    print('-----------------------------------------------------------------------------------------------')
+    for print_row in _table:
+        #print(str(position)+'\t'+COLOR2+''.join(print_table[0].ljust(16))+'\t'+print_table[1]+c.END+' - '+COLOR3+print_table[2]+'\t'+print_table[3]+c.END)
+        print('|'+str(position)+'|'+'\t'+''.join(print_row[0].ljust(16))+'\t'+str(print_row[1])+'\t'+str(print_row[2])+'\t'+str(print_row[3])+'\t'+str(print_row[4])+'\t'+str(print_row[5])+'\t'+str(print_row[6])+'\t'+str(print_row[7])+'\t'+str(print_row[8]))
+        position += 1
+        
+    print(c.BLUE+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+    print('LP = League Position \tGP = Games Played \tW = Wins \tD = Draws \tL = Lose \nGF = Goals For \t\tGA = Goal Against \tGD = Goal Differences')
     print(c.RED+'\n******************************************************************'+c.END)
     print(c.RED+'******************************************************************'+c.END)
 
@@ -89,19 +112,13 @@ def print_table(x):
 def main():
     
     url = 'http://www.livescore.com/soccer/england/premier-league/'
-
     while True:
         try:
             os.system('clear')
             print(' ... Fetching scores from http://www.livescore.com ... ')
             rows = get_livescore(url)
             print_scores(_process(rows,'scores'))
-            lala =  _process(rows,'table')
-            for i in range(1,len(lala)):
-                print(lala[i])
-                print(re.split('  ',lala[i][1]))
-                
-            
+            print_table(_process(rows,'table'))
             time.sleep(15)
             
         except KeyboardInterrupt:
