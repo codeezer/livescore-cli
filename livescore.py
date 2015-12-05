@@ -94,18 +94,24 @@ def print_table(x):
 
     position = 1
 
-    print('LP'+'\t'+''.join('Club Name'.ljust(16))+'\t'+'GP'+'\t'+'W'+'\t'+'D'+'\t'+'L'+'\t'+'GF'+'\t'+'GA'+'\t'+'GD'+'\t'+'Pts')
-    print('-----------------------------------------------------------------------------------------------')
+    print(' LP'+'\t'+''.join('Club Name'.ljust(16))+'\t'+'GP'+'\t'+'W'+'\t'+'D'+'\t'+'L'+'\t'+'GF'+'\t'+'GA'+'\t'+'GD'+'\t'+'Pts')
+    print(c.BLUE+'-----------------------------------------------------------------------------------------------'+c.END)
     for print_row in _table:
-        #print(str(position)+'\t'+COLOR2+''.join(print_table[0].ljust(16))+'\t'+print_table[1]+c.END+' - '+COLOR3+print_table[2]+'\t'+print_table[3]+c.END)
-        print('|'+str(position)+'|'+'\t'+''.join(print_row[0].ljust(16))+'\t'+str(print_row[1])+'\t'+str(print_row[2])+'\t'+str(print_row[3])+'\t'+str(print_row[4])+'\t'+str(print_row[5])+'\t'+str(print_row[6])+'\t'+str(print_row[7])+'\t'+str(print_row[8]))
+        if int(position) <= 3:
+            color = c.ORANGE
+        elif int(position) >= 18:
+            color = c.RED
+        elif int(position) == 4:
+            color = c.GREEN
+        else:
+            color = c.PURPLE
+        print(color+'|'+str(position)+'|'+'\t'+''.join(print_row[0].ljust(16))+'\t'+str(print_row[1])+'\t'+str(print_row[2])+'\t'+str(print_row[3])+'\t'+str(print_row[4])+'\t'+str(print_row[5])+'\t'+str(print_row[6])+'\t'+str(print_row[7])+'\t'+str(print_row[8]))
         position += 1
         
-    print(c.BLUE+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-    print('LP = League Position \tGP = Games Played \tW = Wins \tD = Draws \tL = Lose \nGF = Goals For \t\tGA = Goal Against \tGD = Goal Differences')
-    print(c.RED+'\n******************************************************************'+c.END)
-    print(c.RED+'******************************************************************'+c.END)
+    print(c.BLUE+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
+    print(c.GRAY+'LP = League Position \tGP = Games Played \tW = Wins \tD = Draws \tL = Lose \nGF = Goals For \t\tGA = Goal Against \tGD = Goal Differences')
 
+    print(c.BLUE+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
 
 
 
