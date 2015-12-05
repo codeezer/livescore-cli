@@ -9,6 +9,14 @@ import subprocess, time
 score1 = [0]*110
 score2 = [0]*110
 
+def check_ping(hostname):
+    response = os.system("ping -c 1 " + hostname)
+    # and then check the response...
+    if response == 0:
+        return True
+    else:
+        return False
+
 def sendAlert(message):
     subprocess.Popen(['notify-send',message])
     return
@@ -120,21 +128,26 @@ def print_table(x):
 def main():
     
     url = 'http://www.livescore.com/soccer/england/premier-league/'
+    pingTest = 'livescore.com'
     while True:
         try:
-            os.system('clear')
-            print(' ... Fetching scores from http://www.livescore.com ... ')
-            rows = get_livescore(url)
-            print_scores(_process(rows,'scores'))
-            print_table(_process(rows,'table'))
+            if check_ping(pingTest) == True:
+                os.system('clear')
+                print(' ... Fetching scores from http://www.livescore.com ... ')
+                rows = get_livescore(url)
+                print_scores(_process(rows,'scores'))
+                print_table(_process(rows,'table'))
+            
+            else:
+                print("Check Your Internet Connection , It looks like you're out of internet.")
+
             time.sleep(15)
+        
         except KeyboardInterrupt:
             break
 
         except:
-            print(c.RED+' ... No internet connection detected ... ')
-            break
-        
-
+            print('Unexpected Error')
+            
 if __name__ == '__main__':
     main()
