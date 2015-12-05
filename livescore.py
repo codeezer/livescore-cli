@@ -73,6 +73,19 @@ def print_scores(x):
         print(msz)
     print(c.RED+'******************************************************************'+c.END)
 
+def print_table(x):
+    table = 'BPL TABLE'        
+    print(c.BLUE+'\n------------------------------------------------------------')
+    print('\t\t\t'+c.GREEN+table)
+    print(c.BLUE+'------------------------------------------------------------'+c.END)
+
+    print(c.BLUE+'------------------------------------------------------------')
+    print(c.RED+'\n******************************************************************'+c.END)
+    print(c.RED+'******************************************************************'+c.END)
+
+
+
+
 def main():
     
     url = 'http://www.livescore.com/soccer/england/premier-league/'
@@ -83,11 +96,20 @@ def main():
             print(' ... Fetching scores from http://www.livescore.com ... ')
             rows = get_livescore(url)
             print_scores(_process(rows,'scores'))
+            lala =  _process(rows,'table')
+            for i in range(1,len(lala)):
+                print(lala[i])
+                print(re.split('  ',lala[i][1]))
+                
+            
             time.sleep(15)
             
         except KeyboardInterrupt:
             break
 
+        except:
+            print(c.RED+' ... No internet connection detected ... ')
+            break
         
 
 if __name__ == '__main__':
