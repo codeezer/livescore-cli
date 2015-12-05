@@ -18,4 +18,4 @@ This is simple python script to show the livescore of football/soccer scores.
   
     python3 livescore.py
 	
-:::also support on python2 too :) 
+:: supports on python2 too :) 
