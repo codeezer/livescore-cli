@@ -6,8 +6,6 @@ import requests, re, os, argparse
 import colors as c
 import subprocess, time
 
-score1 = [0]*110
-score2 = [0]*110
 
 def check_ping(hostname):
     response = os.system("ping -c 1 " + hostname)
@@ -49,6 +47,8 @@ def print_scores(x):
     print('\t\t\t'+c.GREEN+scores)
     print(c.BLUE+'------------------------------------------------------------'+c.END)
 
+    score1 = [0]*110
+    score2 = [0]*110
     for i in range(len(x)-1):
         piss = [p.strip() for p in x[i]]
         COLOR2 = c.GREEN
@@ -62,15 +62,17 @@ def print_scores(x):
             if int(piss[2]) > int(piss[3]):
                 COLOR2 = c.ORANGE
                 COLOR3 = c.RED
+            
             elif int(piss[2]) < int(piss[3]):
                 COLOR3 = c.ORANGE
                 COLOR2 = c.RED
+           
             else:
                 COLOR2 = c.CYAN
                 COLOR3 = c.CYAN
                 
         except:
-            _message.append(c.ORANGE+piss[1]+c.END+' vs '+c.ORANGE+piss[4]+c.END+' match is not started yet')
+            _message.append(c.ORANGE+piss[1]+c.END+' vs '+c.ORANGE+piss[4]+c.END+' match has not started yet')
         
         score1.append(piss[2])
         score2.append(piss[3])
