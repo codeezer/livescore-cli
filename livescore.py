@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 
 from bs4 import BeautifulSoup
-import requests, re, os
+import requests, re, os, argparse
 import colors as c
 import subprocess, time
 
@@ -124,9 +124,8 @@ def main():
             print(' ... Fetching scores from http://www.livescore.com ... ')
             rows = get_livescore(url)
             print_scores(_process(rows,'scores'))
-            print_table(_process(rows,'table'))
+            #print_table(_process(rows,'table'))
             time.sleep(15)
-            
         except KeyboardInterrupt:
             break
 
