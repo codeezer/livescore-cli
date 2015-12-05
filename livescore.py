@@ -36,8 +36,6 @@ def _process(rows,flag):
 
 def print_scores(x):
     _message = []
-    COLOR2 = c.GREEN
-    COLOR3 = c.GREEN
     scores = 'BPL SCORES'        
     print(c.BLUE+'\n------------------------------------------------------------')
     print('\t\t\t'+c.GREEN+scores)
@@ -45,9 +43,13 @@ def print_scores(x):
 
     for i in range(len(x)-1):
         piss = [p.strip() for p in x[i]]
+        COLOR2 = c.GREEN
+        COLOR3 = c.GREEN
         try:
             if int(piss[2]) != int(score1[i]) or int(piss[3]) != int(score2[i]) :
                 sendAlert(piss[0]+'   '+piss[1]+' '+piss[2]+' - '+piss[3]+' '+piss[4])
+                score1[i]=piss[2]
+                score2[i]=piss[3]
             
             if int(piss[2]) > int(piss[3]):
                 COLOR2 = c.ORANGE
@@ -124,7 +126,7 @@ def main():
             print(' ... Fetching scores from http://www.livescore.com ... ')
             rows = get_livescore(url)
             print_scores(_process(rows,'scores'))
-            #print_table(_process(rows,'table'))
+            print_table(_process(rows,'table'))
             time.sleep(15)
         except KeyboardInterrupt:
             break
