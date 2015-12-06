@@ -40,15 +40,17 @@ def _process(rows,flag):
         return [re.split('   ', _scoreTable[i]) for i in range(len(_scoreTable))]
 
 
+score1 = [0]*110
+score2 = [0]*110
+
 def print_scores(x):
     _message = []
+    alert = []
     scores = 'BPL SCORES'        
     print(c.BLUE+'\n------------------------------------------------------------')
     print('\t\t\t'+c.GREEN+scores)
     print(c.BLUE+'------------------------------------------------------------'+c.END)
 
-    score1 = [0]*110
-    score2 = [0]*110
     for i in range(len(x)-1):
         piss = [p.strip() for p in x[i]]
         COLOR2 = c.GREEN
@@ -76,9 +78,8 @@ def print_scores(x):
         
         score1.append(piss[2])
         score2.append(piss[3])
-        
         print(piss[0]+'\t'+COLOR2+''.join(piss[1].ljust(16))+'\t'+piss[2]+c.END+' - '+COLOR3+piss[3]+'\t'+piss[4]+c.END)
-    
+
     print(c.BLUE+'------------------------------------------------------------')
     print(c.RED+'\n******************************************************************'+c.END)
     for msz in _message:
