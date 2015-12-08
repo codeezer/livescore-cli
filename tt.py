@@ -7,7 +7,7 @@ _convert() method takes a single time in string and returns the local time
 convert() takes a list of time in string format and returns in local time
 NOTE: any string not in the format "digits:digits" will be returned as is
 USAGE: 
->>>convTimes(['19:45','18:15','5:45','512','FT'])
+>>>convert(['19:45','18:15','5:45','512','FT'])
 ['01:00','00:00','11:30','512','FT']
 '''
 
