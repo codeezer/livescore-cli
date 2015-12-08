@@ -8,6 +8,7 @@
 
 import lscolors as c
 import re, subprocess
+import tt
 
 def sendAlert(message):
     subprocess.Popen(['notify-send',message])
@@ -38,6 +39,7 @@ def scores(x):
             i.e. 20:00 Everton   1 - 2   Crystal Palace
         '''
         piss = [p.strip() for p in x[i]] #striping strings i.e. ' 3 ' -> '3' or '44 ' -> '44'
+        piss[0] = tt._convert(piss[0])
         COLOR2 = c.GREEN
         COLOR3 = c.GREEN
         try:

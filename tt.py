@@ -4,7 +4,7 @@ import re
 '''
 module to convert the given time in UTC to local device time
 _convert() method takes a single time in string and returns the local time
-convTimes() takes a list of time in string format and returns in local time
+convert() takes a list of time in string format and returns in local time
 NOTE: any string not in the format "digits:digits" will be returned as is
 USAGE: 
 >>>convTimes(['19:45','18:15','5:45','512','FT'])
@@ -18,7 +18,7 @@ else:
 hour = int(-offsetHour)
 minute = int(-offsetHour * 60 % 60)
 
-def _conv(time):
+def _convert(time):
 	if bool(re.match(r'[0-9]{1,2}:[0-9]{1,2}',time)):
 		time = list(map(int,time.split(':')))
 		time[1]+=minute
