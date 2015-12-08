@@ -12,6 +12,8 @@ import tt
 
 def sendAlert(message):
     subprocess.Popen(['notify-send',message])
+    
+    subprocess.Popen(['notify-send',message])
     return
     
     
@@ -61,7 +63,9 @@ def scores(x):
             else:
                 COLOR2 = c.CYAN
                 COLOR3 = c.CYAN
-        
+            
+            if piss[0] == 'FT':
+                _message.append(c.ORANGE+piss[1]+c.END+' vs '+c.ORANGE+piss[4]+c.END+' match has been completed')
         #if conversion to int fails i.e. '?' instead of numbers then match hasnt started yet :)
         except:
             _message.append(c.ORANGE+piss[1]+c.END+' vs '+c.ORANGE+piss[4]+c.END+' match has not started yet')
@@ -119,3 +123,25 @@ def table(x):
     print(c.GRAY+'LP = League Position \tGP = Games Played \tW = Wins \tD = Draws \tL = Lose \nGF = Goals For \t\tGA = Goal Against \tGD = Goal Differences')
 
     print(c.BLUE+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
+
+
+
+
+
+def scorers(x):
+    scorers = 'BPL TOP SCORER'
+    print(c.BLUE+'\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
+    print('\t\t\t'+c.GREEN+scorers)
+    print(c.BLUE+'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'+c.END)
+    print('|'+'SN'+'|'+'\t'+''.join('Players Name'.ljust(16))+'\t'+''.join('Club'.ljust(16))+'\t'+'Goals')
+    print(c.BLUE+'--------------------------------------------------------------'+c.END)
+
+    for data in x[1:]:
+        dataa = [p.strip() for p in data]
+        print('|'+dataa[0]+'|'+'\t'+''.join(dataa[1].ljust(16))+'\t'+''.join(dataa[2].ljust(16))+'\t'+dataa[3])
+    
+    print(c.BLUE+'\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'+c.END)
+    print('\n'+c.BLUE+'------------------------------------------------------------')
+
+
+
