@@ -18,7 +18,7 @@ parser.add_argument("-t","--table", help="Display the League Table", action = "s
 parser.add_argument("-f","--fixtures", help="Display the Fixtures", action = "store_true")
 parser.add_argument("-s", "--score", help="Display the Score", action = "store_true")
 parser.add_argument("-ts","--scorers", help="Display the Top Scorers", action = "store_true")
-parser.add_argument("League", help="The league for which the details have to be displayed. Allowed values are ["+', '.join(supported_leagues)+']',choices = supported_leagues, nargs='+', type=str.lower)
+parser.add_argument("League", help="The league for which the details have to be displayed. Allowed values are ["+', '.join(supported_leagues)+']. For multiple choices, separate each league name by a space.',choices = supported_leagues, nargs='+', type=str.lower, metavar='LEAGUE')
 
 args = parser.parse_args()
 if args.verbose:
