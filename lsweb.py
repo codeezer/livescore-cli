@@ -3,7 +3,7 @@ import requests, re, os
 
 #function which returns boolean true if the ping test results positive false if negative test
 def check_ping(hostname):
-    response = os.system("ping -c 1 " + hostname)
+    response = os.system("echo off>ping -c 1 " + hostname)
     # and then check the response...
     if response == 0:
         return True

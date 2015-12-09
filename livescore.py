@@ -5,35 +5,54 @@ import requests, re, os, argparse
 import lscolors as c
 import time,lsprint,lsprocess
 import lsweb #containing functions for webaccess :pingtest :geturl 
+import URL #Contains the urls to fetch data
+import cli #Contains our command line interface code
 
 def main():
-    
-    url = 'http://www.livescore.com/soccer/england/premier-league/'
-    pingTest = 'livescore.com'
-    url_scorer = 'http://www.bbc.com/sport/football/premier-league/top-scorers'
     while True:
-        try:
-            if lsweb.check_ping(pingTest) == True:
-                os.system('clear')
-                print(' ... Fetching scores from http://www.livescore.com ... ')
-                rows = lsweb.get_livescore(url,'row-gray')
-                scorer_rows = lsweb.get_livescore(url_scorer,'competition-top-scorers-list')
-
-                #prettifying array to readable form and print the array with nice view
-                lsprint.scores(lsprocess.pretty_array(rows,'scores'))
-                lsprint.table(lsprocess.pretty_array(rows,'table'))
-                lsprint.scorers(lsprocess.pretty_array(scorer_rows,'scorers'))
-
-            else:
-                print("Check Your Internet Connection , It looks like you're out of internet.")
-
-            time.sleep(15)
+        try:   
+            os.system('clear')
+            print(' ... Fetching scores from http://www.livescore.com ... ')
+ 
+            for k in cli.args.League:
+            	
+                #Code to fetch data from URL[k]
+                url = URL.URL[k][0] 
+                pingTest = 'livescore.com'
+                url_scorer = URL.URL[k][1]
+                if lsweb.check_ping(pingTest) == True:
+                    rows = lsweb.get_livescore(url,'row-gray')
+    
+                    if cli.args.table:
+                        print("Displaying Table for {}".format(k.title()))
+                        lsprint.table(lsprocess.pretty_array(rows,'table'))
+                
+#                   if cli.args.fixtures:
+#                       print("Displaying Fixtures for {}".format(k.title()))
+                
+                    if cli.args.score:
+                        print("Displaying Scores for {}".format(k.title()))
+                        lsprint.scores(lsprocess.pretty_array(rows,'scores'))
+    
+                    if cli.args.scorers:
+                        print("Displaying Top Scorers for {}".format(k.title()))
+                        scorer_rows = lsweb.get_livescore(url_scorer,'competition-top-scorers-list')
+                        lsprint.scorers(lsprocess.pretty_array(scorer_rows,'scorers'))
+    
+                else:
+                    print("Check Your Internet Connection , It looks like you're out of internet.")
+                time.sleep(3)
         
+            time.sleep(25)
+            
         except KeyboardInterrupt:
             break
+    
+#    except:
+#        print('Unexpected Error')
+     
+    
 
-        except:
-            print('Unexpected Error')
-            
+           
 if __name__ == '__main__':
     main()

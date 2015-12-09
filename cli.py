@@ -15,7 +15,7 @@ parser = argparse.ArgumentParser(description="A simple livescore tool. Currently
 
 parser.add_argument("-v","--verbose", help="Display verbose output", action="store_true")
 parser.add_argument("-t","--table", help="Display the League Table", action = "store_true")
-parser.add_argument("-f","--fixtures", help="Display the Fixtures", action = "store_true")
+#parser.add_argument("-f","--fixtures", help="Display the Fixtures", action = "store_true")
 parser.add_argument("-s", "--score", help="Display the Score", action = "store_true")
 parser.add_argument("-ts","--scorers", help="Display the Top Scorers", action = "store_true")
 parser.add_argument("League", help="The league for which the details have to be displayed. Allowed values are ["+', '.join(supported_leagues)+']. For multiple choices, separate each league name by a space.',choices = supported_leagues, nargs='+', type=str.lower, metavar='LEAGUE')
@@ -24,31 +24,4 @@ args = parser.parse_args()
 if args.verbose:
 	print("Verbose Activated")
 	
-for k in args.League:
-	'''
-	#Code to load the table for given league
-	#Can be done by a dictionary with leage names as keys and URL as values
-	URL = {
-			'bpl' : 'http://www.livescore.com/soccer/england/premier-league/',
-			'laliga' : 'http://www.livescore.com/soccer/spain/primera-division/'
-			'bundesliga' : 'http://www.livescore.com/soccer/germany/bundesliga/'
-			'seriea' : 'http://www.livescore.com/soccer/italy/serie-a/'
-			'ligue1' : 'http://www.livescore.com/soccer/france/ligue-1/'
-			'portugal' : 'http://www.livescore.com/soccer/portugal/liga-sagres/'
-	}
-	'''
-	#Code to fetch data from URL[k]
-	if args.table:
-		print("Displaying Table for {}".format(k.title()))
-		#Add function to display table for the league k
-	if args.fixtures:
-		print("Displaying Fixtures for {}".format(k.title()))
-		#Add function to display fixtures for the leage k
-	if args.score:
-		print("Displaying Scores for {}".format(k.title()))
-		#Add function to display fixtures for the league k
-	if args.scorers:
-		print("Displaying Top Scorers for {}".format(k.title()))
-
-
 
