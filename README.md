@@ -17,7 +17,7 @@
     cd livescore-cli
   
     python3 livescore.py
-Or
+Or 
     python livescore.py
 
 
