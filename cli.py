@@ -11,7 +11,7 @@ import argparse
 import URL
 
 supported_leagues = list(URL.URL.keys())
-parser = argparse.ArgumentParser(description="A simple livescore tool. Currently works only for the Barclays Premier League", epilog="Sample uses:\n python3 livescore.py --table bpl laliga")
+parser = argparse.ArgumentParser(description="A simple livescore tool.", epilog="Sample uses:\n python3 livescore.py --table bpl laliga")
 
 parser.add_argument("-v","--verbose", help="Display verbose output", action="store_true")
 parser.add_argument("-t","--table", help="Display the League Table", action = "store_true")
