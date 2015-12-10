@@ -11,10 +11,6 @@ import re, subprocess
 import tt
 
 def sendAlert(message):
-    #if isinstance(message,list) == False:
-
-
-    
     subprocess.Popen(['notify-send',message])
     return
     

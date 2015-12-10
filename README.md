@@ -2,9 +2,7 @@
 
 ![alt tag](https://raw.githubusercontent.com/codeezer/livescore-cli/master/graphics/score.jpg)
 
-    : Work on Progress 
     
-    currently only livescore of BPL (Barclays Premier League) is available
 
 ## INSTALLATION (Linux - Ubuntu)
 
@@ -54,3 +52,4 @@ livescore-cli is a small commandline program to watch scores, tables and fixture
 
 
 
+    : Work on Progress 
