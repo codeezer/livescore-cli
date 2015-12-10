@@ -11,7 +11,9 @@ import re, subprocess
 import tt
 
 def sendAlert(message):
-    subprocess.Popen(['notify-send',message])
+    #if isinstance(message,list) == False:
+
+
     
     subprocess.Popen(['notify-send',message])
     return
@@ -133,15 +135,24 @@ def scorers(x):
     print(c.BLUE+'\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
     print('\t\t\t'+c.GREEN+scorers)
     print(c.BLUE+'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'+c.END)
-    print('|'+'SN'+'|'+'\t'+''.join('Players Name'.ljust(16))+'\t'+''.join('Club'.ljust(16))+'\t'+'Goals')
-    print(c.BLUE+'--------------------------------------------------------------'+c.END)
-
+    longest_length = 24
+    shortest_length = 5
     for data in x[1:]:
         dataa = [p.strip() for p in data]
-        print('|'+dataa[0]+'|'+'\t'+''.join(dataa[1].ljust(16))+'\t'+''.join(dataa[2].ljust(16))+'\t'+dataa[3])
+        mx = max([len(s) for s in data])
+        mn = min([len(s) for s in data])
+        if mx > longest_length:
+            longest_length = mx
+        
+        if mn < shortest_length:
+            shortest_length = mn
+    space = longest_length - shortest_length 
+    print('|'+'SN'+'|'+'\t'+''.join('Players Name'.ljust(space))+'\t'+''.join('Club'.ljust(16))+'\t'+'Goals')
+    print(c.BLUE+'--------------------------------------------------------------'+c.END)
+    for data in x[1:]:
+        dataa = [p.strip() for p in data]
+        print('|'+dataa[0]+'|'+'\t'+''.join(dataa[1].ljust(space))+'\t'+''.join(dataa[2].ljust(16))+'\t'+dataa[3])
     
     print(c.BLUE+'\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'+c.END)
     print('\n'+c.BLUE+'------------------------------------------------------------')
-
-
 
