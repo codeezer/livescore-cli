@@ -8,15 +8,13 @@
 
 ![alt tag](https://raw.githubusercontent.com/codeezer/livescore-cli/master/graphics/livescore-cli.gif)
 
-    sudo apt-get install python3 python3-bs4 
+    sudo apt-get install python3 python3-bs4 python3-requests 
   
     git clone https://github.com/codeezer/livescore-cli.git
   
     cd livescore-cli
   
     python3 livescore.py
-Or 
-    python livescore.py
 
 
 
