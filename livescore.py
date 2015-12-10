@@ -25,19 +25,19 @@ def main():
     
                     if cli.args.table:
                         print("Displaying Table for {}".format(URL.URL[k][0]))
-                        lsprint.table(lsprocess.pretty_array(rows,'table'))
+                        lsprint.table(lsprocess.pretty_array(rows,'table'),k)
                 
 #                   if cli.args.fixtures:
 #                       print("Displaying Fixtures for {}".format(URL.URL[k][0]))
                 
                     if cli.args.score:
                         print("Displaying Scores for {}".format(URL.URL[k][0]))
-                        lsprint.scores(lsprocess.pretty_array(rows,'scores'))
+                        lsprint.scores(lsprocess.pretty_array(rows,'scores'),k)
     
                     if cli.args.scorers:
                         print("Displaying Top Scorers for {}".format(URL.URL[k][0]))
                         scorer_rows = lsweb.get_livescore(url_scorer,'competition-top-scorers-list')
-                        lsprint.scorers(lsprocess.pretty_array(scorer_rows,'scorers'))
+                        lsprint.scorers(lsprocess.pretty_array(scorer_rows,'scorers'),k)
     
                 else:
                     print("Check Your Internet Connection , It looks like you're out of internet.")
