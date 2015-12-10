@@ -124,11 +124,11 @@ def table(x,key):
     for print_row in _table:
         if int(position) <= ucl_:
             color = c.ORANGE
-        elif int(position) >= len(_table)-rel_:
+        elif int(position) > len(_table)-rel_:
             color = c.RED
-        elif int(position) == 4:
+        elif ucl_ < int(position) <= ucl_ + ucl_qual:
             color = c.GREEN
-        elif int(position) == 5:
+        elif ucl_ + ucl_qual < int(position) <= ucl_ + ucl_qual + europa_:
             color = c.END
         else:
             color = c.PURPLE
@@ -145,10 +145,10 @@ def table(x,key):
 
 
 def scorers(x,key):
-    scorers = URL.URL[key][0]+'BPL TOP SCORER'
-    print(c.BLUE+'\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
+    scorers = URL.URL[key][0]+' TOP SCORER'
+    print(c.BLUE+'\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
     print('\t\t\t'+c.GREEN+scorers)
-    print(c.BLUE+'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'+c.END)
+    print(c.BLUE+'::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::'+c.END)
     longest_length1 = 15
     longest_length2 = 15
     for data in x[1:]:
@@ -163,11 +163,12 @@ def scorers(x,key):
     space1 = longest_length1
     space2 = longest_length2
     print('|'+'SN'+'|'+'\t'+''.join('Players Name'.ljust(space1))+'\t'+''.join('Club'.ljust(space2))+'\t'+'Goals')
-    print(c.BLUE+'--------------------------------------------------------------'+c.END)
+    print(c.BLUE+'------------------------------------------------------------------------------'+c.END)
     for data in x[1:]:
         dataa = [p.strip() for p in data]
-        print('|'+dataa[0]+'|'+'\t'+''.join(dataa[1].ljust(space1))+'\t'+''.join(dataa[2].ljust(space2))+'\t'+dataa[3])
+        print(c.CYAN+'|'+dataa[0]+'|'+'\t'+''.join(dataa[1].ljust(space1))+'\t'+''.join(dataa[2].ljust(space2))+'\t'+dataa[3]+c.END)
     
-    print(c.BLUE+'\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'+c.END)
-    print('\n'+c.BLUE+'------------------------------------------------------------')
+    print(c.BLUE+'\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::'+c.END)
+    print('\n'+c.BLUE+'------------------------------------------------------------------------------')
+
 
