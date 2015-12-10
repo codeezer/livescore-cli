@@ -9,7 +9,7 @@ def pretty_array(rows,flag):
         _contents = re.split('# ', contents)
         livescores = _contents[0]
         _livescores = re.split('\n',livescores)
-        return [re.split('   |-', _livescores[i]) for i in range(len(_livescores))]
+        return [re.split('   | - ', _livescores[i]) for i in range(len(_livescores))]
     
     elif flag == 'table':
         _contents = re.split('# ', contents)
