@@ -21,9 +21,9 @@ score2 = [0]*110
 def scores(x,key):
     _message = []
     alert = []
-    scores = 'BPL SCORES'        
+    scores = URL.URL[key][0]+' SCORES'        
     print(c.BLUE+'\n------------------------------------------------------------')
-    print('\t\t\t'+c.GREEN+scores)
+    print('\t\t'+c.GREEN+scores)
     print(c.BLUE+'------------------------------------------------------------'+c.END)
 
     
@@ -85,12 +85,20 @@ def scores(x,key):
 
 
 def table(x,key):
-    table = 'BPL TABLE'        
+    table = URL.URL[key][0]+' TABLE'
+    
+    ucl_ = URL.URL[key][3]
+    ucl_qual = URL.URL[key][4]
+    europa_ = URL.URL[key][5]
+    europa_qual = URL.URL[key][6]
+    rel_qual = URL.URL[key][7]
+    rel_ = URL.URL[key][8]
+
     tables = []
     _table = []
     a = re.compile("\s+(?![a-zA-Z]+)")
     print(c.BLUE+'\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-    print('\t\t\t\t\t'+c.GREEN+table)
+    print('\t\t\t\t'+c.GREEN+table)
     print(c.BLUE+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
     for i in range(1,len(x)):
         temp = re.split('  ',x[i][1])
@@ -114,9 +122,9 @@ def table(x,key):
     print(' LP'+'\t'+''.join('Club Name'.ljust(space))+'\t'+'GP'+'\t'+'W'+'\t'+'D'+'\t'+'L'+'\t'+'GF'+'\t'+'GA'+'\t'+'GD'+'\t'+'Pts')
     print(c.BLUE+'-----------------------------------------------------------------------------------------------'+c.END)
     for print_row in _table:
-        if int(position) <= 3:
+        if int(position) <= ucl_:
             color = c.ORANGE
-        elif int(position) >= 18:
+        elif int(position) >= len(_table)-rel_:
             color = c.RED
         elif int(position) == 4:
             color = c.GREEN
@@ -137,7 +145,7 @@ def table(x,key):
 
 
 def scorers(x,key):
-    scorers = 'BPL TOP SCORER'
+    scorers = URL.URL[key][0]+'BPL TOP SCORER'
     print(c.BLUE+'\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
     print('\t\t\t'+c.GREEN+scorers)
     print(c.BLUE+'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'+c.END)
