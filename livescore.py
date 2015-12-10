@@ -17,25 +17,25 @@ def main():
             for k in cli.args.League:
             	
                 #Code to fetch data from URL[k]
-                url = URL.URL[k][0] 
+                url = URL.URL[k][1] 
                 pingTest = 'livescore.com'
-                url_scorer = URL.URL[k][1]
+                url_scorer = URL.URL[k][2]
                 if lsweb.check_ping(pingTest) == True:
                     rows = lsweb.get_livescore(url,'row-gray')
     
                     if cli.args.table:
-                        print("Displaying Table for {}".format(k.title()))
+                        print("Displaying Table for {}".format(URL.URL[k][0]))
                         lsprint.table(lsprocess.pretty_array(rows,'table'))
                 
 #                   if cli.args.fixtures:
-#                       print("Displaying Fixtures for {}".format(k.title()))
+#                       print("Displaying Fixtures for {}".format(URL.URL[k][0]))
                 
                     if cli.args.score:
-                        print("Displaying Scores for {}".format(k.title()))
+                        print("Displaying Scores for {}".format(URL.URL[k][0]))
                         lsprint.scores(lsprocess.pretty_array(rows,'scores'))
     
                     if cli.args.scorers:
-                        print("Displaying Top Scorers for {}".format(k.title()))
+                        print("Displaying Top Scorers for {}".format(URL.URL[k][0]))
                         scorer_rows = lsweb.get_livescore(url_scorer,'competition-top-scorers-list')
                         lsprint.scorers(lsprocess.pretty_array(scorer_rows,'scorers'))
     
