@@ -21,7 +21,14 @@
 ## Description
 
 livescore-cli is a small commandline program to watch scores, tables and fixtures of football(soccer) from the commandline. It requires the python interpreter(2 or 3). It uses the data from the website livescore.com and some other websites. It is essentially built for the busy people that are passionate about football.
-    
+
+## FEATURES
+
+        1. Real Time Livescore
+        2. Game Time in Local Time 
+        3. League Table with division
+        4. Top Scorer of each League
+
 ##USAGE
 
     usage: livescore.py [-h] [-v] [-t] [-s] [-ts] LEAGUE [LEAGUE ...]
