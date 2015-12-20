@@ -8,13 +8,9 @@
 
 import lscolors as c
 import re, subprocess
-import tt
+import tt, URL
 
 def sendAlert(message):
-    #if isinstance(message,list) == False:
-
-
-    
     subprocess.Popen(['notify-send',message])
     return
     
@@ -22,12 +18,12 @@ def sendAlert(message):
 score1 = [0]*110
 score2 = [0]*110
 
-def scores(x):
+def scores(x,key):
     _message = []
     alert = []
-    scores = 'BPL SCORES'        
+    scores = URL.URL[key][0]+' SCORES'        
     print(c.BLUE+'\n------------------------------------------------------------')
-    print('\t\t\t'+c.GREEN+scores)
+    print('\t\t'+c.GREEN+scores)
     print(c.BLUE+'------------------------------------------------------------'+c.END)
 
     
@@ -88,13 +84,21 @@ def scores(x):
 
 
 
-def table(x):
-    table = 'BPL TABLE'        
+def table(x,key):
+    table = URL.URL[key][0]+' TABLE'
+    
+    ucl_ = URL.URL[key][3]
+    ucl_qual = URL.URL[key][4]
+    europa_ = URL.URL[key][5]
+    europa_qual = URL.URL[key][6]
+    rel_qual = URL.URL[key][7]
+    rel_ = URL.URL[key][8]
+
     tables = []
     _table = []
     a = re.compile("\s+(?![a-zA-Z]+)")
     print(c.BLUE+'\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-    print('\t\t\t\t\t'+c.GREEN+table)
+    print('\t\t\t\t'+c.GREEN+table)
     print(c.BLUE+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
     for i in range(1,len(x)):
         temp = re.split('  ',x[i][1])
@@ -105,20 +109,30 @@ def table(x):
 
     position = 1
 
-    print(' LP'+'\t'+''.join('Club Name'.ljust(16))+'\t'+'GP'+'\t'+'W'+'\t'+'D'+'\t'+'L'+'\t'+'GF'+'\t'+'GA'+'\t'+'GD'+'\t'+'Pts')
+    longest_length = 15
+    shortest_length = 10
+    
+    for data in _table:
+        m = len(data[0])
+        if m > longest_length:
+            longest_length = m
+    
+    space = longest_length
+
+    print(' LP'+'\t'+''.join('Club Name'.ljust(space))+'\t'+'GP'+'\t'+'W'+'\t'+'D'+'\t'+'L'+'\t'+'GF'+'\t'+'GA'+'\t'+'GD'+'\t'+'Pts')
     print(c.BLUE+'-----------------------------------------------------------------------------------------------'+c.END)
     for print_row in _table:
-        if int(position) <= 3:
+        if int(position) <= ucl_:
             color = c.ORANGE
-        elif int(position) >= 18:
+        elif int(position) > len(_table)-rel_:
             color = c.RED
-        elif int(position) == 4:
+        elif ucl_ < int(position) <= ucl_ + ucl_qual:
             color = c.GREEN
-        elif int(position) == 5:
+        elif ucl_ + ucl_qual < int(position) <= ucl_ + ucl_qual + europa_:
             color = c.END
         else:
             color = c.PURPLE
-        print(color+'|'+str(position)+'|'+'\t'+''.join(print_row[0].ljust(16))+'\t'+str(print_row[1])+'\t'+str(print_row[2])+'\t'+str(print_row[3])+'\t'+str(print_row[4])+'\t'+str(print_row[5])+'\t'+str(print_row[6])+'\t'+str(print_row[7])+'\t'+str(print_row[8]))
+        print(color+'|'+str(position)+'|'+'\t'+''.join(print_row[0].ljust(space))+'\t'+str(print_row[1])+'\t'+str(print_row[2])+'\t'+str(print_row[3])+'\t'+str(print_row[4])+'\t'+str(print_row[5])+'\t'+str(print_row[6])+'\t'+str(print_row[7])+'\t'+str(print_row[8]))
         position += 1
         
     print(c.BLUE+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
@@ -130,29 +144,31 @@ def table(x):
 
 
 
-def scorers(x):
-    scorers = 'BPL TOP SCORER'
-    print(c.BLUE+'\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
+def scorers(x,key):
+    scorers = URL.URL[key][0]+' TOP SCORER'
+    print(c.BLUE+'\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
     print('\t\t\t'+c.GREEN+scorers)
-    print(c.BLUE+'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'+c.END)
-    longest_length = 24
-    shortest_length = 5
+    print(c.BLUE+'::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::'+c.END)
+    longest_length1 = 15
+    longest_length2 = 15
     for data in x[1:]:
         dataa = [p.strip() for p in data]
-        mx = max([len(s) for s in data])
-        mn = min([len(s) for s in data])
-        if mx > longest_length:
-            longest_length = mx
-        
-        if mn < shortest_length:
-            shortest_length = mn
-    space = longest_length - shortest_length 
-    print('|'+'SN'+'|'+'\t'+''.join('Players Name'.ljust(space))+'\t'+''.join('Club'.ljust(16))+'\t'+'Goals')
-    print(c.BLUE+'--------------------------------------------------------------'+c.END)
+        mx1 = len(dataa[1])
+        mx2 = len(dataa[2])
+        if mx1 > longest_length1:
+            longest_length1 = mx1
+        if mx2 > longest_length2:
+            longest_length2 = mx2
+
+    space1 = longest_length1
+    space2 = longest_length2
+    print('|'+'SN'+'|'+'\t'+''.join('Players Name'.ljust(space1))+'\t'+''.join('Club'.ljust(space2))+'\t'+'Goals')
+    print(c.BLUE+'------------------------------------------------------------------------------'+c.END)
     for data in x[1:]:
         dataa = [p.strip() for p in data]
-        print('|'+dataa[0]+'|'+'\t'+''.join(dataa[1].ljust(space))+'\t'+''.join(dataa[2].ljust(16))+'\t'+dataa[3])
+        print(c.CYAN+'|'+dataa[0]+'|'+'\t'+''.join(dataa[1].ljust(space1))+'\t'+''.join(dataa[2].ljust(space2))+'\t'+dataa[3]+c.END)
     
-    print(c.BLUE+'\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'+c.END)
-    print('\n'+c.BLUE+'------------------------------------------------------------')
+    print(c.BLUE+'\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::'+c.END)
+    print('\n'+c.BLUE+'------------------------------------------------------------------------------')
+
 
