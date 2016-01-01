@@ -2,8 +2,3 @@ Match Date :
 
 
 
-To Anuj : 
-I want you to write a module containing time as object so that i can compare time :
-i.e. 05:00 > 03:00
-     23:00 > 12:45
-
