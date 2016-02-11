@@ -12,7 +12,7 @@ def main():
     bTable = bool(cli.args.table)
     bScore = bool(cli.args.score)
     bScorers = bool(cli.args.scorers)
-    if not bTable or not bScore or not bScorers:
+    if not bTable and not bScore and not bScorers:
         bScore = True
     while True:
         try:   
