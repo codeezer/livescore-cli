@@ -105,7 +105,6 @@ def table(x,key):
         tables.append(temp[1])
 
     for each_row in tables:
-        print(each_row)
         _table.append(a.split(each_row))
 
     position = 1
