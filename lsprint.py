@@ -97,14 +97,15 @@ def table(x,key):
     tables = []
     _table = []
     a = re.compile("\s+(?![a-zA-Z]+)")
-    print(c.BLUE+'\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+    print(c.BLUE+'\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
     print('\t\t\t\t'+c.GREEN+table)
-    print(c.BLUE+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
+    print(c.BLUE+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
     for i in range(1,len(x)):
         temp = re.split('  ',x[i][1])
         tables.append(temp[1])
 
     for each_row in tables:
+        print(each_row)
         _table.append(a.split(each_row))
 
     position = 1
@@ -120,7 +121,7 @@ def table(x,key):
     space = longest_length
 
     print(' LP'+'\t'+''.join('Club Name'.ljust(space))+'\t'+'GP'+'\t'+'W'+'\t'+'D'+'\t'+'L'+'\t'+'GF'+'\t'+'GA'+'\t'+'GD'+'\t'+'Pts')
-    print(c.BLUE+'-----------------------------------------------------------------------------------------------'+c.END)
+    print(c.BLUE+'---------------------------------------------------------------------------------------------------'+c.END)
     for print_row in _table:
         if int(position) <= ucl_:
             color = c.ORANGE
@@ -132,13 +133,25 @@ def table(x,key):
             color = c.END
         else:
             color = c.PURPLE
+#After issue,interim solution of issue 
+        if len(print_row) > 10:
+            print_row[0] = print_row[0]+" "+print_row[1]
+            print_row[1] = print_row[2]
+            print_row[2] = print_row[3]
+            print_row[3] = print_row[4]
+            print_row[4] = print_row[5]
+            print_row[5] = print_row[6]
+            print_row[6] = print_row[7]
+            print_row[7] = print_row[8]
+            print_row[8] = print_row[9]
+#------------------------------------------------------------
         print(color+'|'+str(position)+'|'+'\t'+''.join(print_row[0].ljust(space))+'\t'+str(print_row[1])+'\t'+str(print_row[2])+'\t'+str(print_row[3])+'\t'+str(print_row[4])+'\t'+str(print_row[5])+'\t'+str(print_row[6])+'\t'+str(print_row[7])+'\t'+str(print_row[8]))
         position += 1
         
-    print(c.BLUE+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
+    print(c.BLUE+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
     print(c.GRAY+'LP = League Position \tGP = Games Played \tW = Wins \tD = Draws \tL = Lose \nGF = Goals For \t\tGA = Goal Against \tGD = Goal Differences')
 
-    print(c.BLUE+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
+    print(c.BLUE+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
 
 
 
