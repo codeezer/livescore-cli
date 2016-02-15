@@ -9,6 +9,7 @@
 import lscolors as c
 import re, subprocess
 import tt, URL
+import lsprocess
 
 def sendAlert(message):
     subprocess.Popen(['notify-send',message])
@@ -96,7 +97,6 @@ def table(x,key):
 
     tables = []
     _table = []
-    a = re.compile("\s+(?![a-zA-Z]+)")
     print(c.BLUE+'\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
     print('\t\t\t\t'+c.GREEN+table)
     print(c.BLUE+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
@@ -105,7 +105,7 @@ def table(x,key):
         tables.append(temp[1])
 
     for each_row in tables:
-        _table.append(a.split(each_row))
+        _table.append(lsprocess.regSplit(each_row))
 
     position = 1
 
