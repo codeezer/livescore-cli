@@ -6,7 +6,6 @@
 
 ## INSTALLATION (Linux - Ubuntu)
 
-![alt tag](https://raw.githubusercontent.com/codeezer/livescore-cli/master/graphics/livescore-cli.gif)
 
     sudo apt-get install python3 python3-bs4 python3-requests 
   
@@ -57,4 +56,4 @@ livescore-cli is a small commandline program to watch scores, tables and fixture
 
 
 
-    : Work on Progress 
+: Work on Progress 
