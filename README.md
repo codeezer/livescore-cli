@@ -16,6 +16,9 @@
     python3 livescore.py
 
 
+or
+
+    ./setup
 
 ## Description
 
