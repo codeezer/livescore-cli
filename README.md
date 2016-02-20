@@ -31,7 +31,7 @@ livescore-cli is a small commandline program to watch scores, tables and fixture
         3. League Table with division
         4. Top Scorer of each League
 
-## NEWS *
+## SOCCER NEWS *
 
 ![alt tag](http://i.imgur.com/zRIErCV.jpg)
 
