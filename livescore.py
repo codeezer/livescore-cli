@@ -3,7 +3,7 @@
 
 import requests, re, os, argparse
 import lscolors as c
-import time,lsprint,lsprocess
+import time,lsprint,lsprocess,lsnews
 import lsweb #containing functions for webaccess :pingtest :geturl 
 import URL #Contains the urls to fetch data
 import cli #Contains our command line interface code
@@ -14,6 +14,7 @@ def main():
     bScorers = bool(cli.args.scorers)
     if not bTable and not bScore and not bScorers:
         bScore = True
+    
     while True:
         try:   
             os.system('clear')
