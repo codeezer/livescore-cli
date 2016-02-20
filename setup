@@ -1,0 +1,5 @@
+#!/bin/sh
+
+ls_directory_path=$(pwd)
+echo "alias livescore='python "$ls_directory_path"/livescore.py'" >> ~/.bashrc
+sudo apt-get install python-bs4 python-requests python-regex
