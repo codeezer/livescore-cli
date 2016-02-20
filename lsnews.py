@@ -18,3 +18,4 @@ for news_no in news:
     if color_count == 3:
         color_count = 1
     color_count = color_count + 1
+print('\n')
