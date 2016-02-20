@@ -33,7 +33,7 @@ livescore-cli is a small commandline program to watch scores, tables and fixture
 
 ## NEWS *
 
-![alt tag](http://i.imgur.com/MiJGnk3.jpg)
+![alt tag](http://i.imgur.com/zRIErCV.jpg)
 
 
 ##USAGE
