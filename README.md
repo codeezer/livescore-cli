@@ -35,7 +35,7 @@ livescore-cli is a small commandline program to watch scores, tables and fixture
 
     usage: livescore.py [-h] [-v] [-t] [-s] [-ts] LEAGUE [LEAGUE ...]
     
-    A simple livescore tool. Currently works only for the Barclays Premier League
+    A simple livescore tool. Currently works only for the Limited Leagues.
     
     positional arguments:
       LEAGUE          The league for which the details have to be displayed.
@@ -51,6 +51,7 @@ livescore-cli is a small commandline program to watch scores, tables and fixture
       -ts, --scorers  Display the Top Scorers
     
     Sample uses: python3 livescore.py --table bpl laliga
+                 python3 livescore.py -s bpl
                  python3 livescore.py -t -s -ts bpl laliga seriea
 
 
