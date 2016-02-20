@@ -15,6 +15,6 @@ for news_no in news:
     pcount = str(news_count)+'>>'
     print(lscolors.colorArray[color_count]+''.join(pcount.ljust(6))+news_no)
     news_count = news_count + 1
-    if color_count == 4:
+    if color_count == 3:
         color_count = 1
     color_count = color_count + 1
