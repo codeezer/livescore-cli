@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import requests, re, os
-
+import socket
 #function which returns boolean true if the ping test results positive false if negative test
 def check_ping(hostname):
     response = os.system("echo off>ping -c 1 " + hostname)
@@ -8,6 +8,19 @@ def check_ping(hostname):
     if response == 0:
         return True
     else:
+        return False
+
+def is_connected(REMOTE_SERVER):
+    try:
+     # see if we can resolve the host name -- tells us if there is
+     # a DNS listening
+        host = socket.gethostbyname(REMOTE_SERVER)
+     # connect to the host -- tells us if the host is actually
+     # reachable
+        s = socket.create_connection((host, 80), 2)
+        return True
+    except:
+        pass
         return False
 
 

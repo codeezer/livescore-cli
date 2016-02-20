@@ -8,6 +8,10 @@ URL = {
 	}
 
 
+
+soccernewsTRANSFERNEWS = 'http://www.soccernews.com/category/transfer-news/feed/'
+goalUS = 'http://www.goal.com/en-us/feeds/news?fmt=smj'
+
 '''
 Champions League
 Champions League qualification

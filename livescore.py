@@ -24,7 +24,8 @@ def main():
                 url = URL.URL[k][1] 
                 pingTest = 'livescore.com'
                 url_scorer = URL.URL[k][2]
-                if lsweb.check_ping(pingTest) == True:
+                #if lsweb.check_ping(pingTest) == True:
+                if lsweb.is_connected(pingTest) == True:
                     rows = lsweb.get_livescore(url,'row-gray')
     
                     if bTable:
@@ -45,7 +46,7 @@ def main():
 #            bTable = False
 #            bScorers = False
                 else:
-                    print("Check Your Internet Connection , It looks like you're out of internet.")
+                    print(c.RED+"Check Your Internet Connection , It looks like you're out of internet."+c.END)
                 time.sleep(3)
             bTable = False
             bScorers = False 
@@ -58,6 +59,7 @@ def main():
     
         except:
             print('Unexpected Error')
+            time.sleep(4)
      
     
 
