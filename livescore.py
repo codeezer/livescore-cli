@@ -49,9 +49,6 @@ def main():
 #            bScorers = False
                 else:
                     print(c.RED+"Check Your Internet Connection , It looks like you're out of internet."+c.END)
-                    with open('data.txt', 'r') as infile:
-                        news=json.load(infile)
-                        lsnews.print_news(news)
                 time.sleep(3)
             bTable = False
             bScorers = False 

@@ -184,3 +184,9 @@ def scorers(x,key):
     print('\n'+c.BLUE+'------------------------------------------------------------------------------')
 
 
+
+
+def print_pattern(c2p,n,color): #characterToprint #no of character to print
+    for i in range(n):
+        print(color+c2p)
+    print(c.END)
