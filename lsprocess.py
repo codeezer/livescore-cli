@@ -49,3 +49,13 @@ def pretty_array(rows,flag):
     elif flag == 'scorers':
         _contents = re.split('     ',contents)
         return [re.split('   ', _contents[i]) for i in range(len(_contents))]
+
+
+
+def find_longest_no(array):
+    longest_length = 5
+    for data in array:
+        n = len(data)
+        if n > longest_length:
+            longest_length = n
+    return longest_length

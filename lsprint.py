@@ -8,7 +8,7 @@
 
 import lscolors as c
 import re, subprocess
-import tt, URL
+import tt, URL, sys
 import lsprocess
 
 def sendAlert(message):
@@ -158,9 +158,9 @@ def table(x,key):
 
 def scorers(x,key):
     scorers = URL.URL[key][0]+' TOP SCORER'
-    print(c.BLUE+'\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
+    print(c.ORANGE+'\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
     print('\t\t\t'+c.GREEN+scorers)
-    print(c.BLUE+'::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::'+c.END)
+    print(c.ORANGE+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
     longest_length1 = 15
     longest_length2 = 15
     for data in x[1:]:
@@ -175,18 +175,20 @@ def scorers(x,key):
     space1 = longest_length1
     space2 = longest_length2
     print('|'+'SN'+'|'+'\t'+''.join('Players Name'.ljust(space1))+'\t'+''.join('Club'.ljust(space2))+'\t'+'Goals')
-    print(c.BLUE+'------------------------------------------------------------------------------'+c.END)
+    print(c.ORANGE+'------------------------------------------------------------------------------'+c.END)
     for data in x[1:]:
         dataa = [p.strip() for p in data]
         print(c.CYAN+'|'+dataa[0]+'|'+'\t'+''.join(dataa[1].ljust(space1))+'\t'+''.join(dataa[2].ljust(space2))+'\t'+dataa[3]+c.END)
     
-    print(c.BLUE+'\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::'+c.END)
-    print('\n'+c.BLUE+'------------------------------------------------------------------------------')
+    print(c.ORANGE+'\n******************************************************************************'+c.END)
+    print(c.ORANGE+'------------------------------------------------------------------------------')
 
 
 
 
 def print_pattern(c2p,n,color): #characterToprint #no of character to print
     for i in range(n):
-        print(color+c2p)
+        print(color+c2p),
+        sys.stdout.softspace=0
     print(c.END)
+
