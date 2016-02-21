@@ -61,6 +61,6 @@ livescore-cli is a small commandline program to watch scores, tables and fixture
 
 
 
-    For More Information : http://codeezer.github.io/livescore-cli/
-
 : Work on Progress 
+
+For More Information : [a link](http://codeezer.github.io/livescore-cli/)
