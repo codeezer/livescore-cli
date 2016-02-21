@@ -1,6 +1,6 @@
 <b>livescore-cli</b> - enjoy football scores live right from the linux terminal.
 
-![alt tag](https://raw.githubusercontent.com/codeezer/livescore-cli/master/graphics/score.jpg)
+![Sample Run](http://i.imgur.com/3DlKbpO.jpg)
 
     
 
