@@ -7,6 +7,7 @@ import time,lsprint,lsprocess,lsnews
 import lsweb #containing functions for webaccess :pingtest :geturl 
 import URL #Contains the urls to fetch data
 import cli #Contains our command line interface code
+import json
 
 def main():
     bTable = bool(cli.args.table)
@@ -48,6 +49,9 @@ def main():
 #            bScorers = False
                 else:
                     print(c.RED+"Check Your Internet Connection , It looks like you're out of internet."+c.END)
+                    with open('data.txt', 'r') as infile:
+                        news=json.load(infile)
+                        lsnews.print_news(news)
                 time.sleep(3)
             bTable = False
             bScorers = False 

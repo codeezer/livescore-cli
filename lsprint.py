@@ -64,10 +64,10 @@ def scores(x,key):
                 COLOR3 = c.CYAN
             
             if piss[0] == 'FT':
-                _message.append(c.ORANGE+piss[1]+c.END+' vs '+c.ORANGE+piss[4]+c.END+' match has been completed')
+                _message.append(COLOR2+piss[1]+c.END+' vs '+COLOR3+piss[4]+c.END+' match has been completed.')
         #if conversion to int fails i.e. '?' instead of numbers then match hasnt started yet :)
         except:
-            _message.append(c.ORANGE+piss[1]+c.END+' vs '+c.ORANGE+piss[4]+c.END+' match has not started yet')
+            _message.append(c.ORANGE+piss[1]+c.END+' vs '+c.ORANGE+piss[4]+c.END+' match has not started yet.')
         
         score1.append(piss[2])
         score2.append(piss[3])
