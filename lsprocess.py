@@ -32,8 +32,6 @@ def regSplit(row):
 def pretty_array(rows,flag):
     contents = '\n'.join(map(lambda r: r.text, rows))
     
-    
-    
     if flag == 'scores':
         _contents = re.split('# ', contents)
         livescores = _contents[0]

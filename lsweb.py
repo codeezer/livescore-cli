@@ -10,6 +10,7 @@ def check_ping(hostname):
     else:
         return False
 
+#function to test the internet connection if active or not
 def is_connected(REMOTE_SERVER):
     try:
      # see if we can resolve the host name -- tells us if there is
@@ -31,6 +32,7 @@ def get_livescore(url,scrapping_class):
     _rows = soup.find_all(class_=scrapping_class)
     return _rows
 
+#return the array of date of matches 
 def get_dates(url,date_class):
     raw = get_livescore(url,date_class)
     dates = '\n'.join(map(lambda r: r.text, raw))

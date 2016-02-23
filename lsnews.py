@@ -4,23 +4,37 @@
 import URL,re
 import lsweb, lsprocess
 import lscolors, lsprint
-import json
+import json,tt
+
 
 def get_news():
     try:
         rows = lsweb.get_livescore(URL.goalUS,'news_box2')
         print('fetching soccer news from goal.com\n')
+        print('(Last Updated at '+lscolors.ORANGE+tt.datetime_now()+lscolors.END+')')
+        a_dict = {'datetime': tt.datetime_now()}
         contents = '\n'.join(map(lambda r: r.text, rows))
         news = re.split('\n',contents)
-        with open('data.txt', 'w') as outfile:
-            json.dump(news, outfile)
+        fw = open('data.json', 'w')
+        newsstr = json.dumps(news, indent=4)
+        fw.write('{"news":')
+        fw.write(newsstr)   
+        fw.write('}')
+        fw.close()
+        with open('data.json') as f:
+            data = json.load(f)
+        data.update(a_dict)
+        with open('data.json', 'w') as f:
+            json.dump(data, f)
+        
         return news
 
     except:
-        with open('data.txt', 'r') as infile:
-            news=json.load(infile)
-        return news
-
+        fr = open('data.json').read()
+        read = json.loads(fr)
+        datetime = read['datetime']
+        print("(Last Updated at "+lscolors.ORANGE+datetime+lscolors.END+')')
+        return read['news']
 
 def print_news(news):
     width = lsprocess.find_longest_no(news)
@@ -34,6 +48,7 @@ def print_news(news):
         if color_count == 3:
             color_count = 0
         color_count = color_count + 1
+    lsprint.print_pattern('*',width+6,lscolors.ORANGE)
     lsprint.print_pattern('*',width+6,lscolors.ORANGE)
 
 

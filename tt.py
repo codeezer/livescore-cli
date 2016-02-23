@@ -70,4 +70,6 @@ def isgreat(time1,time2):
 		else:
 			return 0
 
+def datetime_now():
+    return time.strftime("%c")
 
