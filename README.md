@@ -7,7 +7,7 @@
 ## INSTALLATION (Linux - Ubuntu)
 
 
-    sudo apt-get install python3 python3-bs4 python3-requests 
+    sudo apt-get install python3 python3-bs4 python3-requests git 
   
     git clone https://github.com/codeezer/livescore-cli.git
   
@@ -30,6 +30,7 @@ livescore-cli is a small commandline program to watch scores, tables and fixture
         2. Game Time in Local Time 
         3. League Table with division
         4. Top Scorer of each League
+        5. Live Soccer News
 
 ## Soccer News *
 
