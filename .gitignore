@@ -1,4 +1,4 @@
 __pycache__/
 ping
 *.pyc
-data.txt
+data.json
