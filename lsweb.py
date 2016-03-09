@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests, re, os
 import socket
+
 #function which returns boolean true if the ping test results positive false if negative test
 def check_ping(hostname):
     response = os.system("echo off>ping -c 1 " + hostname)
@@ -29,7 +30,7 @@ def is_connected(REMOTE_SERVER):
 def get_livescore(url,scrapping_class):
     r = requests.get(url)
     soup = BeautifulSoup(r.text,'html.parser')
-    _rows = soup.find_all(class_=scrapping_class)
+    _rows = soup.findAll(class_=scrapping_class)
     return _rows
 
 #return the array of date of matches 

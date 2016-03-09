@@ -47,9 +47,9 @@ def main():
                         lsprint.scorers(lsprocess.pretty_array(scorer_rows,'scorers'),k)
 #            bTable = False
 #            bScorers = False
-                else:
-                    print(c.RED+"Check Your Internet Connection , It looks like you're out of internet."+c.END)
-                time.sleep(3)
+#                else:
+#                    print(c.RED+"Check Your Internet Connection , It looks like you're out of internet."+c.END)
+#                time.sleep(3)
             bTable = False
             bScorers = False 
             if not bool(bScore):

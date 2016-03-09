@@ -6,10 +6,9 @@ import lsweb, lsprocess
 import lscolors, lsprint
 import json,tt
 
-
-def get_news():
+def get_news(uri=URL.goalUS,sclass='news_box2'):
     try:
-        rows = lsweb.get_livescore(URL.goalUS,'news_box2')
+        rows = lsweb.get_livescore(uri,sclass)
         print('fetching soccer news from goal.com\n')
         print('(Last Updated at '+lscolors.ORANGE+tt.datetime_now()+lscolors.END+')')
         a_dict = {'datetime': tt.datetime_now()}
@@ -44,6 +43,7 @@ def print_news(news):
     for news_no in news:
         pcount = str(news_count)+'.'
         print(lscolors.colorArray[color_count]+''.join(pcount.ljust(5))+news_no)
+        lsprint.sendAlert(news_no)
         news_count = news_count + 1
         if color_count == 3:
             color_count = 0
