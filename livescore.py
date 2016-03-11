@@ -2,12 +2,14 @@
 # -*- coding:utf-8 -*-
 
 import requests, re, os, argparse
-import lscolors as c
-import time,lsprint,lsprocess,lsnews
-import lsweb #containing functions for webaccess :pingtest :geturl 
-import URL #Contains the urls to fetch data
-import cli #Contains our command line interface code
-import json
+from lib import lscolors as c
+from lib import cli
+from lib import URL
+from lib import lsprocess
+from lib import lsprint
+from lib import lsweb
+
+import time,json
 
 def main():
     bTable = bool(cli.args.table)
@@ -59,9 +61,9 @@ def main():
         except KeyboardInterrupt:
             break
     
-        except:
-            print('Unexpected Error')
-            time.sleep(4)
+#        except:
+ #           print('Unexpected Error')
+  #          time.sleep(4)
      
     
 
