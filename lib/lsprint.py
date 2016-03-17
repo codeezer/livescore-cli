@@ -34,7 +34,6 @@ def scores1(scores,key):
             home_team_color = c.GREEN
             away_team = each_row[3].strip()
             away_team_color = c.GREEN
-            
             try:
                 _temp = each_row[2].strip().split() 
                 home_team_score = int(_temp(0))
@@ -50,10 +49,16 @@ def scores1(scores,key):
             except:
                 middle_live = each_row[2].strip()
 
-            print(date_color+''.join(date.ljust(lmax[0])) + ''.join(time.ljust(lmax[1]+2))  \
+            print(' '+date_color+''.join(date.ljust(lmax[0])) + ''.join(time.ljust(lmax[1]+2))  \
                     + c.END +home_team_color+''.join(home_team.ljust(lmax[2]+2))+c.END      \
                     + ''.join(middle_live.ljust(lmax[3]+2)) + away_team_color               \
                     + ''.join(away_team.ljust(lmax[4])) + c.END)
+
+    print_pattern('-',total_width,c.BLUE)
+    print_pattern('-',total_width,c.BLUE)
+    guiscore.livescore(scores[2])
+
+
 
 
 def table(x,key):

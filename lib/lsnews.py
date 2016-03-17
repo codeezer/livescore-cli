@@ -43,7 +43,7 @@ def print_news(news):
     for news_no in news:
         pcount = str(news_count)+'.'
         print(lscolors.colorArray[color_count]+''.join(pcount.ljust(5))+news_no)
-        lsprint.sendAlert(news_no)
+        #lsprint.sendAlert(news_no)
         news_count = news_count + 1
         if color_count == 3:
             color_count = 0
