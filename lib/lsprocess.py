@@ -57,3 +57,18 @@ def find_longest_no(array):
         if n > longest_length:
             longest_length = n
     return longest_length
+
+def get_longest_list(array):
+    list2return = [0]*5
+    for row in array:
+        row_length = len(row)
+        if isinstance(row,list) == False:
+            if row_length > list2return[0]:
+                list2return[0] = row_length
+        else:
+            for i in range(row_length):
+                row_row_length = len(row[i].strip())
+                if row_row_length > list2return[i+1]:
+                    list2return[i+1] = row_row_length
+
+    return list2return

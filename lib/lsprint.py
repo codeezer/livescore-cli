@@ -15,74 +15,45 @@ def sendAlert(message):
     subprocess.Popen(['notify-send',message])
     return
     
+
+def scores1(scores,key):
+    lmax = lsprocess.get_longest_list(scores)
+    total_width = sum(lmax)+8; test = 3
+
+    print_pattern('-',total_width,c.BLUE)
+    print(c.TITLE+'\t\t '+URL.URL[key][0]+' SCORES '+c.END)
+    print_pattern('-',total_width,c.BLUE)
     
-score1 = [0]*110
-score2 = [0]*110
-
-def scores(x,key):
-    _message = []
-    alert = []
-    scores = URL.URL[key][0]+' SCORES'        
-    print(c.BLUE+'\n------------------------------------------------------------')
-    print('\t\t'+c.GREEN+scores)
-    print(c.BLUE+'------------------------------------------------------------'+c.END)
-
-    
-    for i in range(len(x)-1):
-        ''' 
-            piss variabe contains the score layout like 
-            piss[0] = Time / Status
-            piss[1] = Team1
-            piss[2] = Score1
-            piss[3] = Score2
-            piss[4] = Team2
+    for each_row in scores:
+        if isinstance(each_row,list) == False:
+            date = each_row.strip()
+            date_color = c.dateArray[test%3]; test+=1
+        else:
+            time = tt._convert(each_row[0].strip())
+            home_team = each_row[1].strip()
+            home_team_color = c.GREEN
+            away_team = each_row[3].strip()
+            away_team_color = c.GREEN
             
-            i.e. 20:00 Everton   1 - 2   Crystal Palace
-        '''
-        piss = [p.strip() for p in x[i]] #striping strings i.e. ' 3 ' -> '3' or '44 ' -> '44'
-        piss[0] = tt._convert(piss[0])
-        COLOR2 = c.GREEN
-        COLOR3 = c.GREEN
-        try:
-            #if score is different than previous score then send alert
-            if int(piss[2]) != int(score1[i]) or int(piss[3]) != int(score2[i]) :
-                sendAlert(piss[0]+'   '+piss[1]+' '+piss[2]+' - '+piss[3]+' '+piss[4])
-                score1[i]=piss[2]
-                score2[i]=piss[3]
-            
-            #tE show loser team with red color and winner with orange and draw with cyan
-            if int(piss[2]) > int(piss[3]): 
-                COLOR2 = c.ORANGE
-                COLOR3 = c.RED
-            
-            elif int(piss[2]) < int(piss[3]):
-                COLOR3 = c.ORANGE
-                COLOR2 = c.RED
-           
-            else:
-                COLOR2 = c.CYAN
-                COLOR3 = c.CYAN
-            
-            if piss[0] == 'FT':
-                _message.append(COLOR2+piss[1]+c.END+' vs '+COLOR3+piss[4]+c.END+' match has been completed.')
-        #if conversion to int fails i.e. '?' instead of numbers then match hasnt started yet :)
-        except:
-            _message.append(c.ORANGE+piss[1]+c.END+' vs '+c.ORANGE+piss[4]+c.END+' match has not started yet.')
-        
-        score1.append(piss[2])
-        score2.append(piss[3])
-        print(piss[0]+'\t'+COLOR2+''.join(piss[1].ljust(16))+'\t'+piss[2]+c.END+' - '+COLOR3+piss[3]+'\t'+piss[4]+c.END)
+            try:
+                _temp = each_row[2].strip().split() 
+                home_team_score = int(_temp(0))
+                away_team_score = int(_temp(2))
+                middle_live = home_team_score + ' - ' + away_team_score
 
-    print(c.BLUE+'------------------------------------------------------------')
-    print(c.CYAN+'\n******************************************************************'+c.END)
-    for msz in _message:
-        print(msz)
-    print(c.CYAN+'******************************************************************'+c.END)
+                if home_team_score > away_team_score:
+                    away_team_color = c.RED
+                    home_team_color = c.ORANGE
+                else:
+                    away_team_color = c.ORANGE
+                    home_team_color = c.RED
+            except:
+                middle_live = each_row[2].strip()
 
-
-
-
-
+            print(date_color+''.join(date.ljust(lmax[0])) + ''.join(time.ljust(lmax[1]+2))  \
+                    + c.END +home_team_color+''.join(home_team.ljust(lmax[2]+2))+c.END      \
+                    + ''.join(middle_live.ljust(lmax[3]+2)) + away_team_color               \
+                    + ''.join(away_team.ljust(lmax[4])) + c.END)
 
 
 def table(x,key):

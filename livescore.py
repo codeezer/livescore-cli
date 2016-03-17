@@ -30,7 +30,7 @@ def main():
                 url_scorer = URL.URL[k][2]
                 #if lsweb.check_ping(pingTest) == True:
                 if lsweb.is_connected(pingTest) == True:
-                    rows = lsweb.get_livescore(url,'row-gray')
+#                    rows = lsweb.get_livescore(url,'row-gray')
     
                     if bTable:
                         print("Displaying Table for {}".format(URL.URL[k][0]))
@@ -41,8 +41,9 @@ def main():
                 
                     if bScore:
                         print("Displaying Scores for {}".format(URL.URL[k][0]))
-                        lsprint.scores(lsprocess.pretty_array(rows,'scores'),k)
-    
+                        #lsprint.scores(lsprocess.pretty_array(rows,'scores'),k)
+                        lsprint.scores1(lsweb.get_score(URL.URL[k][1]),k)
+
                     if bScorers:
                         print("Displaying Top Scorers for {}".format(URL.URL[k][0]))
                         scorer_rows = lsweb.get_livescore(url_scorer,'competition-top-scorers-list')

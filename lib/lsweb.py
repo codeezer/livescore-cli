@@ -1,6 +1,20 @@
 from bs4 import BeautifulSoup
 import requests, re, os
 import socket
+import scrap
+
+import errno    
+import os
+
+
+def create_directory(path):
+    try:
+        os.makedirs(path)
+    except OSError as exc:  # Python >2.5
+        if exc.errno == errno.EEXIST and os.path.isdir(path):
+            pass
+        else:
+            raise
 
 #function which returns boolean true if the ping test results positive false if negative test
 def check_ping(hostname):
@@ -33,10 +47,24 @@ def get_livescore(url,scrapping_class):
     _rows = soup.findAll(class_=scrapping_class)
     return _rows
 
-#return the array of date of matches 
-def get_dates(url,date_class):
-    raw = get_livescore(url,date_class)
-    dates = '\n'.join(map(lambda r: r.text, raw))
-    array_dates = re.split('\n',dates)
-    return array_dates
 
+def get_score(url):
+    #Request html from the site using http get
+    response = requests.get(url)
+    #Parse the response text using html parser and BeautifulSoup library
+    soup = BeautifulSoup(response.text, 'html.parser')
+    #Select only the require content subtree from the website
+    [content] = soup.select('body > div.wrapper > div.content')
+    #Extract the table part into table variable
+    #The extracted part is removed from the original content.
+    #So the content now only contains the score
+    table = scrap.extractTag(content, 'div','ltable')
+    #Remove the some not required tags
+    scrap.extractTag(content, 'div', 'cal-wrap')
+    scrap.extractTag(content, 'div', 'star')
+    scrap.extractTag(content, 'div', 'row mt4 bb bt')
+    scrap.extractTag(content, 'div', 'cal clear')
+    score = scrap.parseTree(content)
+    score[0] = score[0][1]
+    score = score[:-1]
+    return score

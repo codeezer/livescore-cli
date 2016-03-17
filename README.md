@@ -1,10 +1,9 @@
 <b>livescore-cli</b> - enjoy football scores live right from the linux terminal.
 
-![Sample Run](http://i.imgur.com/3DlKbpO.jpg)
-
+![Sample Run](http://i.imgur.com/QCHeBAT.jpg)
     
 
-## INSTALLATION (Linux - Ubuntu)
+## INSTALLATION (Linux - Debian Based)
 
 
     sudo apt-get install python3 python3-bs4 python3-requests git 
