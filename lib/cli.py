@@ -1,10 +1,7 @@
 '''
 Module to parse the command line parameters passed to the file.
-do not know what might be used in --verbose.
 --help provides most of the description of the module.Try:
 >>>python3 cli.py --help
-file contains a maintained list of supported leagues and a dictionary with their fetch URL
-The required functions are yet to be linked. See the comments below.
 '''
 
 import argparse
