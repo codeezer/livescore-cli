@@ -5,3 +5,5 @@ data.json
 test.py
 test.html
 temp.py
+clear
+*.swp
