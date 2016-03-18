@@ -31,13 +31,14 @@ def main():
                 url = URL.URL[k][1] 
                 pingTest = 'www.livescore.com'
                 url_scorer = URL.URL[k][2]
-                #if lsweb.check_ping(pingTest) == True:
                 if lsweb.is_connected(pingTest) == True:
-#                    rows = lsweb.get_livescore(url,'row-gray')
+                    #rows = lsweb.get_livescore(url,'row-gray')
     
                     if bTable:
                         print("Displaying Table for {}".format(URL.URL[k][0]))
-                        lsprint.table(lsprocess.pretty_array(rows,'table'),k)
+                        #print(lsprocess.pretty_array(rows,'table'))
+                        lsprint.table(lsweb.get_table(URL.URL[k][1]),k)
+
                 
                     if bNews:
                         #print("Displaying Few News from Goal.com")

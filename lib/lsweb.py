@@ -48,23 +48,38 @@ def get_livescore(url,scrapping_class):
     return _rows
 
 
-def get_score(url):
+def get_content_ts(url):
     #Request html from the site using http get
     response = requests.get(url)
     #Parse the response text using html parser and BeautifulSoup library
     soup = BeautifulSoup(response.text, 'html.parser')
     #Select only the require content subtree from the website
     [content] = soup.select('body > div.wrapper > div.content')
-    #Extract the table part into table variable
-    #The extracted part is removed from the original content.
-    #So the content now only contains the score
-    table = scrap.extractTag(content, 'div','ltable')
-    #Remove the some not required tags
+    return content
+
+def get_score(url):
+    content = get_content_ts(url)
+    
+    #some not required tags
     scrap.extractTag(content, 'div', 'cal-wrap')
     scrap.extractTag(content, 'div', 'star')
     scrap.extractTag(content, 'div', 'row mt4 bb bt')
     scrap.extractTag(content, 'div', 'cal clear')
+    
     score = scrap.parseTree(content)
     score[0] = score[0][1]
     score = score[:-1]
     return score
+
+def get_table(url):
+    content = get_content_ts(url)
+    
+    #Extract the table part into table variable
+    #The extracted part is removed from the original content.
+    #So the content now only contains the score
+    table = scrap.extractTag(content, 'div','ltable')
+
+    table = scrap.parseTree(table)
+    return table
+
+
