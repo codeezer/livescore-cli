@@ -3,14 +3,11 @@
 
 import requests, re, os, argparse
 from lib import lscolors as c
-from lib import cli
-from lib import URL
-from lib import lsprocess
-from lib import lsprint
-from lib import lsweb
-from lib import lsnews
-
+from lib import cli, URL
+from lib import lsprint, lsprocess
+from lib import lsweb, lsnews
 import time,json
+
 
 def main():
     bTable = bool(cli.args.table)
@@ -61,7 +58,9 @@ def main():
             
         except KeyboardInterrupt:
             break
-    
+
+        except:
+            print('Unexpected Error')
     
            
 if __name__ == '__main__':
