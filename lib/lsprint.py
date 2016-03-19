@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding:utf-8 -*-
 '''
     modules containg all the layout configuration of printable data 
@@ -7,182 +7,127 @@
 '''
 
 import lscolors as c
-import re, subprocess
+import subprocess
 import tt, URL, sys
-import lsprocess
+import lsprocess,os
 
-def sendAlert(message):
-    subprocess.Popen(['notify-send',message])
+def sendAlert(message,title=''):
+    #subprocess.Popen(['notify-send',message])
+    #return
+    os.system('notify-send "'+title+'" "'+message+'"')
     return
-    
-    
-score1 = [0]*110
-score2 = [0]*110
-
-def scores(x,key):
-    _message = []
-    alert = []
-    scores = URL.URL[key][0]+' SCORES'        
-    print(c.BLUE+'\n------------------------------------------------------------')
-    print('\t\t'+c.GREEN+scores)
-    print(c.BLUE+'------------------------------------------------------------'+c.END)
-
-    
-    for i in range(len(x)-1):
-        ''' 
-            piss variabe contains the score layout like 
-            piss[0] = Time / Status
-            piss[1] = Team1
-            piss[2] = Score1
-            piss[3] = Score2
-            piss[4] = Team2
-            
-            i.e. 20:00 Everton   1 - 2   Crystal Palace
-        '''
-        piss = [p.strip() for p in x[i]] #striping strings i.e. ' 3 ' -> '3' or '44 ' -> '44'
-        piss[0] = tt._convert(piss[0])
-        COLOR2 = c.GREEN
-        COLOR3 = c.GREEN
-        try:
-            #if score is different than previous score then send alert
-            if int(piss[2]) != int(score1[i]) or int(piss[3]) != int(score2[i]) :
-                sendAlert(piss[0]+'   '+piss[1]+' '+piss[2]+' - '+piss[3]+' '+piss[4])
-                score1[i]=piss[2]
-                score2[i]=piss[3]
-            
-            #tE show loser team with red color and winner with orange and draw with cyan
-            if int(piss[2]) > int(piss[3]): 
-                COLOR2 = c.ORANGE
-                COLOR3 = c.RED
-            
-            elif int(piss[2]) < int(piss[3]):
-                COLOR3 = c.ORANGE
-                COLOR2 = c.RED
-           
-            else:
-                COLOR2 = c.CYAN
-                COLOR3 = c.CYAN
-            
-            if piss[0] == 'FT':
-                _message.append(COLOR2+piss[1]+c.END+' vs '+COLOR3+piss[4]+c.END+' match has been completed.')
-        #if conversion to int fails i.e. '?' instead of numbers then match hasnt started yet :)
-        except:
-            _message.append(c.ORANGE+piss[1]+c.END+' vs '+c.ORANGE+piss[4]+c.END+' match has not started yet.')
-        
-        score1.append(piss[2])
-        score2.append(piss[3])
-        print(piss[0]+'\t'+COLOR2+''.join(piss[1].ljust(16))+'\t'+piss[2]+c.END+' - '+COLOR3+piss[3]+'\t'+piss[4]+c.END)
-
-    print(c.BLUE+'------------------------------------------------------------')
-    print(c.CYAN+'\n******************************************************************'+c.END)
-    for msz in _message:
-        print(msz)
-    print(c.CYAN+'******************************************************************'+c.END)
 
 
+def scores(scores,key):
+    lmax = lsprocess.get_longest_list(scores)
+    total_width = sum(lmax)+8; test = 3
 
-
-
-
-
-def table(x,key):
-    table = URL.URL[key][0]+' TABLE'
-    
-    ucl_ = URL.URL[key][3]
-    ucl_qual = URL.URL[key][4]
-    europa_ = URL.URL[key][5]
-    europa_qual = URL.URL[key][6]
-    rel_qual = URL.URL[key][7]
-    rel_ = URL.URL[key][8]
-
-    tables = []
-    _table = []
-    print(c.BLUE+'\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-    print('\t\t\t\t'+c.GREEN+table)
-    print(c.BLUE+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
-    for i in range(1,len(x)):
-        temp = re.split('  ',x[i][1])
-        tables.append(temp[1])
-
-    for each_row in tables:
-        _table.append(lsprocess.regSplit(each_row))
-
-    position = 1
-
-    longest_length = 15
-    shortest_length = 10
-    
-    for data in _table:
-        m = len(data[0])
-        if m > longest_length:
-            longest_length = m
-    
-    space = longest_length
-
-    print(' LP'+'\t'+''.join('Club Name'.ljust(space))+'\t'+'GP'+'\t'+'W'+'\t'+'D'+'\t'+'L'+'\t'+'GF'+'\t'+'GA'+'\t'+'GD'+'\t'+'Pts')
-    print(c.BLUE+'---------------------------------------------------------------------------------------------------'+c.END)
-    for print_row in _table:
-        if int(position) <= ucl_:
-            color = c.ORANGE
-        elif int(position) > len(_table)-rel_:
-            color = c.RED
-        elif ucl_ < int(position) <= ucl_ + ucl_qual:
-            color = c.GREEN
-        elif ucl_ + ucl_qual < int(position) <= ucl_ + ucl_qual + europa_:
-            color = c.END
+    print_pattern('-',total_width,c.BLUE)
+    print(c.TITLE+'\t\t '+URL.URL[key][0]+' SCORES '+c.END)
+    print_pattern('-',total_width,c.BLUE)
+    count = 0
+    for each_row in scores:
+        if isinstance(each_row,list) == False:
+            date = each_row.strip()                 #extract date if 1D array
+            date_color = c.dateArray[test%3]; test+=1
         else:
-            color = c.PURPLE
-#After issue,interim solution of issue 
-        if len(print_row) > 10:
-            print_row[0] = print_row[0]+" "+print_row[1]
-            print_row[1] = print_row[2]
-            print_row[2] = print_row[3]
-            print_row[3] = print_row[4]
-            print_row[4] = print_row[5]
-            print_row[5] = print_row[6]
-            print_row[6] = print_row[7]
-            print_row[7] = print_row[8]
-            print_row[8] = print_row[9]
-#------------------------------------------------------------
-        print(color+'|'+str(position)+'|'+'\t'+''.join(print_row[0].ljust(space))+'\t'+str(print_row[1])+'\t'+str(print_row[2])+'\t'+str(print_row[3])+'\t'+str(print_row[4])+'\t'+str(print_row[5])+'\t'+str(print_row[6])+'\t'+str(print_row[7])+'\t'+str(print_row[8]))
-        position += 1
-        
-    print(c.BLUE+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
-    print(c.GRAY+'LP = League Position \tGP = Games Played \tW = Wins \tD = Draws \tL = Lose \nGF = Goals For \t\tGA = Goal Against \tGD = Goal Differences')
-
-    print(c.BLUE+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
+            time = tt._convert(each_row[0].strip()) #time conversion to local time
+            
+            home_team = each_row[1].strip()
+            home_team_color = c.GREEN
+            away_team = each_row[3].strip()
+            away_team_color = c.GREEN
+            
+            
+            try:
+                
+                _temp = each_row[2].strip().split() 
+                home_team_score = int(_temp[0])
+                away_team_score = int(_temp[2])
 
 
+                middle_live = str(home_team_score) + ' - ' + str(away_team_score)
+                
+                if home_team_score > away_team_score:
+                    away_team_color = c.RED
+                    home_team_color = c.ORANGE
+                else:
+                    away_team_color = c.ORANGE
+                    home_team_color = c.RED
+            except:
+                middle_live = each_row[2].strip()
+
+            
+            print(' '+date_color+''.join(date.ljust(lmax[0])) + ''.join(time.ljust(lmax[1]+2))  \
+                    + c.END +home_team_color+''.join(home_team.ljust(lmax[2]+2))+c.END      	\
+                    + ''.join(middle_live.ljust(lmax[3]+2)) + away_team_color               	\
+                    + ''.join(away_team.ljust(lmax[4])) + c.END)
+            
+    print_pattern('-',total_width,c.BLUE)
+    print_pattern('-',total_width,c.BLUE)
 
 
 
-def scorers(x,key):
-    scorers = URL.URL[key][0]+' TOP SCORER'
-    print(c.ORANGE+'\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-    print('\t\t\t'+c.GREEN+scorers)
-    print(c.ORANGE+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
-    longest_length1 = 15
-    longest_length2 = 15
-    for data in x[1:]:
-        dataa = [p.strip() for p in data]
-        mx1 = len(dataa[1])
-        mx2 = len(dataa[2])
-        if mx1 > longest_length1:
-            longest_length1 = mx1
-        if mx2 > longest_length2:
-            longest_length2 = mx2
+def table(tables,key):
+    table = URL.URL[key][0]+' TABLE'
+    league_position = 0
+    _temp = lsprocess.get_longest_list([row[1] for row in tables])
+    longest_length = int(_temp[0])
+    ucl = 'Champions League';   ucl_color = c.ORANGE 
+    ucl_qual = 'Champions League qualification';    ucq_color = c.GRAY
+    europa = 'Europa League';   eup_color = c.BLUE
+    europa_qual = 'Europa League qualification';    euq_color = c.GREEN
+    rel = 'Relegation'; rel_color = c.RED
 
-    space1 = longest_length1
-    space2 = longest_length2
-    print('|'+'SN'+'|'+'\t'+''.join('Players Name'.ljust(space1))+'\t'+''.join('Club'.ljust(space2))+'\t'+'Goals')
-    print(c.ORANGE+'------------------------------------------------------------------------------'+c.END)
-    for data in x[1:]:
-        dataa = [p.strip() for p in data]
-        print(c.CYAN+'|'+dataa[0]+'|'+'\t'+''.join(dataa[1].ljust(space1))+'\t'+''.join(dataa[2].ljust(space2))+'\t'+dataa[3]+c.END)
+    print_pattern('+',75+longest_length,c.BLUE)
+    print('\t\t\t\t'+c.GREEN+table)
+    print_pattern('+',75+longest_length,c.BLUE)
+
+    print(' LP'+'\t'+''.join('Team Name'.ljust(longest_length))    	\
+            +'\t'+'GP'+'\t'+'W'+'\t'+'D'+'\t'+'L'+'\t'+'GF'+'\t'+'GA'   \
+            +'\t'+'GD'+'\t'+'Pts')
+
+    print_pattern('-',75+longest_length,c.BLUE)
     
-    print(c.ORANGE+'\n******************************************************************************'+c.END)
-    print(c.ORANGE+'------------------------------------------------------------------------------')
+    for first_row in tables[1::]:
+        league_position += 1
+        team_name = first_row[1]
+        games_played = first_row[2]
+        total_wins = first_row[3]
+        total_draws = first_row[4]
+        total_loses = first_row[5]
+        goals_for = first_row[6]
+        goals_against = first_row[7]
+        goal_difference = first_row[8]
+        total_points = first_row[9]
+        
+        row_color = c.PURPLE
+        if isinstance(first_row[0],list) == True:
+            if first_row[0][1] == ucl:
+                row_color = ucl_color
+            elif first_row[0][1] == ucl_qual:
+                row_color = ucq_color
+            elif first_row[0][1] == europa:
+                row_color = eup_color
+            elif first_row[0][1] == europa_qual:
+                row_color = euq_color
+            elif first_row[0][1] == rel:
+                row_color = rel_color
+        
+        else:
+            pass
 
+        print(row_color+' '+str(league_position)+'\t'    				\
+                +''.join(team_name.ljust(longest_length))		 	\
+                +'\t'+games_played+'\t'+total_wins+'\t'+total_draws+'\t'     	\
+                +total_loses+'\t'+goals_for+'\t'+goals_against+'\t'     	\
+                +goal_difference+'\t'+total_points+c.END)
+
+    print_pattern('+',75+longest_length,c.BLUE)
+    print(c.GRAY+' LP = League Position \tGP = Games Played\tW = Wins \tD = Draws \tL = Lose \n GF = Goals For\t\tGA = Goal Against \tGD = Goal Differences')     
+    print_pattern('-',75+longest_length,c.GREEN)
+    print(' '+ucl_color+ucl+'\t'+ucq_color+ucl_qual+'\t'+eup_color+europa+'\n '+euq_color+europa_qual+'\t'+rel_color+rel)
+    print_pattern('+',75+longest_length,c.BLUE)
 
 
 
@@ -191,4 +136,3 @@ def print_pattern(c2p,n,color): #characterToprint #no of character to print
         print(color+c2p),
         sys.stdout.softspace=0
     print(c.END)
-

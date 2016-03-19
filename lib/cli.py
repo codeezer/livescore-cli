@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 '''
 Module to parse the command line parameters passed to the file.
 --help provides most of the description of the module.Try:

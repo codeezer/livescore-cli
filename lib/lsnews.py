@@ -35,6 +35,8 @@ def get_news(uri=URL.goalUS,sclass='news_box2'):
         print("(Last Updated at "+lscolors.ORANGE+datetime+lscolors.END+')')
         return read['news']
 
+
+
 def print_news(news):
     width = lsprocess.find_longest_no(news)
     news_count = 1
@@ -43,7 +45,7 @@ def print_news(news):
     for news_no in news:
         pcount = str(news_count)+'.'
         print(lscolors.colorArray[color_count]+''.join(pcount.ljust(5))+news_no)
-        lsprint.sendAlert(news_no)
+        #lsprint.sendAlert(news_no)
         news_count = news_count + 1
         if color_count == 3:
             color_count = 0

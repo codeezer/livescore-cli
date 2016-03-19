@@ -1,19 +1,20 @@
 <b>livescore-cli</b> - enjoy football scores live right from the linux terminal.
 
-![Sample Run](http://i.imgur.com/3DlKbpO.jpg)
-
+![Sample Run](http://i.imgur.com/QCHeBAT.jpg)
     
 
-## INSTALLATION (Linux - Ubuntu)
+## INSTALLATION (Linux - Debian Based)
 
 
-    sudo apt-get install python3 python3-bs4 python3-requests git 
+    sudo apt-get install python python-bs4 python-requests git 
   
     git clone https://github.com/codeezer/livescore-cli.git
   
     cd livescore-cli
   
-    python3 livescore.py
+    python livescore.py -s
+
+    echo "alias livescore='python "$ls_directory_path"/livescore.py'" >> ~/.bashrc
 
 
 or
@@ -22,7 +23,7 @@ or
 
 ## Description
 
-livescore-cli is a small commandline program to watch scores, tables and fixtures of football(soccer) from the commandline. It requires the python interpreter(2 or 3). It uses the data from the website livescore.com and some other websites. It is essentially built for the busy people that are passionate about football.
+livescore-cli is a small commandline program to watch scores, tables and fixtures of football(soccer) from the commandline. It requires the python interpreter 2. It uses the data from the website livescore.com and some other websites. It is essentially built for the busy people that are passionate about football.
 
 ## Features
 
@@ -56,9 +57,9 @@ livescore-cli is a small commandline program to watch scores, tables and fixture
       -s, --score     Display the Score
       -ts, --scorers  Display the Top Scorers
     
-    Sample uses: python3 livescore.py --table bpl laliga
-                 python3 livescore.py -s bpl
-                 python3 livescore.py -t -s -ts bpl laliga seriea
+    Sample uses: python livescore.py --table bpl laliga
+                 python livescore.py -s bpl
+                 python livescore.py -t -s -ts bpl laliga seriea
 
 
 
