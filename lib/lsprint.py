@@ -16,7 +16,8 @@ def sendAlert(message,title=''):
     #return
     os.system('notify-send "'+title+'" "'+message+'"')
     return
-    
+
+
 def scores(scores,key):
     lmax = lsprocess.get_longest_list(scores)
     total_width = sum(lmax)+8; test = 3
@@ -24,22 +25,27 @@ def scores(scores,key):
     print_pattern('-',total_width,c.BLUE)
     print(c.TITLE+'\t\t '+URL.URL[key][0]+' SCORES '+c.END)
     print_pattern('-',total_width,c.BLUE)
-    
+    count = 0
     for each_row in scores:
         if isinstance(each_row,list) == False:
-            date = each_row.strip()
+            date = each_row.strip()                 #extract date if 1D array
             date_color = c.dateArray[test%3]; test+=1
         else:
-            time = tt._convert(each_row[0].strip())
+            time = tt._convert(each_row[0].strip()) #time conversion to local time
+            
             home_team = each_row[1].strip()
             home_team_color = c.GREEN
             away_team = each_row[3].strip()
             away_team_color = c.GREEN
+            
+            
             try:
                 
                 _temp = each_row[2].strip().split() 
                 home_team_score = int(_temp[0])
                 away_team_score = int(_temp[2])
+
+
                 middle_live = str(home_team_score) + ' - ' + str(away_team_score)
                 
                 if home_team_score > away_team_score:
@@ -51,11 +57,12 @@ def scores(scores,key):
             except:
                 middle_live = each_row[2].strip()
 
+            
             print(' '+date_color+''.join(date.ljust(lmax[0])) + ''.join(time.ljust(lmax[1]+2))  \
                     + c.END +home_team_color+''.join(home_team.ljust(lmax[2]+2))+c.END      	\
                     + ''.join(middle_live.ljust(lmax[3]+2)) + away_team_color               	\
                     + ''.join(away_team.ljust(lmax[4])) + c.END)
-
+            
     print_pattern('-',total_width,c.BLUE)
     print_pattern('-',total_width,c.BLUE)
 
