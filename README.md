@@ -1,6 +1,6 @@
 <b>livescore-cli</b> - enjoy football scores live right from the linux terminal.
 
-![Sample Run](http://i.imgur.com/QCHeBAT.jpg)
+![Sample Run](http://i.imgur.com/yDR7Bxs.jpg)
     
 
 ## INSTALLATION (Linux - Debian Based)
