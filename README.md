@@ -11,10 +11,10 @@
     git clone https://github.com/codeezer/livescore-cli.git
   
     cd livescore-cli
-  
-    python livescore.py -s
     
     echo "alias livescore='python "$ls_directory_path"/livescore.py'" >> ~/.bashrc
+    
+    livescore -s
 
 
 or
