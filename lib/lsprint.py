@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding:utf-8 -*-
 '''
     modules containg all the layout configuration of printable data 
@@ -7,16 +7,17 @@
 '''
 
 import lscolors as c
-import re, subprocess
+import subprocess
 import tt, URL, sys
-import lsprocess
+import lsprocess,os
 
-def sendAlert(message):
-    subprocess.Popen(['notify-send',message])
+def sendAlert(message,title=''):
+    #subprocess.Popen(['notify-send',message])
+    #return
+    os.system('notify-send "'+title+'" "'+message+'"')
     return
     
-
-def scores1(scores,key):
+def scores(scores,key):
     lmax = lsprocess.get_longest_list(scores)
     total_width = sum(lmax)+8; test = 3
 
@@ -35,11 +36,12 @@ def scores1(scores,key):
             away_team = each_row[3].strip()
             away_team_color = c.GREEN
             try:
+                
                 _temp = each_row[2].strip().split() 
-                home_team_score = int(_temp(0))
-                away_team_score = int(_temp(2))
-                middle_live = home_team_score + ' - ' + away_team_score
-
+                home_team_score = int(_temp[0])
+                away_team_score = int(_temp[2])
+                middle_live = str(home_team_score) + ' - ' + str(away_team_score)
+                
                 if home_team_score > away_team_score:
                     away_team_color = c.RED
                     home_team_color = c.ORANGE
@@ -50,8 +52,8 @@ def scores1(scores,key):
                 middle_live = each_row[2].strip()
 
             print(' '+date_color+''.join(date.ljust(lmax[0])) + ''.join(time.ljust(lmax[1]+2))  \
-                    + c.END +home_team_color+''.join(home_team.ljust(lmax[2]+2))+c.END      \
-                    + ''.join(middle_live.ljust(lmax[3]+2)) + away_team_color               \
+                    + c.END +home_team_color+''.join(home_team.ljust(lmax[2]+2))+c.END      	\
+                    + ''.join(middle_live.ljust(lmax[3]+2)) + away_team_color               	\
                     + ''.join(away_team.ljust(lmax[4])) + c.END)
 
     print_pattern('-',total_width,c.BLUE)
@@ -61,7 +63,7 @@ def scores1(scores,key):
 
 def table(tables,key):
     table = URL.URL[key][0]+' TABLE'
-    
+    league_position = 0
     _temp = lsprocess.get_longest_list([row[1] for row in tables])
     longest_length = int(_temp[0])
     ucl = 'Champions League';   ucl_color = c.ORANGE 
@@ -70,18 +72,18 @@ def table(tables,key):
     europa_qual = 'Europa League qualification';    euq_color = c.GREEN
     rel = 'Relegation'; rel_color = c.RED
 
-    print_pattern('+',72+longest_length,c.BLUE)
+    print_pattern('+',75+longest_length,c.BLUE)
     print('\t\t\t\t'+c.GREEN+table)
-    print_pattern('+',72+longest_length,c.BLUE)
+    print_pattern('+',75+longest_length,c.BLUE)
 
-    print(' LP'+'\t'+''.join('Team Name'.ljust(longest_length))    \
+    print(' LP'+'\t'+''.join('Team Name'.ljust(longest_length))    	\
             +'\t'+'GP'+'\t'+'W'+'\t'+'D'+'\t'+'L'+'\t'+'GF'+'\t'+'GA'   \
             +'\t'+'GD'+'\t'+'Pts')
 
-    print_pattern('-',72+longest_length,c.BLUE)
+    print_pattern('-',75+longest_length,c.BLUE)
     
-    for first_row in tables:
-        league_position = first_row[0][0]
+    for first_row in tables[1::]:
+        league_position += 1
         team_name = first_row[1]
         games_played = first_row[2]
         total_wins = first_row[3]
@@ -108,47 +110,16 @@ def table(tables,key):
         else:
             pass
 
-        print(row_color+' '+league_position+'\t'    \
-                +''.join(team_name.ljust(longest_length)) \
-                +'\t'+games_played+'\t'+total_wins+'\t'+total_draws+'\t'     \
-                +total_loses+'\t'+goals_for+'\t'+goals_against+'\t'     \
+        print(row_color+' '+str(league_position)+'\t'    				\
+                +''.join(team_name.ljust(longest_length))		 	\
+                +'\t'+games_played+'\t'+total_wins+'\t'+total_draws+'\t'     	\
+                +total_loses+'\t'+goals_for+'\t'+goals_against+'\t'     	\
                 +goal_difference+'\t'+total_points+c.END)
 
-    print_pattern('+',72+longest_length,c.BLUE)
-    print(c.GRAY+'LP = League Position \tGP = Games Played\tW = Wins \tD = Draws \tL = Lose \nGF = Goals For\t\tGA = Goal Against \tGD = Goal Differences')     
+    print_pattern('+',75+longest_length,c.BLUE)
+    print(c.GRAY+' LP = League Position \tGP = Games Played\tW = Wins \tD = Draws \tL = Lose \n GF = Goals For\t\tGA = Goal Against \tGD = Goal Differences')     
 
-    print_pattern('+',72+longest_length,c.BLUE)
-
-
-
-
-def scorers(x,key):
-    scorers = URL.URL[key][0]+' TOP SCORER'
-    print(c.ORANGE+'\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-    print('\t\t\t'+c.GREEN+scorers)
-    print(c.ORANGE+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'+c.END)
-    longest_length1 = 15
-    longest_length2 = 15
-    for data in x[1:]:
-        dataa = [p.strip() for p in data]
-        mx1 = len(dataa[1])
-        mx2 = len(dataa[2])
-        if mx1 > longest_length1:
-            longest_length1 = mx1
-        if mx2 > longest_length2:
-            longest_length2 = mx2
-
-    space1 = longest_length1
-    space2 = longest_length2
-    print('|'+'SN'+'|'+'\t'+''.join('Players Name'.ljust(space1))+'\t'+''.join('Club'.ljust(space2))+'\t'+'Goals')
-    print(c.ORANGE+'------------------------------------------------------------------------------'+c.END)
-    for data in x[1:]:
-        dataa = [p.strip() for p in data]
-        print(c.CYAN+'|'+dataa[0]+'|'+'\t'+''.join(dataa[1].ljust(space1))+'\t'+''.join(dataa[2].ljust(space2))+'\t'+dataa[3]+c.END)
-    
-    print(c.ORANGE+'\n******************************************************************************'+c.END)
-    print(c.ORANGE+'------------------------------------------------------------------------------')
-
+    print_pattern('+',75+longest_length,c.BLUE)
 
 
 
@@ -157,4 +128,3 @@ def print_pattern(c2p,n,color): #characterToprint #no of character to print
         print(color+c2p),
         sys.stdout.softspace=0
     print(c.END)
-

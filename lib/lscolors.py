@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding:utf-8 -*-
-
 #Console Colors
 RED = '\033[31m'  
 GREEN = '\033[32m'  
