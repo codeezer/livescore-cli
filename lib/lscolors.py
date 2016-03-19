@@ -13,7 +13,7 @@ TITLE = '\033[1;44;39m'
 fill = []
 fill.append('\033[3;43;30m')    #yellow
 fill.append('\033[7;43;30m')    #gray
-fill.append('\033[1;41;30m')    #red
+fill.append('\033[1;41;37m')    #red
 fill.append('\033[1;44;31m')    #bluish_purple
 fill.append('\033[1;42;30m')    #green
 

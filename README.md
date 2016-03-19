@@ -14,7 +14,7 @@
     
     echo "alias livescore='python "$ls_directory_path"/livescore.py'" >> ~/.bashrc
     
-    livescore -s
+    livescore bpl
 
 
 or
