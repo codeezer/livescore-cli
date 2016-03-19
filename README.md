@@ -12,7 +12,9 @@
   
     cd livescore-cli
   
-    python3 livescore.py
+    python livescore.py -s
+    
+    echo "alias livescore='python "$ls_directory_path"/livescore.py'" >> ~/.bashrc
 
 
 or
