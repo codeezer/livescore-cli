@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import URL,re
-import lsweb, lsprocess
-import lscolors, lsprint
-import json,tt
+import re
+from . import lsweb, lsprocess, lsprint, lscolors, URL, tt
+import json
 
 def get_news(uri=URL.goalUS,sclass='news_box2'):
     try:

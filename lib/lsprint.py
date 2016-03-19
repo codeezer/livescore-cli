@@ -6,10 +6,11 @@
     table : function containing layout info of table 
 '''
 
-import lscolors as c
+from . import lscolors as c
 import subprocess
-import tt, URL, sys
-import lsprocess,os
+import sys, os
+from . import tt, URL, lsprocess
+
 
 def sendAlert(message,title=''):
     #subprocess.Popen(['notify-send',message])
