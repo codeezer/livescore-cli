@@ -13,7 +13,6 @@ def main():
     bTable = bool(cli.args.table)
     bScore = bool(cli.args.score)
     bScorers = bool(cli.args.scorers)
-    bNews = bool(cli.args.news)
 
     if not bTable and not bScore and not bScorers:
         bScore = True
