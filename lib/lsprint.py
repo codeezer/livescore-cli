@@ -52,9 +52,13 @@ def scores(scores,key):
                 if home_team_score > away_team_score:
                     away_team_color = c.RED
                     home_team_color = c.ORANGE
-                else:
+                elif home_team_score < away_team_score:
                     away_team_color = c.ORANGE
                     home_team_color = c.RED
+                else:
+                    away_team_color = c.CYAN
+                    home_team_color = c.CYAN
+                    
             except:
                 middle_live = each_row[2].strip()
 

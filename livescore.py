@@ -60,7 +60,7 @@ def main():
             break
 
         except:
-            print('Unexpected Error')
+            lsnews.print_news(lsnews.get_news())
     
            
 if __name__ == '__main__':
