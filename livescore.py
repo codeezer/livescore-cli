@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-import requests, re, os, argparse
-from lib import lscolors as c
+import os, argparse
 from lib import cli, URL
+from lib import lscolors as c
 from lib import lsprint, lsprocess
-from lib import lsweb, lsnews
-import time,json
+from lib import lsweb
+import time
 
 
 def main():
@@ -15,7 +15,7 @@ def main():
     bScorers = bool(cli.args.scorers)
     bNews = bool(cli.args.news)
 
-    if not bTable and not bScore and not bScorers and not bNews:
+    if not bTable and not bScore and not bScorers:
         bScore = True
     
     while True:
@@ -33,8 +33,6 @@ def main():
                         print("Displaying Table for {}".format(URL.URL[k][0]))
                         lsprint.table(lsweb.get_table(URL.URL[k][1]),k)
                 
-                    if bNews:
-                        lsnews.print_news(lsnews.get_news())
 
                     if bScore:
                         print("Displaying Scores for {}".format(URL.URL[k][0]))
@@ -51,7 +49,6 @@ def main():
             
             bTable = False
             bScorers = False 
-            bNews = False
             if not bool(bScore):
                 break
             time.sleep(25)

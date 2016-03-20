@@ -9,6 +9,7 @@ Module to parse the command line parameters passed to the file.
 
 import argparse
 from . import URL
+
 supported_leagues = list(URL.URL.keys())
 parser = argparse.ArgumentParser(description="A simple livescore tool.", epilog="Sample uses:\n python3 livescore.py --table bpl laliga")
 

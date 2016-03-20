@@ -2,11 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import re
-from . import lsweb, lsprocess, lsprint, lscolors, URL, tt
+import lsweb, lsprocess, lsprint, lscolors, URL, tt
 import json
 
-def get_news(uri=URL.goalUS,sclass='news_box2'):
+def get_news():
     try:
+        uri=URL.goalUS
+        sclass='news_box2'
         rows = lsweb.get_livescore(uri,sclass)
         print('fetching soccer news from goal.com\n')
         print('(Last Updated at '+lscolors.ORANGE+tt.datetime_now()+lscolors.END+')')

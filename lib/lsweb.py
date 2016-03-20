@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import os
 import socket
-from . import URL
+import URL
 
 
 def extractTag(tree, tag, cssClass):

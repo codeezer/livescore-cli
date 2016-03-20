@@ -6,10 +6,10 @@
     table : function containing layout info of table 
 '''
 
-from . import lscolors as c
 import subprocess
 import sys, os
-from . import tt, URL, lsprocess
+import tt, URL, lsprocess
+import lscolors as c
 
 
 def sendAlert(message,title=''):
