@@ -6,17 +6,14 @@
     table : function containing layout info of table 
 '''
 
-<<<<<<< HEAD
 import subprocess
 import sys, os
 import tt, URL, lsprocess
 import lscolors as c
-=======
 import lscolors as c
 import subprocess
 import sys, os
 import tt, URL, lsprocess
->>>>>>> ezer
 
 
 def sendAlert(message,title=''):
@@ -66,19 +63,16 @@ def scores(scores,key):
                 elif home_team_score < away_team_score:
                     away_team_color = c.ORANGE
                     home_team_color = c.RED
-<<<<<<< HEAD
                 else:
                     away_team_color = c.CYAN
                     home_team_color = c.CYAN
                     
-=======
              
                 if home_team_score != score_h[position] or away_team_score != score_a[position]:
                     sendAlert(time+'   ' + home_team + '  ' + middle_live + '  ' + away_team,' ')
                     score_h[position] = home_team_score
                     score_a[position] = away_team_score
             
->>>>>>> ezer
             except:
                 middle_live = each_row[2].strip()
 
