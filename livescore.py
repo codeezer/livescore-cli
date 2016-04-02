@@ -50,7 +50,7 @@ def main():
             bScorers = False 
             if not bool(bScore):
                 break
-            time.sleep(25)
+            time.sleep(10)
             
         except KeyboardInterrupt:
             break

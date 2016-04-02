@@ -6,10 +6,17 @@
     table : function containing layout info of table 
 '''
 
+<<<<<<< HEAD
 import subprocess
 import sys, os
 import tt, URL, lsprocess
 import lscolors as c
+=======
+import lscolors as c
+import subprocess
+import sys, os
+import tt, URL, lsprocess
+>>>>>>> ezer
 
 
 def sendAlert(message,title=''):
@@ -19,15 +26,19 @@ def sendAlert(message,title=''):
     return
 
 
+score_h = [0]*50
+score_a = [0]*50
+
 def scores(scores,key):
+    global score_h, score_a
     lmax = lsprocess.get_longest_list(scores)
     total_width = sum(lmax)+8; test = 3
 
     print_pattern('-',total_width,c.BLUE)
     print(c.TITLE+'\t\t '+URL.URL[key][0]+' SCORES '+c.END)
     print_pattern('-',total_width,c.BLUE)
-    count = 0
-    for each_row in scores:
+    
+    for position,each_row in enumerate(scores):
         if isinstance(each_row,list) == False:
             date = each_row.strip()                 #extract date if 1D array
             date_color = c.dateArray[test%3]; test+=1
@@ -39,13 +50,13 @@ def scores(scores,key):
             away_team = each_row[3].strip()
             away_team_color = c.GREEN
             
-            
+             
             try:
                 
                 _temp = each_row[2].strip().split() 
                 home_team_score = int(_temp[0])
                 away_team_score = int(_temp[2])
-
+                
 
                 middle_live = str(home_team_score) + ' - ' + str(away_team_score)
                 
@@ -55,10 +66,19 @@ def scores(scores,key):
                 elif home_team_score < away_team_score:
                     away_team_color = c.ORANGE
                     home_team_color = c.RED
+<<<<<<< HEAD
                 else:
                     away_team_color = c.CYAN
                     home_team_color = c.CYAN
                     
+=======
+             
+                if home_team_score != score_h[position] or away_team_score != score_a[position]:
+                    sendAlert(time+'   ' + home_team + '  ' + middle_live + '  ' + away_team,' ')
+                    score_h[position] = home_team_score
+                    score_a[position] = away_team_score
+            
+>>>>>>> ezer
             except:
                 middle_live = each_row[2].strip()
 
