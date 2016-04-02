@@ -131,7 +131,7 @@ def table(tables,key):
     print_pattern('+',75+longest_length,c.BLUE)
     print(c.GRAY+' LP = League Position \tGP = Games Played\tW = Wins \tD = Draws \tL = Lose \n GF = Goals For\t\tGA = Goal Against \tGD = Goal Differences')     
     print_pattern('-',75+longest_length,c.GREEN)
-    print(' '+ucl_color+ucl+'\t'+ucq_color+ucl_qual+'\t'+eup_color+europa+'\n '+euq_color+europa_qual+'\t'+rel_color+rel)
+    print(' '+ucl_color+ucl+'\t\t'+ucq_color+ucl_qual+'\t'+eup_color+europa+'\n '+euq_color+europa_qual+'\t'+rel_color+rel)
     print_pattern('+',75+longest_length,c.BLUE)
 
 
