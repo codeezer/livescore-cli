@@ -69,7 +69,7 @@ def scores(scores,key):
                     
              
                 if home_team_score != score_h[position] or away_team_score != score_a[position]:
-                    sendAlert(time+'   ' + home_team + '  ' + middle_live + '  ' + away_team,' ')
+                    sendAlert(time+'   ' + home_team + '  ' + middle_live + '  ' + away_team,key)
                     score_h[position] = home_team_score
                     score_a[position] = away_team_score
             

@@ -32,7 +32,6 @@ def main():
                         print("Displaying Table for {}".format(URL.URL[k][0]))
                         lsprint.table(lsweb.get_table(URL.URL[k][1]),k)
                 
-
                     if bScore:
                         print("Displaying Scores for {}".format(URL.URL[k][0]))
                         lsprint.scores(lsweb.get_score(URL.URL[k][1]),k)
