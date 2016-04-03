@@ -5,7 +5,6 @@ import os
 from lib import lscolors as c
 from lib import cli
 from lib import URL
-from lib import lsprocess
 from lib import lsprint
 from lib import lsweb
 from lib import lsnews
