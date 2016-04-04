@@ -1,6 +1,6 @@
 <b>livescore-cli</b> - enjoy football scores live right from the linux terminal.
 
-![Sample Run](http://i.imgur.com/QCHeBAT.jpg)
+![Sample Run](http://i.imgur.com/yDR7Bxs.jpg)
     
 
 ## INSTALLATION (Linux - Debian Based)
@@ -11,8 +11,10 @@
     git clone https://github.com/codeezer/livescore-cli.git
   
     cd livescore-cli
-  
-    python3 livescore.py
+    
+    echo "alias livescore='python "$ls_directory_path"/livescore.py'" >> ~/.bashrc
+    
+    livescore bpl
 
 
 or
@@ -59,8 +61,3 @@ livescore-cli is a small commandline program to watch scores, tables and fixture
                  python livescore.py -s bpl
                  python livescore.py -t -s -ts bpl laliga seriea
 
-
-
-: Work on Progress 
-
-For More Information : [livescore-cli](http://codeezer.github.io/livescore-cli/)
