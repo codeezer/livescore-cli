@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-from . import lsweb, lsprocess, lsprint, lscolors, URL, tt
+import lsweb, lsprocess, lsprint, lscolors, URL, tt
 import json
 
 def get_news(uri=URL.goalUS,sclass='news_box2'):

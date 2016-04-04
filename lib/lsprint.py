@@ -39,9 +39,9 @@ def scores(scores,key):
             time = tt._convert(each_row[0].strip()) #time conversion to local time
             
             home_team = each_row[1].strip()
-            home_team_color = c.CYAN
+            home_team_color = c.GREEN
             away_team = each_row[3].strip()
-            away_team_color = c.CYAN
+            away_team_color = c.GREEN
             
              
             try:
@@ -59,6 +59,9 @@ def scores(scores,key):
                 elif home_team_score < away_team_score:
                     away_team_color = c.ORANGE
                     home_team_color = c.RED
+                else:
+                    away_team_color = c.CYAN
+                    home_team_color = c.CYAN
              
                 if home_team_score != score_h[position] or away_team_score != score_a[position]:
                     sendAlert(time+'   ' + home_team + '  ' + middle_live + '  ' + away_team,key)

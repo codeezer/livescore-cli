@@ -82,3 +82,13 @@ def get_table(url):
 
     table = parseTree(table)
     return table
+
+
+
+
+#main webscrapping code which take the url to scrap and returns the rows of data
+def get_livescore(url,scrapping_class):                                                                                                                             
+    r = requests.get(url)
+    soup = BeautifulSoup(r.text,'html.parser')
+    _rows = soup.findAll(class_=scrapping_class)
+    return _rows
