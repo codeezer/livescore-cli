@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-from . import lsweb, lsprocess, lsprint, lscolors, URL, tt
+import lsweb, lsprocess, lsprint, lscolors, URL, tt
 import json
 
 def get_news(uri=URL.goalUS,sclass='news_box2'):
@@ -46,7 +46,7 @@ def print_news(news):
         print(lscolors.colorArray[color_count]+''.join(pcount.ljust(5))+news_no)
         #lsprint.sendAlert(news_no)
         news_count = news_count + 1
-        if color_count == 3:
+        if color_count == 1:
             color_count = 0
         color_count = color_count + 1
     lsprint.print_pattern('*',width+6,lscolors.ORANGE)

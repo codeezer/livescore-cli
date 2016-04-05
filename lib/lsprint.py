@@ -56,12 +56,15 @@ def scores(scores,key):
                 if home_team_score > away_team_score:
                     away_team_color = c.RED
                     home_team_color = c.ORANGE
-                else:
+                elif home_team_score < away_team_score:
                     away_team_color = c.ORANGE
                     home_team_color = c.RED
+                else:
+                    away_team_color = c.CYAN
+                    home_team_color = c.CYAN
              
                 if home_team_score != score_h[position] or away_team_score != score_a[position]:
-                    sendAlert(time+'   ' + home_team + '  ' + middle_live + '  ' + away_team,' ')
+                    sendAlert(time+'   ' + home_team + '  ' + middle_live + '  ' + away_team,key)
                     score_h[position] = home_team_score
                     score_a[position] = away_team_score
             

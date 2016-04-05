@@ -4,7 +4,7 @@
 '''
 Module to parse the command line parameters passed to the file.
 --help provides most of the description of the module.Try:
->>>python3 cli.py --help
+>>>python cli.py --help
 '''
 
 import argparse
@@ -12,7 +12,7 @@ from . import URL
 supported_leagues = list(URL.URL.keys())
 parser = argparse.ArgumentParser(description="A simple livescore tool.",
                                  epilog="Sample uses:\n "
-                                 "python3 livescore.py --table bpl laliga")
+                                 "python livescore.py --table bpl laliga")
 
 parser.add_argument("-v", "--verbose",
                     help="Display verbose output",
