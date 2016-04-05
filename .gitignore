@@ -1,6 +1,7 @@
 __pycache__/
 ping
-*.pyc
+*.py[cod]
+*$py.class
 data.json
 test.py
 test.html
