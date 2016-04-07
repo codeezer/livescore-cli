@@ -16,7 +16,7 @@ def sendAlert(message,title=''):
     #path to icon png file
     icon_path = '/usr/share/icons/livescore.png'            
     #bash command to send notification 
-    bash_command = 'notify-send -i '+icon_path+' '+title+' '+message
+    bash_command = 'notify-send -i '+icon_path+' "'+title+'" "'+message+'"'
     os.system(bash_command)
     return
 
