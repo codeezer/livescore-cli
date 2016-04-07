@@ -93,9 +93,9 @@ def table(tables,key):
     _temp = lsprocess.get_longest_list([row[1] for row in tables])
     longest_length = int(_temp[0])
     ucl = 'Champions League';   ucl_color = c.ORANGE 
-    ucl_qual = 'Champions League qualification';    ucq_color = c.GRAY
-    europa = 'Europa League';   eup_color = c.BLUE
-    europa_qual = 'Europa League qualification';    euq_color = c.PURPLE
+    ucl_qual = 'Champions League qualification';    ucq_color = c.BLUE
+    europa = 'Europa League';   eup_color = c.PURPLE
+    europa_qual = 'Europa League qualification';    euq_color = c.CYAN
     rel = 'Relegation'; rel_color = c.RED
 
     print_pattern('+',75+longest_length,c.BLUE)
