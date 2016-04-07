@@ -95,7 +95,7 @@ def table(tables,key):
     ucl = 'Champions League';   ucl_color = c.ORANGE 
     ucl_qual = 'Champions League qualification';    ucq_color = c.GRAY
     europa = 'Europa League';   eup_color = c.BLUE
-    europa_qual = 'Europa League qualification';    euq_color = c.GREEN
+    europa_qual = 'Europa League qualification';    euq_color = c.PURPLE
     rel = 'Relegation'; rel_color = c.RED
 
     print_pattern('+',75+longest_length,c.BLUE)
@@ -120,7 +120,7 @@ def table(tables,key):
         goal_difference = first_row[8]
         total_points = first_row[9]
         
-        row_color = c.PURPLE
+        row_color = c.GREEN
         if isinstance(first_row[0],list) == True:
             if first_row[0][1] == ucl:
                 row_color = ucl_color
