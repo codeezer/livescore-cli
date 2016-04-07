@@ -23,8 +23,8 @@ def main():
             os.system('clear')
             for k in cli.args.League:
                 # Code to fetch data from URL[k]
-                pingTest = 'www.livescore.com'
-                print(' ... Fetching scores from '+pingTest+' ... ')
+                pingTest = 'www.google.com'
+                print(' ... Fetching scores from www.livescore.com'+' ... ')
                 if lsweb.is_connected(pingTest) is True:
 
                     if bTable:
@@ -35,6 +35,7 @@ def main():
                         print("Displaying Scores for {}".format(URL.URL[k][0]))
                         lsprint.scores(lsweb.get_score(URL.URL[k][1]), k)
 
+
                     if bScorers:
                         print("Displaying Top Scorers for"
                               " {}".format(URL.URL[k][0]))
@@ -44,13 +45,14 @@ def main():
                     print(c.fill[3]+"Check Your Internet Connection ,"
                           " It looks like you're out of internet."+c.END)
 
-                time.sleep(3)
 
+                time.sleep(3)
+            
             bTable = False
             bScorers = False
             if not bool(bScore):
                 break
-            time.sleep(10)
+            time.sleep(7)
 
         except KeyboardInterrupt:
             break

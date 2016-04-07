@@ -3,6 +3,7 @@
 if cat ~/.bashrc | grep "alias livescore='python"; then /bin/echo -e "\e[1;31mSetup is activated or livescore command is already in use\e[0m";
 else
     ls_directory_path=$(pwd)
+    sudo cp livescore.png /usr/share/icons/livescore.png
     echo "alias livescore='python "$ls_directory_path"/livescore.py'" >> ~/.bashrc
     sudo apt-get install python-bs4 python-requests git git-core
 fi

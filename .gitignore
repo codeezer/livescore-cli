@@ -5,6 +5,6 @@ data.json
 test.py
 test.html
 temp.py
-clear
+/lib/clear
 *.swp
 guiscore.py

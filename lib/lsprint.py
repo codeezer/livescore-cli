@@ -13,12 +13,14 @@ import tt, URL, lsprocess
 
 
 def sendAlert(message,title=''):
-    #subprocess.Popen(['notify-send',message])
-    #return
-    os.system('notify-send "'+title+'" "'+message+'"')
+    #path to icon png file
+    icon_path = '/usr/share/icons/livescore.png'            
+    #bash command to send notification 
+    bash_command = 'notify-send -i '+icon_path+' '+title+' '+message
+    os.system(bash_command)
     return
 
-
+#global variable to temporarily store the score of home and away team to compare for notification
 score_h = [0]*50
 score_a = [0]*50
 
@@ -33,10 +35,12 @@ def scores(scores,key):
     
     for position,each_row in enumerate(scores):
         if isinstance(each_row,list) == False:
-            date = each_row.strip()                 #extract date if 1D array
+            #extract date if 1D array
+            date = each_row.strip()                 
             date_color = c.dateArray[test%3]; test+=1
         else:
-            time = tt._convert(each_row[0].strip()) #time conversion to local time
+            #time conversion to local time
+            time = tt._convert(each_row[0].strip()) 
             
             home_team = each_row[1].strip()
             home_team_color = c.GREEN
@@ -62,7 +66,8 @@ def scores(scores,key):
                 else:
                     away_team_color = c.CYAN
                     home_team_color = c.CYAN
-             
+
+                #if previous score is not equal to present score send notification to user 
                 if home_team_score != score_h[position] or away_team_score != score_a[position]:
                     sendAlert(time+'   ' + home_team + '  ' + middle_live + '  ' + away_team,key)
                     score_h[position] = home_team_score
@@ -131,7 +136,7 @@ def table(tables,key):
         else:
             pass
 
-        print(row_color+' '+str(league_position)+'\t'    				\
+        print(row_color+' '+str(league_position)+'\t'    			\
                 +''.join(team_name.ljust(longest_length))		 	\
                 +'\t'+games_played+'\t'+total_wins+'\t'+total_draws+'\t'     	\
                 +total_loses+'\t'+goals_for+'\t'+goals_against+'\t'     	\
