@@ -2,24 +2,23 @@
 
 ![Sample Run](http://i.imgur.com/yDR7Bxs.jpg)
     
+## DEPENDENCIES
+    
+    1. BeautifulSoup (python-bs4)
 
-## INSTALLATION (Linux - Debian Based)
+    2. Requests (python-requests)
+    
 
+## INSTALLATION
 
-    sudo apt-get install python python-bs4 python-requests git 
-  
     git clone https://github.com/codeezer/livescore-cli.git
   
     cd livescore-cli
     
-    echo "alias livescore='python "$ls_directory_path"/livescore.py'" >> ~/.bashrc
-    
-    livescore bpl
-
-
-or
-
     ./setup
+
+    livescore -t bpl 
+
 
 ## Description
 
