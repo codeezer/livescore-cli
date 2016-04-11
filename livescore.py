@@ -24,7 +24,7 @@ def main():
             for k in cli.args.League:
                 # Code to fetch data from URL[k]
                 pingTest = 'www.google.com'
-                print(' ... Fetching scores from www.livescore.com'+' ... ')
+                print(' ... Fetching information from www.livescore.com'+' ... ')
                 if lsweb.is_connected(pingTest) is True:
 
                     if bTable:
