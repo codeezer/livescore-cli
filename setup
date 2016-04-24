@@ -12,3 +12,4 @@ PREVIOUS
 sudo cp -r ../livescore-cli /opt/
 sudo cp livescore.png /usr/share/icons/
 sudo ln -sf /opt/livescore-cli/livescore.py /usr/local/bin/livescore
+sudo apt-get install python-bs4 python-requests
