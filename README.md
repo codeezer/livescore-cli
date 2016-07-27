@@ -68,3 +68,5 @@ livescore-cli is a small commandline program to watch scores, tables and fixture
         * Available Statistics (v)
         * Football History Details
         * Fantasy Points Viewer
+
+For Comments and Suggestions: ezerames@gmail.com
