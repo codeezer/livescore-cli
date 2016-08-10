@@ -47,7 +47,7 @@ def main():
 
 
                 time.sleep(3)
-            
+
             bTable = False
             bScorers = False
             if not bool(bScore):
