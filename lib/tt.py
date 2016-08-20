@@ -25,9 +25,9 @@ USAGE:
 '''
 
 if time.daylight:
-        offsetHour = time.altzone / 3600
+        offsetHour = time.altzone / 3600.0
 else:
-        offsetHour = time.timezone / 3600
+        offsetHour = time.timezone / 3600.0
 hour = int(-offsetHour)
 minute = int(-offsetHour * 60 % 60)
 
