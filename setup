@@ -1,15 +1,7 @@
 #!/bin/sh
-<<PREVIOUS
-if cat ~/.bashrc | grep "alias livescore='python"; then /bin/echo -e "\e[1;31mSetup is activated or livescore command is already in use\e[0m";
-else
-    ls_directory_path=$(pwd)
-    sudo cp livescore.png /usr/share/icons/livescore.png
-    echo "alias livescore='python "$ls_directory_path"/livescore.py'" >> ~/.bashrc
-    sudo apt-get install python-bs4 python-requests git git-core
-fi
-PREVIOUS
 
 sudo cp -r ../livescore-cli /opt/
 sudo cp logo.png /usr/share/icons/
 sudo ln -sf /opt/livescore-cli/livescore.py /usr/local/bin/livescore
-sudo apt-get install python-bs4 python-requests
+
+pip install bs4 requests
