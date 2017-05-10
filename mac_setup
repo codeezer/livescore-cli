@@ -9,7 +9,7 @@ sudo sed -i '' '18i\
 sudo sed -i '' '21i\
     #' ~/.livescore-cli/lib/lsprint.py
 
-if pip2 install bs4 requests; then
+if sudo pip2 install bs4 requests; then
     osascript -e 'display notification "Setup Completed" with title "livescore-cli"'
 else
     echo "failed to install bs4 and requests python package"
