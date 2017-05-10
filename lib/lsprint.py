@@ -19,7 +19,10 @@ def sendAlert(message,title=''):
     #bash command to send notification
     bash_command = """osascript -e 'display notification "{}" with title "{}"'""".format(message, title)
     bash_command = 'notify-send -i '+icon_path+' "'+title+'" "'+message+'"'
-    os.system(bash_command)
+    try:
+        os.system(bash_command)
+    except:
+        pass
     return
 
 #global variable to temporarily store the score of home and away team to compare for notification
