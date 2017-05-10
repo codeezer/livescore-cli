@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python2.7
 # -*- coding:utf-8 -*-
 '''
     modules containg all the layout configuration of printable data
