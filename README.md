@@ -15,8 +15,10 @@
   
     cd livescore-cli
     
-    ./setup
+    ./setup (linux)
 
+    ./mac_setup (mac)
+    
     livescore -t bpl 
 
 

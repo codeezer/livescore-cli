@@ -14,8 +14,10 @@ import tt, URL, lsprocess
 
 def sendAlert(message,title=''):
     #path to icon png file
+    icon_path = '~/.livescore-cli/logo.png'
     icon_path = '/usr/share/icons/logo.png'
     #bash command to send notification
+    bash_command = """osascript -e 'display notification "{}" with title "{}"'""".format(message, title)
     bash_command = 'notify-send -i '+icon_path+' "'+title+'" "'+message+'"'
     os.system(bash_command)
     return
