@@ -25,30 +25,31 @@ USAGE:
 '''
 
 if time.daylight:
-        offsetHour = time.altzone / 3600.0
+    offsetHour = time.altzone / 3600.0
 else:
-        offsetHour = time.timezone / 3600.0
+    offsetHour = time.timezone / 3600.0
+
 hour = int(-offsetHour)
 minute = int(-offsetHour * 60 % 60)
 
 
 def _convert(time):
-        if bool(re.match(r'[0-9]{1,2}:[0-9]{1,2}', time)):
-                time = list(map(int, time.split(':')))
-                time[1] += minute
-                time[0] += hour
-                if time[1] > 59:
-                        time[1] -= 60
-                        time[0] += 1
-                elif time[1] < 0:
-                        time[1] += 60
-                        time[0] -= 1
-                if time[0] < 0:
-                        time[0] += 24
-                elif time[0] > 23:
-                        time[0] -= 24
-                time = _fix(str(time[0])) + ":" + _fix(str(time[1]))
-        return time
+    if bool(re.match(r'[0-9]{1,2}:[0-9]{1,2}', time)):
+        time = list(map(int, time.split(':')))
+        time[1] += minute
+        time[0] += hour
+        if time[1] > 59:
+            time[1] -= 60
+            time[0] += 1
+        elif time[1] < 0:
+            time[1] += 60
+            time[0] -= 1
+        if time[0] < 0:
+            time[0] += 24
+        elif time[0] > 23:
+            time[0] -= 24
+            time = _fix(str(time[0])) + ":" + _fix(str(time[1]))
+    return time
 
 
 def _fix(y):
@@ -62,7 +63,7 @@ def convert(times):
         return times
 
 
-def isgreat(time1, time2):
+def is_great(time1, time2):
         t1 = list(map(int, time1.split(':')))
         t2 = list(map(int, time2.split(':')))
         if t1[0] > t2[0]:

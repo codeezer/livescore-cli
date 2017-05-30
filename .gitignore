@@ -1,4 +1,5 @@
 __pycache__/
+.idea/
 ping
 *.py[cod]
 *$py.class

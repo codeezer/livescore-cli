@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-'''
-    module: containing all the backend processes 
-'''
+"""
+    module: containing all the backend processes
+"""
+
 
 def find_longest_no(array):
     longest_length = 5
@@ -13,12 +14,11 @@ def find_longest_no(array):
     return longest_length
 
 
-
 def get_longest_list(array):
     list2return = [0]*len(array[0])
     for row in array:
         row_length = len(row)
-        if isinstance(row,list) == False:
+        if isinstance(row, list) is False:
             if row_length > list2return[0]:
                 list2return[0] = row_length
         else:
