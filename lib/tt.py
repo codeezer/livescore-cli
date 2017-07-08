@@ -48,7 +48,7 @@ def _convert(time):
             time[0] += 24
         elif time[0] > 23:
             time[0] -= 24
-            time = _fix(str(time[0])) + ":" + _fix(str(time[1]))
+        time = _fix(str(time[0])) + ":" + _fix(str(time[1]))
     return time
 
 
