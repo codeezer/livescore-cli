@@ -31,7 +31,7 @@ def main():
                 if lsweb.is_connected(ping_test):
                     if b_table:
                         print("Displaying Table for {}".format(URL[league.key][1]))
-                        league.display_table(lsweb.get_table(URL[league.key][1]))
+                        league.score(lsweb.get_table(URL[league.key][1]))
 
                     if b_score:
                         print("Displaying Scores for {}".format(URL[league.key][1]))

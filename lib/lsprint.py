@@ -10,28 +10,13 @@ from URL import URL
 import lsprocess
 
 
-def send_alert(message, title=''):
-    if sys.platform == 'darwin':
-        icon_path = '~/.livescore-cli/logo.png'
-        bash_command = """osascript -e 'display notification "{}" with title "{}"'""".format(message, title)
-    elif sys.platform.startswith('linux'):
-        icon_path = '/usr/share/icons/logo.png'
-        bash_command = 'notify-send -i {} "{}" "{}"'.format(icon_path, title, message)
-    else:
-        raise OSError(
-            'OS not supported. '
-            'Currently livescore-cli is supported on Linux and Mac OS X')
-    # send notification
-    os.system(bash_command + ' > /dev/null 2>&1')
-
-
 class League():
 
     def __init__(self, key):
         self.key = key
         # variables to temporarily store the scores to compare for notification
-        self.score_h = [-1]*50
-        self.score_a = [-1]*50
+        self.last_score_h = [-1]*50
+        self.last_score_a = [-1]*50
 
     def display_scores(self, scores):
         """Display the scores of the league"""
@@ -39,9 +24,9 @@ class League():
         total_width = sum(lmax) + 8
         test = 3
 
-        self.__print_pattern('-', total_width, c.BLUE)
+        print_pattern('-', total_width, c.BLUE)
         print(c.TITLE + '\t\t ' + URL[self.key][0] + ' SCORES ' + c.END)
-        self.__print_pattern('-', total_width, c.BLUE)
+        print_pattern('-', total_width, c.BLUE)
 
         for position, each_row in enumerate(scores):
             if not isinstance(each_row, list):
@@ -79,20 +64,24 @@ class League():
                     away_team_color = c.GREEN
                     middle_live = each_row[2].strip()
 
+                if home_team_score == '?' and away_team_score == '?':
+                    send_alert('Match {} vs {} started'.format(home_team, away_team))
+                    self.last_score_h[position] = 0
+                    self.last_score_a[position] = 0
                 # if previous score is not equal to present score send notification to user
-                if home_team_score != self.score_h[position] or away_team_score != self.score_a[position]:
-                    send_alert('{}   {} - {}   {}'.format(
-                        time, home_team, middle_live, away_team), self.key)
-                    self.score_h[position] = home_team_score
-                    self.score_a[position] = away_team_score
+                elif home_team_score != self.last_score_h[position] or away_team_score != self.last_score_a[position]:
+                    send_alert('{}   {} - {}   {}'.format(time, home_team, middle_live, away_team),
+                               self.key)
+                    self.last_score_h[position] = home_team_score
+                    self.last_score_a[position] = away_team_score
 
                 print(' ' + date_color + ''.join(date.ljust(lmax[0])) + ''.join(time.ljust(lmax[1] + 2))\
                        + c.END + home_team_color + ''.join(home_team.ljust(lmax[2]+2)) + c.END\
                        + ''.join(middle_live.ljust(lmax[3]+2)) + away_team_color\
                        + ''.join(away_team.ljust(lmax[4])) + c.END)
 
-        self.__print_pattern('-', total_width, c.BLUE)
-        self.__print_pattern('-', total_width, c.BLUE)
+        print_pattern('-', total_width, c.BLUE)
+        print_pattern('-', total_width, c.BLUE)
 
 
     def display_table(self, tables):
@@ -111,15 +100,15 @@ class League():
         euq_color = c.CYAN
         rel = 'Relegation'; rel_color = c.RED
 
-        self.__print_pattern('+', 75 + longest_length, c.BLUE)
+        print_pattern('+', 75 + longest_length, c.BLUE)
         print('\t\t\t\t' + c.GREEN + table)
-        self.__print_pattern('+', 75 + longest_length, c.BLUE)
+        print_pattern('+', 75 + longest_length, c.BLUE)
 
         print(' LP' + '\t' + ''.join('Team Name'.ljust(longest_length))\
               + '\t'+'GP' + '\t' + 'W' + '\t' + 'D' + '\t' + 'L' + '\t' + 'GF'\
               + '\t' + 'GA' + '\t' + 'GD' + '\t' + 'Pts')
 
-        self.__print_pattern('-', 75 + longest_length, c.BLUE)
+        print_pattern('-', 75 + longest_length, c.BLUE)
 
         for first_row in tables[1::]:
             league_position += 1
@@ -153,17 +142,32 @@ class League():
                   + '\t' + games_played + '\t' + total_wins + '\t' + total_draws + '\t' + total_loses\
                   + '\t' + goals_for + '\t' + goals_against + '\t' + goal_difference + '\t' + total_points + c.END)
 
-        self.__print_pattern('+', 75+longest_length, c.BLUE)
+        print_pattern('+', 75+longest_length, c.BLUE)
         print(c.GRAY + ' LP = League Position \tGP = Games Played\tW = Wins \tD = Draws \tL = Lose \n GF = Goals For\t\tGA = Goal Against \tGD = Goal Differences')
-        self.__print_pattern('-', 75 + longest_length, c.GREEN)
+        print_pattern('-', 75 + longest_length, c.GREEN)
         print(' ' + ucl_color + ucl + '\t' + ucq_color + ucl_qual + '\t'\
             + eup_color + europa + '\n ' + euq_color + europa_qual + '\t' + rel_color + rel)
-        self.__print_pattern('+', 75 + longest_length, c.BLUE)
+        print_pattern('+', 75 + longest_length, c.BLUE)
 
 
-    # characterToprint #no of character to print
-    def __print_pattern(self, c2p, n, color):
-        for i in range(n):
-            print(color + c2p),
-            sys.stdout.softspace = 0
-        print(c.END)
+def send_alert(message, title=''):
+    if sys.platform == 'darwin':
+        icon_path = '~/.livescore-cli/logo.png'
+        bash_command = """osascript -e 'display notification "{}" with title "{}"'""".format(message, title)
+    elif sys.platform.startswith('linux'):
+        icon_path = '/usr/share/icons/logo.png'
+        bash_command = 'notify-send -i {} "{}" "{}"'.format(icon_path, title, message)
+    else:
+        raise OSError(
+            'OS not supported. '
+            'Currently livescore-cli is supported on Linux and Mac OS X')
+    # send notification
+    os.system(bash_command + ' > /dev/null 2>&1')
+
+
+# characterToprint #no of character to print
+def print_pattern(c2p, n, color):
+    for i in range(n):
+        print(color + c2p),
+        sys.stdout.softspace = 0
+    print(c.END)
