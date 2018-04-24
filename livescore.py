@@ -11,35 +11,32 @@ from lib import lsweb
 
 
 def main():
-    b_table = cli.args.table
-    b_score = cli.args.score
-    b_scorers = cli.args.scorers
+    b_table = bool(cli.args.table)
+    b_score = bool(cli.args.score)
+    b_scorers = bool(cli.args.scorers)
 
-    # by default display match scores
     if not b_table and not b_score and not b_scorers:
         b_score = True
-
-    leagues = [lsprint.League(k) for k in cli.args.League]
 
     while True:
         try:
             os.system('clear')
-            for league in leagues:
+            for k in cli.args.League:
                 # Code to fetch data from URL[k]
                 ping_test = 'www.google.com'
-                print(' ... Fetching information from www.livescore.com ... ')
-                if lsweb.is_connected(ping_test):
+                print(' ... Fetching information from www.livescore.com' + ' ... ')
+                if lsweb.is_connected(ping_test) is True:
                     if b_table:
-                        print("Displaying Table for {}".format(URL[league.key][1]))
-                        league.score(lsweb.get_table(URL[league.key][1]))
+                        print("Displaying Table for {}".format(URL[k][0]))
+                        lsprint.table(lsweb.get_table(URL[k][1]), k)
 
                     if b_score:
-                        print("Displaying Scores for {}".format(URL[league.key][1]))
-                        league.display_scores(lsweb.get_score(URL[league.key][1]))
+                        print("Displaying Scores for {}".format(URL[k][0]))
+                        lsprint.scores(lsweb.get_score(URL[k][1]), k)
 
                     if b_scorers:
                         print("Displaying Top Scorers for"
-                              " {}".format(URL[league.key][1]))
+                              " {}".format(URL[k][0]))
                         print('Working on it')
 
                 else:
@@ -50,7 +47,7 @@ def main():
 
             b_table = False
             b_scorers = False
-            if not b_score:
+            if not bool(b_score):
                 break
             time.sleep(7)
 

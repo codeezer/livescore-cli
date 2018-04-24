@@ -5,6 +5,12 @@ sudo rsync -a --delete ../.livescore-cli ~/
 sudo rm -rf ../.livescore-cli
 sudo ln -sf ~/.livescore-cli/livescore.py /usr/local/bin/livescore
 
+sudo sed -i '' '20i\
+    #' ~/.livescore-cli/lib/lsprint.py
+
+sudo sed -i '' '23i\
+    #' ~/.livescore-cli/lib/lsprint.py
+
 if sudo pip2 install bs4 requests; then
     osascript -e 'display notification "Setup Completed" with title "livescore-cli"'
 else
