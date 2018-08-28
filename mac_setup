@@ -1,7 +1,7 @@
 #!/bin/sh
 
-sudo cp -r ../livescore-cli ../.livescore-cli
-sudo rsync -a --delete ../.livescore-cli ~/
+cp -r ../livescore-cli ../.livescore-cli
+rsync -a --delete ../.livescore-cli ~/
 sudo rm -rf ../.livescore-cli
 sudo ln -sf ~/.livescore-cli/livescore.py /usr/local/bin/livescore
 
