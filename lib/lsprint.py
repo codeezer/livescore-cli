@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 """
     modules containing all the layout configuration of printable data
@@ -36,7 +36,7 @@ def scores(scores, key):
     test = 3
 
     print_pattern('-', total_width, c.BLUE)
-    print(c.TITLE + '\t\t ' + URL[key][0] + ' SCORES ' + c.END)
+    print('\t\t ' + c.TITLE + URL[key][0] + ' SCORES ' + c.END)
     print_pattern('-', total_width, c.BLUE)
 
     for position, each_row in enumerate(scores):
@@ -156,6 +156,5 @@ def table(tables, key):
 # characterToprint #no of character to print
 def print_pattern(c2p, n, color):
     for i in range(n):
-        print(color + c2p),
-        sys.stdout.softspace = 0
+        print(color + c2p, end="")
     print(c.END)
