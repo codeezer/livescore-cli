@@ -1,7 +1,6 @@
 #!/bin/sh
 
-cp -r ../livescore-cli ../.livescore-cli
-rsync -a --delete ../.livescore-cli ~/
+rsync -aqv --exclude .git * ~/.livescore-cli
 sudo rm -rf ../.livescore-cli
 sudo ln -sf ~/.livescore-cli/livescore.py /usr/local/bin/livescore
 
@@ -13,6 +12,7 @@ sudo sed -i '' '23i\
 
 if sudo pip3 install bs4 requests; then
     osascript -e 'display notification "Setup Completed" with title "livescore-cli"'
+    echo "livescore-cli; Setup Completed."
 else
     echo "failed to install bs4 and requests python package"
 fi

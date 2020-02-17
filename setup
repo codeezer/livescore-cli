@@ -5,3 +5,4 @@ sudo cp logo.png /usr/share/icons/
 sudo ln -sf /opt/livescore-cli/livescore.py /usr/local/bin/livescore
 
 pip3 install bs4 requests
+echo "livescore-cli; Setup Completed."
