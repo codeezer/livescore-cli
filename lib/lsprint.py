@@ -45,7 +45,7 @@ def scores(scores, key):
             date = each_row.strip()
             date_color = c.dateArray[test % 3]
             test += 1
-        else:
+        elif len(each_row)==4:
             # time conversion to local time
             time = tt._convert(each_row[0].strip())
 
@@ -55,7 +55,6 @@ def scores(scores, key):
             away_team_color = c.GREEN
 
             try:
-
                 _temp = each_row[2].strip().split()
                 home_team_score = int(_temp[0])
                 away_team_score = int(_temp[2])
