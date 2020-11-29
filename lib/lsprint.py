@@ -31,7 +31,13 @@ score_a = [0]*50
 
 def scores(scores, key):
     global score_h, score_a
-    lmax = lsprocess.get_longest_list(scores)
+    try:
+        lmax = lsprocess.get_longest_list(scores)
+    except Exception as e:
+        print("Something went wrong. Unexpected data.")
+        print(e)
+        return
+
     total_width = sum(lmax) + 8
     test = 3
 
