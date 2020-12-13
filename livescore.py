@@ -8,6 +8,7 @@ from lib import cli
 from lib.URL import URL
 from lib import lsprint
 from lib import lsweb
+from datetime import datetime
 
 
 def main():
@@ -31,8 +32,15 @@ def main():
                         lsprint.table(lsweb.get_table(URL[k][1]), k)
 
                     if b_score:
+                        url = URL[k][1]
+                        if (k == 'ligue1'):
+                            year = datetime.now().year
+                            month = datetime.now().month
+                            if month > 7:
+                                year += 1
+                            url = url[:-1] + "-" + str(year) + "/"
                         print("Displaying Scores for {}".format(URL[k][0]))
-                        lsprint.scores(lsweb.get_score(URL[k][1]), k)
+                        lsprint.scores(lsweb.get_score(url), k)
 
                     if b_scorers:
                         print("Displaying Top Scorers for"

@@ -53,7 +53,10 @@ def scores(scores, key):
             test += 1
         elif len(each_row)==4:
             # time conversion to local time
-            time = tt._convert(each_row[0].strip())
+            val = each_row[0]
+            if isinstance(each_row[0], list) is True:
+                val = each_row[0][0]
+            time = tt._convert(val.strip())
 
             home_team = each_row[1].strip()
             home_team_color = c.GREEN
