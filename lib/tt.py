@@ -3,6 +3,7 @@
 
 import time
 import re
+from datetime import datetime, timedelta
 
 '''
 module to convert the given time in UTC to local device time
@@ -24,33 +25,24 @@ USAGE:
 -1
 '''
 
-if time.daylight:
-    offsetHour = time.altzone / 3600.0
-else:
-    offsetHour = time.timezone / 3600.0
+# Input time already considers daylight savings
+# if time.daylight:
+#     offsetHour = time.altzone / 3600.0
+# else:
+#     offsetHour = time.timezone / 3600.0
 
-hour = int(-offsetHour)
-minute = int(-offsetHour * 60 % 60)
+offsetHour = time.timezone / 3600.0
+hours = int(-offsetHour)
+minutes = int(-offsetHour * 60 % 60)
+delta = timedelta(hours=hours, minutes=minutes)
 
 
 def _convert(time):
-    if bool(re.match(r'[0-9]{1,2}:[0-9]{1,2}', time)):
-        time = list(map(int, time.split(':')))
-        time[1] += minute
-        time[0] += hour
-        if time[1] > 59:
-            time[1] -= 60
-            time[0] += 1
-        elif time[1] < 0:
-            time[1] += 60
-            time[0] -= 1
-        if time[0] < 0:
-            time[0] += 24
-        elif time[0] > 23:
-            time[0] -= 24
-        time = _fix(str(time[0])) + ":" + _fix(str(time[1]))
-    return time
-
+    try:
+        t = datetime.strptime(time, '%H:%M')
+        return (t+delta).strftime('%H:%M')
+    except ValueError as e:
+        return time
 
 def _fix(y):
         if len(y) == 1:
