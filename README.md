@@ -1,3 +1,5 @@
+<b> IMPORTANT: This application depends on livescores.com but it is no longer providing scores, so, for the time being, the livescore-cli doesn't work. :( <b> 
+
 <b>livescore-cli</b> - enjoy football scores live right from the linux terminal.
 
 ![Sample Run](http://i.imgur.com/yDR7Bxs.jpg)
