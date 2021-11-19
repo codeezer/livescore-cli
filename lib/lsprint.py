@@ -7,7 +7,6 @@
 """
 
 from . import lscolors as c
-import sys
 import os
 from . import tt
 from .URL import URL
@@ -28,8 +27,10 @@ def sendAlert(message, title=''):
 score_h = [0]*50
 score_a = [0]*50
 
-
 def scores(scores, key):
+    if not scores:
+        print("Somethig went wrong. Couldn't print scores. :(")
+        return
     global score_h, score_a
     try:
         lmax = lsprocess.get_longest_list(scores)
@@ -38,11 +39,11 @@ def scores(scores, key):
         print(e)
         return
 
-    total_width = sum(lmax) + 8
+    total_width = sum(lmax) + 12
     test = 3
 
     print_pattern('-', total_width, c.BLUE)
-    print('\t\t ' + c.TITLE + URL[key][0] + ' SCORES ' + c.END)
+    print(c.TITLE + '{} SCORES'.format(URL[key][0]).center(total_width, ' ') + c.END)
     print_pattern('-', total_width, c.BLUE)
 
     for position, each_row in enumerate(scores):
@@ -51,22 +52,21 @@ def scores(scores, key):
             date = each_row.strip()
             date_color = c.dateArray[test % 3]
             test += 1
-        elif len(each_row)==4:
+        else:
             # time conversion to local time
             val = each_row[0]
             if isinstance(each_row[0], list) is True:
                 val = each_row[0][0]
             time = tt._convert(val.strip())
 
-            home_team = each_row[1].strip()
+            home_team = each_row[1][0].strip()
             home_team_color = c.GREEN
-            away_team = each_row[3].strip()
+            away_team = each_row[1][2].strip()
             away_team_color = c.GREEN
 
             try:
-                _temp = each_row[2].strip().split()
-                home_team_score = int(_temp[0])
-                away_team_score = int(_temp[2])
+                home_team_score = int(each_row[1][1][0])
+                away_team_score = int(each_row[1][1][2])
 
                 middle_live = str(home_team_score) + ' - ' + str(away_team_score)
 
@@ -87,11 +87,11 @@ def scores(scores, key):
                     score_a[position] = away_team_score
 
             except:
-                middle_live = each_row[2].strip()
+                middle_live = ' '.join(each_row[1][1])
 
-            print(' ' + date_color + ''.join(date.ljust(lmax[0])) + ''.join(time.ljust(lmax[1] + 2))\
+            print(' ' + date_color + ''.join(date.ljust(lmax[0])) + ' ' + ''.join(time.ljust(lmax[1] + 2))\
                   + c.END + home_team_color + ''.join(home_team.ljust(lmax[2]+2)) + c.END\
-                  + ''.join(middle_live.ljust(lmax[3]+2)) + away_team_color \
+                  + ''.join(middle_live.ljust(lmax[3]+2)) + '  ' +  away_team_color \
                   + ''.join(away_team.ljust(lmax[4])) + c.END)
 
     print_pattern('-', total_width, c.BLUE)
@@ -99,10 +99,12 @@ def scores(scores, key):
 
 
 def table(tables, key):
+    if not tables:
+        print("Somethig went wrong. Couldn't print tables. :(")
+        return
     table = URL[key][0] + ' TABLE'
-    league_position = 0
-    _temp = lsprocess.get_longest_list([row[1] for row in tables])
-    longest_length = int(_temp[0])
+    lmax_list = lsprocess.get_longest_list_table(tables)
+    lmax = max(90, sum(lmax_list) + 55)
     ucl = 'Champions League';   ucl_color = c.ORANGE
     ucl_qual = 'Champions League qualification'
     ucq_color = c.BLUE
@@ -111,58 +113,60 @@ def table(tables, key):
     euq_color = c.CYAN
     rel = 'Relegation'; rel_color = c.RED
 
-    print_pattern('+', 75 + longest_length, c.BLUE)
+    print_pattern('+', lmax, c.BLUE)
     print('\t\t\t\t' + c.GREEN + table)
-    print_pattern('+', 75 + longest_length, c.BLUE)
+    print_pattern('+', lmax, c.BLUE)
 
-    print(' LP' + '\t' + ''.join('Team Name'.ljust(longest_length))\
+    print(' LP' + '\t' + ''.join('Team Name'.ljust(lmax_list[1]))\
           + '\t'+'GP' + '\t' + 'W' + '\t' + 'D' + '\t' + 'L' + '\t' + 'GF'\
           + '\t' + 'GA' + '\t' + 'GD' + '\t' + 'Pts')
 
-    print_pattern('-', 75 + longest_length, c.BLUE)
+    print_pattern('-', lmax, c.BLUE)
 
-    for first_row in tables[1::]:
-        league_position += 1
-        team_name = first_row[1]
-        games_played = first_row[2]
-        total_wins = first_row[3]
-        total_draws = first_row[4]
-        total_loses = first_row[5]
-        goals_for = first_row[6]
-        goals_against = first_row[7]
-        goal_difference = first_row[8]
-        total_points = first_row[9]
+    for each_row in tables[0][1]:
+        league_position = each_row[0][0]
+        team_name = each_row[1]
+        games_played = each_row[2]
+        total_wins = each_row[3]
+        total_draws = each_row[4]
+        total_loses = each_row[5]
+        goals_for = each_row[6]
+        goals_against = each_row[7]
+        goal_difference = each_row[8]
+        total_points = each_row[9]
 
         row_color = c.GREEN
-        if isinstance(first_row[0],list) is True:
-            if first_row[0][1] == ucl:
+        if isinstance(each_row[0], list) is True:
+            if each_row[0][1] == ucl:
                 row_color = ucl_color
-            elif first_row[0][1] == ucl_qual:
+            elif each_row[0][1] == ucl_qual:
                 row_color = ucq_color
-            elif first_row[0][1] == europa:
+            elif each_row[0][1] == europa:
                 row_color = eup_color
-            elif first_row[0][1] == europa_qual:
+            elif each_row[0][1] == europa_qual:
                 row_color = euq_color
-            elif first_row[0][1] == rel:
+            elif each_row[0][1] == rel:
                 row_color = rel_color
-
-        else:
-            pass
-
-        print(row_color + ' ' + str(league_position) + '\t' + ''.join(team_name.ljust(longest_length))\
+        
+        print(row_color + ' ' + str(league_position) + '\t' + ''.join(team_name.ljust(lmax_list[1]))\
               + '\t' + games_played + '\t' + total_wins + '\t' + total_draws + '\t' + total_loses\
               + '\t' + goals_for + '\t' + goals_against + '\t' + goal_difference + '\t' + total_points + c.END)
 
-    print_pattern('+', 75+longest_length, c.BLUE)
+    print_pattern('+', lmax, c.BLUE)
     print(c.GRAY + ' LP = League Position \tGP = Games Played\tW = Wins \tD = Draws \tL = Lose \n GF = Goals For\t\tGA = Goal Against \tGD = Goal Differences')
-    print_pattern('-', 75 + longest_length, c.GREEN)
+    print_pattern('-', lmax, c.GREEN)
     print(' ' + ucl_color + ucl + '\t' + ucq_color + ucl_qual + '\t'\
-        + eup_color + europa + '\n ' + euq_color + europa_qual + '\t' + rel_color + rel)
-    print_pattern('+', 75 + longest_length, c.BLUE)
+        + eup_color + europa + '\n ' + euq_color + europa_qual + '\t' + rel_color + rel + c.END)
+    print_pattern('+', lmax, c.BLUE)
+    print(c.CYAN + '\n'.join([f' {t}' for t in tables[-1]])) if isinstance(tables[-1], list) else print(c.CYAN + f' {tables[-1]}')
+    print_pattern('-', lmax, c.END)
 
 
-# characterToprint #no of character to print
+# character_to_print
+# no of character to print
 def print_pattern(c2p, n, color):
-    for i in range(n):
+    for _ in range(n):
         print(color + c2p, end="")
     print(c.END)
+
+

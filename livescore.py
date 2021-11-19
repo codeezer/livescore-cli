@@ -7,6 +7,7 @@ from lib import lscolors as c
 from lib import cli
 from lib.URL import URL
 from lib import lsprint
+from lib import lsprocess
 from lib import lsweb
 from datetime import datetime
 
@@ -21,26 +22,19 @@ def main():
 
     while True:
         try:
-            os.system('clear')
+            lsprocess.clear_screen()
             for k in cli.args.League:
                 # Code to fetch data from URL[k]
-                ping_test = 'www.google.com'
-                print(' ... Fetching information from www.livescore.com' + ' ... ')
-                if lsweb.is_connected(ping_test) is True:
+                print('...Fetching information from www.livescores.com' + '...')
+                
+                if lsweb.is_connected() is True:
                     if b_table:
                         print("Displaying Table for {}".format(URL[k][0]))
                         lsprint.table(lsweb.get_table(URL[k][1]), k)
 
                     if b_score:
-                        url = URL[k][1]
-                        if (k == 'ligue1'):
-                            year = datetime.now().year
-                            month = datetime.now().month
-                            if month > 7:
-                                year += 1
-                            url = url[:-1] + "-" + str(year) + "/"
                         print("Displaying Scores for {}".format(URL[k][0]))
-                        lsprint.scores(lsweb.get_score(url), k)
+                        lsprint.scores(lsweb.get_score(URL[k][1]), k)
 
                     if b_scorers:
                         print("Displaying Top Scorers for"

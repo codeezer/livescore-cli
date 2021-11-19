@@ -1,12 +1,26 @@
 from bs4 import BeautifulSoup
 import requests
-import os
 import socket
+import re
 
 
-def extract_tag(tree, tag, css_class):
-    return [t.extract() for t in tree.findAll(tag, class_=css_class)]
+# function to test the internet connection if active or not
+def is_connected(remote_server='www.google.com'):
+    try:
+        host = socket.gethostbyname(remote_server)
+        socket.create_connection((host, 80), 2)
+        return True
+    except:
+        return False
 
+def extract_tag(tree, tag, css_class=None, css_id=None):
+    if css_class:
+        return [t.extract() for t in tree.findAll(tag, class_=css_class)]
+    else:
+        return [t.extract() for t in tree.findAll(tag, id=css_id)]
+
+def extract_tag_without_class_or_id(tree, tag):
+    return [t.extract() for t in tree.find_all() if (t.name == tag and not(t.has_attr('class') or t.has_attr('id')))]
 
 def parse_tree(subtree):
     subtree = [t for t in subtree if t != ' ']
@@ -21,58 +35,39 @@ def parse_tree(subtree):
         subtree = subtree[0]
     return subtree
 
-
-# function to test the internet connection if active or not
-def is_connected(REMOTE_SERVER):
-    try:
-        # see if we can resolve the host name -- tells us if there is
-        # a DNS listening
-        host = socket.gethostbyname(REMOTE_SERVER)
-        # connect to the host -- tells us if the host is actually
-        # reachable
-        s = socket.create_connection((host, 80), 2)
-        return True
-    except:
-        return False
-
-
 def get_content_ts(url):
-    # Request html from the site using http get
     response = requests.get(url)
+    if not response.ok:
+        return False
     # Parse the response text using html parser and BeautifulSoup library
-    soup = BeautifulSoup(response.text, 'html.parser')
+    soup = BeautifulSoup(response.text, 'html.parser')    
     # Select only the require content subtree from the website
-    [content] = soup.select('body > div.wrapper > div.content')
-    return content
-
+    ts = soup.find('div', id='match-rows__root')
+    # extract unnecessary tags
+    extract_tag(ts, 'div', css_class='FilterBar_filterBarWrapper__20Mg4')
+    extract_tag_without_class_or_id(ts, 'span')
+    return ts
 
 def get_score(url):
     content = get_content_ts(url)
-
+    if not content:
+        return False
     # some not required tags
-    extract_tag(content, 'div', 'cal-wrap')
-    extract_tag(content, 'div', 'star')
-    extract_tag(content, 'div', 'row mt4 bb bt')
-    extract_tag(content, 'div', 'cal clear')
-
+    extract_tag(content, 'div', css_id='league-table')
     score = parse_tree(content)
-    score[0] = score[0][1]
-    score = score[:-1]
-    score.pop()
     return score
-
 
 def get_table(url):
     content = get_content_ts(url)
+    if not content:
+        return False
     # The extracted table is removed from the original content.
     # So the content now only contains the score
-    table = extract_tag(content, 'div', 'ltable')
+    extract_tag(content, 'div', css_id=re.compile('.*league-header'))
+    extract_tag(content, 'div', css_class=re.compile('.*tabs.*'))
+    table = extract_tag(content, 'div', css_id='league-table')
     table = parse_tree(table)
-
     return table
-
-
-
 
 # main webscrapping code which take the url to scrap and returns the rows of data
 def get_livescore(url, scrapping_class):

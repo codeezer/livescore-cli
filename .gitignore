@@ -10,3 +10,4 @@ temp.py
 /lib/clear
 *.swp
 guiscore.py
+.DS_Store

@@ -40,7 +40,6 @@ def get_news(uri=URL.goal_us, sclass='news_box2'):
         print("(Last Updated at "+lscolors.ORANGE+datetime+lscolors.END+')')
         return read['news']
 
-
 def print_news(news):
     width = lsprocess.find_longest_no(news)
     news_count = 1
