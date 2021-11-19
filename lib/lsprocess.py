@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import enum
 import os
 
 '''
@@ -54,21 +53,3 @@ def get_longest_list_table(arr):
                         list_to_return[l] = len(row_elem)
     
     return list_to_return
-
-# def get_longest_list(array):
-#     list2return = [0]*len(array[0])
-#     for row in array:
-#         row_length = len(row)
-#         if isinstance(row, list) is False:
-#             if row_length > list2return[0]:
-#                 list2return[0] = row_length
-#         else:
-#             for i in range(row_length):
-#                 val = row[i]
-#                 if isinstance(row[i], list) is True:
-#                     val = row[i][0]
-#                 row_row_length = len(val.strip())
-#                 if row_row_length > list2return[i+1]:
-#                     list2return[i+1] = row_row_length
-
-#     return list2return

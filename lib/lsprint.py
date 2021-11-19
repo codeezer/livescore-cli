@@ -11,15 +11,19 @@ import os
 from . import tt
 from .URL import URL
 from . import lsprocess
+import sys
 
 
 def sendAlert(message, title=''):
     # path to icon png file
-    icon_path = '~/.livescore-cli/logo.png'
-    icon_path = '/usr/share/icons/logo.png'
-    # bash command to send notification
-    bash_command = """osascript -e 'display notification "{}" with title "{}"'""".format(message, title)
-    bash_command = 'notify-send -i '+icon_path+' "'+title+'" "'+message+'"'
+    if sys.platform == 'darwin':
+        icon_path = '~/.livescore-cli/logo.png'
+        bash_command = f"""osascript -e 'display notification "{message}" with title "{title}"'"""
+    elif sys.platform.startswith('linux'):
+        icon_path = '/usr/share/icons/logo.png'
+        bash_command = f'notify-send -i {icon_path} "{title} "{message}"'
+    else:
+        raise OSError('OS Not Supported.')
     os.system(bash_command + ' > /dev/null 2>&1')
     return
 
