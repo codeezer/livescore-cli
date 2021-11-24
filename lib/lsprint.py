@@ -14,14 +14,14 @@ from . import lsprocess
 import sys
 
 
-def sendAlert(message, title=''):
+def send_alert(message, title=''):
     # path to icon png file
-    if sys.platform == 'darwin':
-        icon_path = '~/.livescore-cli/logo.png'
-        bash_command = f"""osascript -e 'display notification "{message}" with title "{title}"'"""
-    elif sys.platform.startswith('linux'):
+    if sys.platform.startswith('linux'):
         icon_path = '/usr/share/icons/logo.png'
-        bash_command = f'notify-send -i {icon_path} "{title} "{message}"'
+        bash_command = 'notify-send -i {} "{} "{}"'.format(icon_path, title, message)
+    elif sys.platform == 'darwin':
+        icon_path = '~/.livescore-cli/logo.png'
+        bash_command = """osascript -e 'display notification "{}" with title "{}"'""".format(message, title)
     else:
         raise OSError('OS Not Supported.')
     os.system(bash_command + ' > /dev/null 2>&1')
@@ -73,7 +73,6 @@ def scores(scores, key):
                 away_team_score = int(each_row[1][1][2])
 
                 middle_live = str(home_team_score) + ' - ' + str(away_team_score)
-
                 if home_team_score > away_team_score:
                     away_team_color = c.RED
                     home_team_color = c.ORANGE
@@ -83,16 +82,14 @@ def scores(scores, key):
                 else:
                     away_team_color = c.CYAN
                     home_team_color = c.CYAN
-
                 # if previous score is not equal to present score send notification to user
                 if home_team_score != score_h[position] or away_team_score != score_a[position]:
-                    sendAlert(time + '   ' + home_team + '  ' + middle_live + '  ' + away_team, key)
+                    send_alert('{}   {}  {}  {}'.format(time, home_team, middle_live, away_team).replace("'", ""), key)
                     score_h[position] = home_team_score
                     score_a[position] = away_team_score
 
             except:
                 middle_live = ' '.join(each_row[1][1])
-
             print(' ' + date_color + ''.join(date.ljust(lmax[0])) + ' ' + ''.join(time.ljust(lmax[1] + 2))\
                   + c.END + home_team_color + ''.join(home_team.ljust(lmax[2]+2)) + c.END\
                   + ''.join(middle_live.ljust(lmax[3]+2)) + '  ' +  away_team_color \
@@ -162,7 +159,7 @@ def table(tables, key):
     print(' ' + ucl_color + ucl + '\t' + ucq_color + ucl_qual + '\t'\
         + eup_color + europa + '\n ' + euq_color + europa_qual + '\t' + rel_color + rel + c.END)
     print_pattern('+', lmax, c.BLUE)
-    print(c.CYAN + '\n'.join([f' {t}' for t in tables[-1]])) if isinstance(tables[-1], list) else print(c.CYAN + f' {tables[-1]}')
+    print(c.CYAN + '\n'.join([' {}'.format(t) for t in tables[-1]])) if isinstance(tables[-1], list) else print(c.CYAN + ' {}'.format(tables[-1]))
     print_pattern('-', lmax, c.END)
 
 
