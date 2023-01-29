@@ -1,8 +1,13 @@
 #!/bin/sh
 
-sudo cp -r ../livescore-cli /opt/
-sudo cp logo.png /usr/share/icons/
-sudo ln -sf /opt/livescore-cli/livescore.py /usr/local/bin/livescore
+echo "installing dependencies..."
+if pip3 install bs4 requests; then
+    echo "livescore-cli; dependencies installed."
+else
+    echo "livescore-cli; failed to install dependencies."
+fi
 
-pip3 install bs4 requests
-echo "livescore-cli; Setup Completed."
+echo "livescore-cli; copying required files."
+rsync -aqv --exclude .git . ~/.livescore-cli
+sudo ln -sf ~/.livescore-cli/livescore.py /usr/local/bin/livescore
+echo "livescore-cli; setup completed."

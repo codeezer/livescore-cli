@@ -8,8 +8,9 @@
 '''
 
 import argparse
-from . import URL
-supported_leagues = list(URL.URL.keys())
+from .urls import details
+
+supported_competition = list(details.get('competition').keys())
 parser = argparse.ArgumentParser(description="A simple livescore tool.",
                                  epilog="Sample uses:\n "
                                  "python livescore.py --table bpl laliga")
@@ -29,12 +30,12 @@ parser.add_argument("-s", "--score",
 parser.add_argument("-ts", "--scorers",
                     help="Display the Top Scorers",
                     action="store_true")
-parser.add_argument("League",
-                    help="The league for which the details have to be displayed."
-                    " Allowed values are ["+", ".join(supported_leagues)+"]. "
+parser.add_argument("competition",
+                    help="The competition for which the details have to be displayed."
+                    " Allowed values are ["+", ".join(supported_competition)+"]. "
                     "For multiple choices, separate each league name by a space.",
-                    choices=supported_leagues, nargs='+',
-                    type=str.lower, metavar='LEAGUE')
+                    choices=supported_competition, nargs='+',
+                    type=str.lower, metavar='COMPETITION')
 
 args = parser.parse_args()
 if args.verbose:

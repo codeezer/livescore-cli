@@ -1,77 +1,113 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import requests, time, socket
 from bs4 import BeautifulSoup
-import requests
-import socket
-import re
+from collections import defaultdict
+from .urls import base_url, details
 
 
-# function to test the internet connection if active or not
-def is_connected(remote_server='www.google.com'):
+def is_connected(server='www.google.com'):
     try:
-        host = socket.gethostbyname(remote_server)
+        host = socket.gethostbyname(server)
         socket.create_connection((host, 80), 2)
         return True
     except:
         return False
 
-def extract_tag(tree, tag, css_class=None, css_id=None):
-    if css_class:
-        return [t.extract() for t in tree.findAll(tag, class_=css_class)]
-    else:
-        return [t.extract() for t in tree.findAll(tag, id=css_id)]
 
-def extract_tag_without_class_or_id(tree, tag):
-    return [t.extract() for t in tree.find_all() if (t.name == tag and not(t.has_attr('class') or t.has_attr('id')))]
+def get_tz_offset():
+    offset = time.timezone if (time.localtime().tm_isdst == 0) else time.altzone
+    return offset / 60 / 60 * -1
 
-def parse_tree(subtree):
-    subtree = [t for t in subtree if t != ' ']
-    for i in range(len(subtree)):
-        name = getattr(subtree[i], "name", None)
-        if name is not None:
-            subtree[i] = parse_tree(subtree[i])
-    subtree = [t
-               for t in subtree
-               if t != ' ' and t != '' and t is not None and t != []]
-    if len(subtree) == 1:
-        subtree = subtree[0]
-    return subtree
 
-def get_content_ts(url):
-    response = requests.get(url)
-    if not response.ok:
-        return False
-    # Parse the response text using html parser and BeautifulSoup library
-    soup = BeautifulSoup(response.text, 'html.parser')    
-    # Select only the require content subtree from the website
-    ts = soup.find('div', id='match-rows__root')
-    # extract unnecessary tags
-    extract_tag(ts, 'div', css_class='FilterBar_filterBarWrapper__20Mg4')
-    extract_tag_without_class_or_id(ts, 'span')
-    return ts
+def get_livescores_url(name, type):
+    tz_offset = get_tz_offset()
+    url = details.get(type).get(name).get('url') + f'/?tz={tz_offset}'
+    return url
 
-def get_score(url):
-    content = get_content_ts(url)
-    if not content:
-        return False
-    # some not required tags
-    extract_tag(content, 'div', css_id='league-table')
-    score = parse_tree(content)
-    return score
 
-def get_table(url):
-    content = get_content_ts(url)
-    if not content:
-        return False
-    # The extracted table is removed from the original content.
-    # So the content now only contains the score
-    extract_tag(content, 'div', css_id=re.compile('.*league-header'))
-    extract_tag(content, 'div', css_class=re.compile('.*tabs.*'))
-    table = extract_tag(content, 'div', css_id='league-table')
-    table = parse_tree(table)
-    return table
+def get_soup(name='bpl', event_type='competition'):
+    url = get_livescores_url(name, event_type)
+    html = requests.get(url).text
+    soup = BeautifulSoup(html, 'html.parser')
+    return soup
 
-# main webscrapping code which take the url to scrap and returns the rows of data
-def get_livescore(url, scrapping_class):
-    r = requests.get(url)
-    soup = BeautifulSoup(r.text, 'html.parser')
-    _rows = soup.findAll(class_=scrapping_class)
-    return _rows
+
+def get_match_id(url):
+    res = 0
+    for e in url.split('/'):
+        if e.isdigit():
+            res = int(e.strip())
+    return res
+
+
+'''
+    returns a dict of games;
+    key: date, value: list of match
+
+
+    games = {
+        'December 30, 2022':
+        [
+            {
+                'match_status': 'FT',
+                'home_team': 'Chelsea',
+                'away_team': 'Liverpool',
+                'home_score': '0',
+                'away_score': '0',
+            }
+        ]
+    }
+'''
+
+def parse_games(soup):
+    sp = soup.find('div', 'xb').find_all('div', recursive=False)
+
+    games = defaultdict(list)
+    date = ''
+
+    for line in sp:
+        if line.get('class') == ['bb']:
+            date = line.find('span', 'cb').text.strip()
+        else:
+            spp = line.find_all(lambda tag: tag.name == 'a' and tag.get('class') == ['qd'])
+            spp = [k for k in spp if k.find('span', 'Kg') is not None]
+            match = {}
+
+            for l in spp:
+                match_details_url = l.get('href')
+                match_id = get_match_id(match_details_url)
+
+                mst = l.find('span', attrs={'data-testid': f'match_row_time-status_or_time_{match_id}'}).text
+                ht = l.find('span', attrs={'data-testid': f'football_match_row-home_team_{match_id}'}).text
+                hts = l.find('span', attrs={'data-testid': f'football_match_row-home_score_{match_id}'}).text
+                at = l.find('span', attrs={'data-testid': f'football_match_row-away_team_{match_id}'}).text
+                ats = l.find('span', attrs={'data-testid': f'football_match_row-away_score_{match_id}'}).text
+
+                match = {
+                    'match_status': mst,
+                    'home_team': ht,
+                    'home_score': int(hts) if hts.isdigit() else hts,
+                    'away_team': at,
+                    'away_score': int(ats) if ats.isdigit() else ats,
+                    'match_details_url': base_url + match_details_url
+                }
+            games[date].append(match) if date and match else None
+    return games
+
+
+def get_games(name='bpl', event_type='competition'):
+    soup = get_soup(name, event_type)
+    games = parse_games(soup)
+    return games
+
+
+
+def parse_table(soup):
+    return 'TABLE'
+
+
+def get_table():
+    soup = 'soup'
+    return parse_table(soup)
