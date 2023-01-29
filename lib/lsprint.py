@@ -66,14 +66,15 @@ def get_match_line(match, lmaxd, c):
 
 
 def send_alert(prev, curr):
-    phts, pats = prev.get('home_score'), prev.get('away_score')
-    cms = curr.get("match_status") 
-    cht, chts = curr.get("home_team"), curr.get("home_score")
-    cat, cats = curr.get("away_team"), curr.get("away_score")
+    if prev:
+        phts, pats = prev.get('home_score'), prev.get('away_score')
+        cms = curr.get("match_status") 
+        cht, chts = curr.get("home_team"), curr.get("home_score")
+        cat, cats = curr.get("away_team"), curr.get("away_score")
 
-    if prev and (phts != chts or pats != cats):
-        text = f'{cms}  {cht} {chts} - {cats} {cat}'
-        send_notification(text)
+        if (phts != chts or pats != cats):
+            text = f'{cms}  {cht} {chts} - {cats} {cat}'
+            send_notification(text)
 
 
 def display_games(games, title='No Title', prev_data=None):

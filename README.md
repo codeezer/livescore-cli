@@ -30,10 +30,6 @@ livescore-cli is a small commandline program to watch scores, tables and fixture
         2. Game Time in Local Time 
         3. League Table with division
 
-## Soccer News *
-
-![alt tag](http://i.imgur.com/P6d8Qgz.jpg)
-
 ## USAGE
 
     usage: livescore.py [-h] [-v] [-t] [-s] [-ts] LEAGUE [LEAGUE ...]
