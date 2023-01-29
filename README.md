@@ -15,9 +15,7 @@
   
     cd livescore-cli
     
-    ./setup (linux)
-
-    ./mac_setup (mac)
+    ./setup (unix)
     
     livescore -t bpl 
 
@@ -31,8 +29,6 @@ livescore-cli is a small commandline program to watch scores, tables and fixture
         1. Real Time Livescore
         2. Game Time in Local Time 
         3. League Table with division
-        4. Top Scorer of each League
-        5. Live Soccer News
 
 ## Soccer News *
 
@@ -60,14 +56,5 @@ livescore-cli is a small commandline program to watch scores, tables and fixture
     Sample uses: python livescore.py --table bpl laliga
                  python livescore.py -s bpl
                  python livescore.py -t -s -ts bpl laliga seriea
-
-## UPCOMING FEATURES
-
-        * Score with Scorers (v)
-        * Player Booking Details (v)
-        * Available Lineups (v)
-        * Available Statistics (v)
-        * Football History Details
-        * Fantasy Points Viewer
 
 For Comments and Suggestions: ezerames@gmail.com
