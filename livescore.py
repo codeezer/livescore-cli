@@ -1,60 +1,49 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-import os
+from lib.lsweb import get_games, get_table, is_connected
+from lib.lsprint import display_games, display_table, clear_screen
+from lib.cli import args
+from lib.urls import details, base_url
 import time
-from lib import lscolors as c
-from lib import cli
-from lib.URL import URL
-from lib import lsprint
-from lib import lsprocess
-from lib import lsweb
-from datetime import datetime
 
 
 def main():
-    b_table = bool(cli.args.table)
-    b_score = bool(cli.args.score)
-    b_scorers = bool(cli.args.scorers)
+    b_score = bool(args.score)
+    b_table = bool(args.table)
 
-    if not b_table and not b_score and not b_scorers:
-        b_score = True
-
+    prev_data = {}
     while True:
         try:
-            lsprocess.clear_screen()
-            for k in cli.args.League:
-                # Code to fetch data from URL[k]
-                print('...Fetching information from www.livescores.com' + '...')
-                
-                if lsweb.is_connected() is True:
-                    if b_table:
-                        print("Displaying Table for {}".format(URL[k][0]))
-                        lsprint.table(lsweb.get_table(URL[k][1]), k)
-
+            for cname in args.competition:
+                if is_connected('www.livescores.com'):
+                    event_type = 'competition'
+                    alert = 0
+                    title = details.get(event_type).get(cname).get('title')
+                    
                     if b_score:
-                        print("Displaying Scores for {}".format(URL[k][0]))
-                        lsprint.scores(lsweb.get_score(URL[k][1]), k)
-
-                    if b_scorers:
-                        print("Displaying Top Scorers for"
-                              " {}".format(URL[k][0]))
-                        print('Working on it')
-
+                        games = get_games(cname, event_type)
+                        if (games != prev_data):
+                            alert = 1 if prev_data else 2
+                            print(f'displayig scores for {title}')
+                            clear_screen()
+                            display_games(games, title, prev_data)
+                        prev_data = games
+                    
+                    if b_table:
+                        table = get_table(cname, event_type)
+                        print(f'displaying table for {title}')
+                        clear_screen()
+                        display_table(table, title)
+            
                 else:
-                    print(c.fill[3] + "Check Your Internet Connection ,"
-                          " It looks like you're out of internet." + c.END)
-
-                time.sleep(3)
-
-            b_table = False
-            b_scorers = False
-            if not bool(b_score):
-                break
-            time.sleep(7)
+                    print(f"couldn't connect to the livescore website. check your internet connection.")
+            
+            time.sleep(1)
 
         except KeyboardInterrupt:
             break
+
 
 if __name__ == '__main__':
     main()
