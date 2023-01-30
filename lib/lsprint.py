@@ -9,7 +9,7 @@ import os, sys
 def send_notification(text, title=''):
     icon = '~/.livescore-cli/assets/logo.png'
     if sys.platform.startswith('linux'):
-        shell_cmd = f'notify-send -i {icon} "{title} "{text}"'
+        shell_cmd = f'notify-send -i {icon} "{title}" "{text}"'
     elif sys.platform == 'darwin':
         shell_cmd = f"""osascript -e 'display notification "{text}" with title "{title}"'"""
     else:
@@ -36,6 +36,15 @@ def get_lmaxd(ld: list) -> dict:
             if l > res[k]:
                 res[k] = l
     res.pop('match_details_url')
+    return res
+
+
+def get_lmaxl(ld):
+    res = [0] * len(ld[0])
+    i = 0
+    for e1 in ld:
+        for i, e2 in enumerate(e1):
+            res[i] = max(res[i], len(e2))
     return res
 
 
@@ -67,17 +76,26 @@ def get_match_line(match, lmaxd, c):
 
 def send_alert(prev, curr):
     if prev:
+        pms = prev.get('match_status')
         phts, pats = prev.get('home_score'), prev.get('away_score')
         cms = curr.get("match_status") 
         cht, chts = curr.get("home_team"), curr.get("home_score")
         cat, cats = curr.get("away_team"), curr.get("away_score")
 
+        mtext = f'{cms}  {cht} {chts} - {cats} {cat}'
+
         if (phts != chts or pats != cats):
-            text = f'{cms}  {cht} {chts} - {cats} {cat}'
-            send_notification(text)
+            send_notification(mtext, "GOAL!")
+        
+        if (pms != "1'" and cms == "1'"):
+            send_notification(mtext, "Match Started!")
+        
+        if (pms != "FT" and cms == "FT"):
+            send_notification(mtext, "Match Ended!")
 
 
 def display_games(games, title='No Title', prev_data=None):
+    title = f'{title} SCORES'
     matches = [match for match_day in games.values() for match in match_day]
     lmax_dict = get_lmaxd(matches)
     lmax_dict['date'] = max([len(k) for k in games.keys()])
@@ -104,4 +122,71 @@ def display_games(games, title='No Title', prev_data=None):
 
 
 def display_table(table, title='No Title'):
-    print(table)    
+    title = f'{title} TABLE'
+    lmax_list = get_lmaxl(table)
+    lmax_list.pop(1)
+    lmax = sum(lmax_list) + (len(lmax_list)-1) * 3 + 2
+
+    head_map = {
+        'LP': 'League Position',
+        'GP': 'Games Played',
+        'W': 'Win',
+        'D': 'Draw',
+        'L': 'Lose',
+        'GF': 'Goals For',
+        'GA': 'Goals Against',
+        'GD': 'Goal Difference',
+        'Pts': 'Points'                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+    }
+
+    prom = {p for p in [e[1] for e in table] if p}
+    prom_map = {}
+    k = 0
+    for p in prom:
+        if p == 'Champions League':
+            prom_map[p] = c.GREEN
+        elif p == 'Relegation':
+            prom_map[p] = c.RED
+        else:
+            prom_map[p] = c.STATS[k]
+            k += 1
+
+    print_pattern('+', lmax, c.BLUE)
+    print(title.center(lmax))
+    print_pattern('+', lmax, c.BLUE)
+
+    line = ''
+    for i, row in enumerate(table):
+        if i == 1:
+            print_pattern('-', lmax, c.RESET)
+        prom = row.pop(1)
+        color = prom_map.get(prom) if prom else c.RESET
+        line = f' {"   ".join([e.ljust(lmax_list[j]) for j, e in enumerate(row)])}'
+        print(color + line)
+
+    print_pattern('+', lmax, c.BLUE)
+
+    tlen = 0
+    text = ''
+    for k, v in head_map.items():
+        temp = f' {k} = {v}   '
+        if tlen + len(temp) > lmax:
+            text += '\n'
+            tlen = 0
+        text += temp
+        tlen += len(temp)
+    print(text)
+
+    print_pattern('-', lmax, c.RESET)
+
+    tlen = 0
+    text = ''
+    for k, v in prom_map.items():
+        temp = f' {v}{k}' + c.RESET
+        if tlen + len(temp) > lmax:
+            text += '\n'
+            tlen = 0
+        text += f'{temp}\t'
+        tlen += len(temp)
+    print(text)
+    print_pattern('+', lmax, c.BLUE)

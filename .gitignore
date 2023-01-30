@@ -11,3 +11,5 @@ temp.py
 *.swp
 guiscore.py
 .DS_Store
+*.ipynb
+temp.html

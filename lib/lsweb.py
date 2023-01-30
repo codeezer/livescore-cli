@@ -103,11 +103,33 @@ def get_games(name='bpl', event_type='competition'):
     return games
 
 
+'''
+    returns a list of rows, which is a list of table elements;
 
+    table = [['LP', '', 'Team Name', 'GP', 'W', 'D', 'L', 'GF', 'GA', 'GD', 'Pts']
+    ['1', 'Champions League', 'Arsenal', '19', '16', '2', '1', '45', '16', '29', '50']
+    ['2', 'Champions League', 'Manchester City', '20', '14', '3', '3', '53', '20', '33', '45']
+    ['3', 'Champions League', 'Newcastle United', '20', '10', '9', '1', '33', '11', '22', '39']
+    ...]
+
+'''
 def parse_table(soup):
-    return 'TABLE'
+    lt = soup.find('div', attrs={'data-testid': 'league_table-container'})
+    body = lt.find('tbody')
+    
+    header = ['LP', '', 'Team Name', 'GP', 'W', 'D', 'L', 'GF', 'GA', 'GD', 'Pts']
+    table = []
+    table.append(header)
+    for l in body.find_all('tr'):
+        temp = l.find_all(text=True)
+        if not l.find('span', attrs={'class': 'wj'}):
+            temp.insert(1, '')
+        table.append(temp)
+    
+    return table
 
 
-def get_table():
-    soup = 'soup'
-    return parse_table(soup)
+def get_table(name, event_type='competition'):
+    soup = get_soup(name, event_type)
+    table = parse_table(soup)
+    return table

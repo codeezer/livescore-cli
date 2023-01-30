@@ -18,14 +18,12 @@ def main():
             for cname in args.competition:
                 if is_connected('www.livescores.com'):
                     event_type = 'competition'
-                    alert = 0
                     title = details.get(event_type).get(cname).get('title')
                     
                     if b_score:
                         games = get_games(cname, event_type)
                         if (games != prev_data):
-                            alert = 1 if prev_data else 2
-                            print(f'displayig scores for {title}')
+                            print(f'displaying scores for {title}')
                             clear_screen()
                             display_games(games, title, prev_data)
                         prev_data = games
@@ -35,11 +33,14 @@ def main():
                         print(f'displaying table for {title}')
                         clear_screen()
                         display_table(table, title)
-            
+                
                 else:
                     print(f"couldn't connect to the livescore website. check your internet connection.")
             
-            time.sleep(1)
+            time.sleep(2)
+        
+            if (not b_score):
+                break
 
         except KeyboardInterrupt:
             break

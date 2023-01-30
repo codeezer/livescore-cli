@@ -27,25 +27,25 @@ details = {
             "title": "Serie A",
             "country": "Italy",
             "description": "",
-            "url": f'{base_url}/football/italy/seriea'
+            "url": f'{base_url}/football/italy/serie-a'
         },
         "ligue1": {
             "title": "Ligue 1",
             "country": "France",
             "description": "",
-            "url": f'{base_url}/football/france/ligue1'
+            "url": f'{base_url}/football/france/ligue-1'
         },
         "ucl": {
             "title": "UEFA Champions League",
-            "country": "England",
+            "country": "",
             "description": "",
-            "url": f'{base_url}/football/england/ucl'
+            "url": f'{base_url}/football/champions-league'
         },
         "uel": {
             "title": "UEFA Europa League",
-            "country": "England",
+            "country": "",
             "description": "",
-            "url": f'{base_url}/football/england/uel'
+            "url": f'{base_url}/football/europa-league'
         }
     }
 }

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "installing dependencies..."
+echo "livescore-cli; installing dependencies..."
 if pip3 install bs4 requests; then
     echo "livescore-cli; dependencies installed."
 else
