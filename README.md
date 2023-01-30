@@ -49,8 +49,7 @@ livescore-cli is a small commandline program to watch scores, tables and fixture
       -s, --score     Display the Score
       -ts, --scorers  Display the Top Scorers
     
-    Sample uses: python livescore.py --table bpl laliga
-                 python livescore.py -s bpl
-                 python livescore.py -t -s -ts bpl laliga seriea
+    Sample uses: python livescore.py -s bpl
+                 python livescore.py -t laliga
 
 For Comments and Suggestions: ezerames@gmail.com
