@@ -39,7 +39,7 @@ livescore-cli is a small commandline program to watch scores, tables and fixture
     positional arguments:
       LEAGUE          The league for which the details have to be displayed.
                                    Allowed values are [bundesliga, ligue1, seriea, bpl,
-                                   portugal, laliga]. For multiple choices, separate each
+                                   portugal, laliga, FA cup, EFL Cup, Coppa Italia]. For multiple choices, separate each
                                    league name by a space.
 
     optional arguments:
