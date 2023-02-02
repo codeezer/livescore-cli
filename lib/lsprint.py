@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
+from bullet import Bullet
+
 from collections import defaultdict
 from . import lscolors as c
-import os, sys
+import os, sys, re
+from .lsweb import get_lineups
 
 
 def send_notification(text, title=''):
@@ -16,6 +19,27 @@ def send_notification(text, title=''):
         raise OSError('OS Not Supported.')
     os.system(shell_cmd + ' > /dev/null 2>&1')
     return
+
+
+
+def send_alert(prev, curr):
+    if prev:
+        pms = prev.get('match_status')
+        phts, pats = prev.get('home_score'), prev.get('away_score')
+        cms = curr.get("match_status") 
+        cht, chts = curr.get("home_team"), curr.get("home_score")
+        cat, cats = curr.get("away_team"), curr.get("away_score")
+
+        mtext = f'{cms}  {cht} {chts} - {cats} {cat}'
+
+        if (phts != chts or pats != cats):
+            send_notification(mtext, "GOAL!")
+        
+        if (pms != "1'" and cms == "1'"):
+            send_notification(mtext, "Match Started!")
+        
+        if (pms != "FT" and cms == "FT"):
+            send_notification(mtext, "Match Ended!")
 
 
 def clear_screen():
@@ -69,42 +93,19 @@ def get_match_line(match, lmaxd, c):
         temp = ''.join(temp.ljust(lmaxd.get(element))) if lmaxd.get(element) else temp
         line += temp
         line += ' '
+
     line.strip()
     line = eval(f'f"{line}"')
     return line
 
 
-def send_alert(prev, curr):
-    if prev:
-        pms = prev.get('match_status')
-        phts, pats = prev.get('home_score'), prev.get('away_score')
-        cms = curr.get("match_status") 
-        cht, chts = curr.get("home_team"), curr.get("home_score")
-        cat, cats = curr.get("away_team"), curr.get("away_score")
-
-        mtext = f'{cms}  {cht} {chts} - {cats} {cat}'
-
-        if (phts != chts or pats != cats):
-            send_notification(mtext, "GOAL!")
-        
-        if (pms != "1'" and cms == "1'"):
-            send_notification(mtext, "Match Started!")
-        
-        if (pms != "FT" and cms == "FT"):
-            send_notification(mtext, "Match Ended!")
-
-
-def display_games(games, title='No Title', prev_data=None):
-    title = f'{title} SCORES'
+def get_game_lines(games, prev_data):
     matches = [match for match_day in games.values() for match in match_day]
     lmax_dict = get_lmaxd(matches)
     lmax_dict['date'] = max([len(k) for k in games.keys()])
-    lmax = sum(lmax_dict.values())
     
-    print_pattern('-', lmax+14, c.RESET)
-    print(title.center(lmax+14))
-    print_pattern('-', lmax+14, c.RESET)
-
+    lines = []
+    detail_urls = []
     for i, (day, match_day) in enumerate(games.items()):
         prev_matchday = prev_data.get(day) if prev_data else None
         
@@ -115,10 +116,94 @@ def display_games(games, title='No Title', prev_data=None):
             c.STATUS = c.STATS[i%len(c.STATS)]
             line = get_match_line(match, lmax_dict, c)
             match.pop('date')
-            print(line)
+            lines.append(line)
+            detail_urls.append(match.get('match_details_url'))
+    
+    return lines, detail_urls, lmax_dict
+
+
+def display_games(games, title='No Title', prev_data=None):
+    title = f'{title} SCORES'
+    lines, detail_urls, lmax_dict = get_game_lines(games, prev_data)
+    lmax = sum(lmax_dict.values())
     
     print_pattern('-', lmax+14, c.RESET)
+    print(title.center(lmax+14))
     print_pattern('-', lmax+14, c.RESET)
+
+    menu = Bullet(choices=lines)
+    selection = menu.launch()
+    index = lines.index(selection)
+    md_url = detail_urls[index]
+
+    # clear_screen()
+    # show_md_options(md_url, re.sub('(?<= ) ', '', selection))
+    # print_pattern('-', lmax+14, c.RESET)
+    # print_pattern('-', lmax+14, c.RESET)
+
+
+def show_md_options(md_url, title='No Title'):
+    lmax = len(title)
+    print_pattern('-', lmax-26, c.RESET)
+    print(title.center(lmax))
+    print_pattern('-', lmax-26, c.RESET)
+
+    md_options = ['Lineups', 'Match Info', 'Stats']
+
+    menu = Bullet(choices=md_options, indent=2, margin=2)
+    selection = menu.launch()
+    
+    if selection == 'Lineups':
+        display_lineups(md_url)
+
+
+def get_lineup_lmax(lineups):
+    lmax = 0
+    for lineup in lineups:
+        for formline in lineup:
+            if type(formline) is list:
+                for line in formline:
+                    text = [f'{line[i]} {line[i+1]}' for i in range(0, len(line)-1, 2)]
+                    lmax = max(len(' -- '.join(text)), lmax)
+    return lmax
+
+
+def display_team(lineup, lmax, color=c.RESET):
+    print(color, end='')
+    for l in lineup:
+        if type(l) is not list:
+            print(l.center(lmax))
+        else:
+            print()
+            for line in l:
+                text = [f'{line[i]} {line[i+1]}' for i in range(0, len(line)-1, 2)]
+                print(' -- '.join(text).center(lmax))
+                print()
+    print(c.RESET, end='')
+
+
+def display_lineups(url, title='Lineups'):
+    clear_screen()
+    lineups = get_lineups(url)
+
+    home, away = lineups
+    lmax = get_lineup_lmax(lineups)+2
+    
+    print_pattern('*', lmax, c.PURPLE)
+    print(title.center(lmax))
+    print_pattern('*', lmax, c.PURPLE)
+
+    display_team(home, lmax, c.BLUE)
+    print_pattern('-', lmax, c.RESET)
+    away[2] = away[2][::-1]
+    display_team(away[::-1], lmax, c.GREEN)
+
+    print_pattern('*', lmax, c.PURPLE)
+    print_pattern('*', lmax, c.PURPLE)
+
+    back = ['Match Details', 'Back to Livescore']
+    menu = Bullet(choices=back, indent=2, margin=2)
+    selection = menu.launch()
 
 
 def display_table(table, title='No Title'):

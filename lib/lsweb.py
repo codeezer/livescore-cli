@@ -27,8 +27,7 @@ def get_livescores_url(name, type):
     return url
 
 
-def get_soup(name='bpl', event_type='competition'):
-    url = get_livescores_url(name, event_type)
+def get_soup(url):
     html = requests.get(url).text
     soup = BeautifulSoup(html, 'html.parser')
     return soup
@@ -98,10 +97,41 @@ def parse_games(soup):
 
 
 def get_games(name='bpl', event_type='competition'):
-    soup = get_soup(name, event_type)
+    url = get_livescores_url(name, event_type)
+    soup = get_soup(url)
     games = parse_games(soup)
     return games
 
+'''
+    [
+        ['Fulham', '4-2-3-1', 
+        [['17', 'Bernd Leno'], 
+        ['2', 'Kenny Tete', '31', 'Issa Diop', '13', 'Tim Ream', '33', 'Antonee Robinson'], 
+        ['6', 'Harrison Reed', '26', 'Joao Palhinha'], 
+        ['14', 'Bobby Reid', '18', 'Andreas Pereira', '20', 'Willian'], 
+        ['9', 'Aleksandar Mitrovic']]], 
+        
+        ['Tottenham Hotspur', '3-4-2-1', 
+        [['1', 'Hugo Lloris'], 
+        ['33', 'Ben Davies', '15', 'Eric Dier', '17', 'Cristian Romero'], 
+        ['14', 'Ivan Perisic', '30', 'Rodrigo Bentancur', '5', 'Pierre Hojbjerg', '12', 'Emerson'], 
+        ['7', 'Son Heung-min', '21', 'Dejan Kulusevski'], 
+        ['10', 'Harry Kane']]]
+    ]
+'''
+def get_lineups(url):
+    url = f'{url}&tab=lineups'
+    lp = get_soup(url).find('div', attrs={'id': '__livescore'})
+    
+    lineups = []
+    for k in lp.find_all('div', 'Vh'):
+        lineups = [t.find_all(text=True) for t in k.find_all('span', 'Wh')]
+        home, away = lineups
+        hlen, alen = len(home[1].split('-')), len(away[1].split('-'))
+        players = [t.find_all(text=True) for t in k.find_all('span', 'mi')]
+        lineups[0].append(players[:hlen+1])
+        lineups[1].append(players[:hlen:-1])
+    return lineups
 
 '''
     returns a list of rows, which is a list of table elements;
@@ -129,7 +159,8 @@ def parse_table(soup):
     return table
 
 
-def get_table(name, event_type='competition'):
-    soup = get_soup(name, event_type)
+def get_table(name='bpl', event_type='competition'):
+    url = get_livescores_url(name, event_type)
+    soup = get_soup(url)
     table = parse_table(soup)
     return table
