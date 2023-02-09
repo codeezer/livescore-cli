@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import requests, time, socket
 from bs4 import BeautifulSoup
+import requests, time, socket, re
 from collections import defaultdict
 from .urls import base_url, details
 
@@ -62,28 +62,26 @@ def get_match_id(url):
 '''
 
 def parse_games(soup):
-    sp = soup.find('div', 'xb').find_all('div', recursive=False)
-
+    sp = soup.find('div', attrs={'data-testid': 'match_rows-root'}).find_all('div', recursive=False)
     games = defaultdict(list)
     date = ''
 
-    for line in sp:
-        if line.get('class') == ['bb']:
-            date = line.find('span', 'cb').text.strip()
+    for i in range(1, len(sp)):
+        line = sp[i]
+        match = {}
+        date_html = line.find('span', attrs={'data-testid': re.compile('category_header-date.*')})
+        if date_html:
+            date = date_html.text
         else:
-            spp = line.find_all(lambda tag: tag.name == 'a' and tag.get('class') == ['qd'])
-            spp = [k for k in spp if k.find('span', 'Kg') is not None]
-            match = {}
-
-            for l in spp:
-                match_details_url = l.get('href')
-                match_id = get_match_id(match_details_url)
-
-                mst = l.find('span', attrs={'data-testid': f'match_row_time-status_or_time_{match_id}'}).text
-                ht = l.find('span', attrs={'data-testid': f'football_match_row-home_team_{match_id}'}).text
-                hts = l.find('span', attrs={'data-testid': f'football_match_row-home_score_{match_id}'}).text
-                at = l.find('span', attrs={'data-testid': f'football_match_row-away_team_{match_id}'}).text
-                ats = l.find('span', attrs={'data-testid': f'football_match_row-away_score_{match_id}'}).text
+            match_details_url = line.find('a', href=True).get('href')
+            match_id = get_match_id(match_details_url)
+            
+            if match_details_url and match_id:
+                mst = line.find('span', attrs={'data-testid': f'match_row_time-status_or_time_{match_id}'}).text
+                ht = line.find('span', attrs={'data-testid': f'football_match_row-home_team_{match_id}'}).text
+                hts = line.find('span', attrs={'data-testid': f'football_match_row-home_score_{match_id}'}).text
+                at = line.find('span', attrs={'data-testid': f'football_match_row-away_team_{match_id}'}).text
+                ats = line.find('span', attrs={'data-testid': f'football_match_row-away_score_{match_id}'}).text
 
                 match = {
                     'match_status': mst,
@@ -93,7 +91,8 @@ def parse_games(soup):
                     'away_score': int(ats) if ats.isdigit() else ats,
                     'match_details_url': base_url + match_details_url
                 }
-            games[date].append(match) if date and match else None
+        games[date].append(match) if (date and match) else None
+
     return games
 
 

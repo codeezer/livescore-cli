@@ -3,11 +3,11 @@
 echo "livescore-cli; installing dependencies..."
 if pip3 install bs4 requests; then
     echo "livescore-cli; dependencies installed."
+    echo "livescore-cli; copying required files."
+    rsync -aqv --exclude .git . ~/.livescore-cli
+    sudo ln -sf ~/.livescore-cli/livescore.py /usr/local/bin/livescore
+echo "livescore-cli; setup completed."
 else
-    echo "livescore-cli; failed to install dependencies."
+    echo "livescore-cli; installation failed."
 fi
 
-echo "livescore-cli; copying required files."
-rsync -aqv --exclude .git . ~/.livescore-cli
-sudo ln -sf ~/.livescore-cli/livescore.py /usr/local/bin/livescore
-echo "livescore-cli; setup completed."
