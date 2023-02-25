@@ -46,6 +46,30 @@ details = {
             "country": "",
             "description": "",
             "url": f'{base_url}/football/europa-league'
-        }
+        },
+        "eflcup": {
+            "title": "EFL Cup",
+            "country": "england",
+            "description": "The EFL Cup, currently known as the Carabao Cup",
+            "url": f'{base_url}/football/england/efl-cup'
+        },
+        "fa": {
+            "title": "FA",
+            "country": "england",
+            "description": "FA cup",
+            "url": f'{base_url}/football/england/fa-cup'
+        },
+        "coppa": {
+            "title": "Coppa",
+            "country": "Italia",
+            "description": "Coppa italia",
+            "url": f'{base_url}/football/italy/coppa-italia'
+        },
+        "leauge1": {
+            "title": "leauge1",
+            "country": "England",
+            "description": "leauge 1",
+            "url": f'{base_url}/football/england/league-1'
+        },
     }
 }
