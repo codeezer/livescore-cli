@@ -40,9 +40,11 @@ def get_lmaxd(ld: list) -> dict:
 
 
 def get_lmaxl(ld):
-    res = [0] * len(ld[0])
+    res = [0] * (len(ld[0]) + 1)
     i = 0
     for e1 in ld:
+        if('Relegation' not in e1[2]) and ('League' not in e1[2]):
+            e1.insert(2, '')
         for i, e2 in enumerate(e1):
             res[i] = max(res[i], len(e2))
     return res
@@ -125,7 +127,8 @@ def display_table(table, title='No Title'):
     title = f'{title} TABLE'
     lmax_list = get_lmaxl(table)
     lmax_list.pop(1)
-    lmax = sum(lmax_list) + (len(lmax_list)-1) * 3 + 2
+    lmax = sum(lmax_list) - lmax_list[1] + (len(lmax_list)-2) * 3 + 2
+    #   '- lmax_list[1]' means that 'lmax' will ignore prom tags' length
 
     head_map = {
         'LP': 'League Position',
@@ -139,7 +142,7 @@ def display_table(table, title='No Title'):
         'Pts': 'Points'                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
     }
 
-    prom = {p for p in [e[1] for e in table] if p}
+    prom = {p for p in [e[2] for e in table] if p}
     prom_map = {}
     k = 0
     for p in prom:
@@ -159,9 +162,9 @@ def display_table(table, title='No Title'):
     for i, row in enumerate(table):
         if i == 1:
             print_pattern('-', lmax, c.RESET)
-        prom = row.pop(1)
+        prom = row.pop(2)
         color = prom_map.get(prom) if prom else c.RESET
-        line = f' {"   ".join([e.ljust(lmax_list[j]) for j, e in enumerate(row)])}'
+        line = f' {"   ".join([e.ljust(lmax_list[j]) for j, e in enumerate(row) if j != 1])}'
         print(color + line)
 
     print_pattern('+', lmax, c.BLUE)
