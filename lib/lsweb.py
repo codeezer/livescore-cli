@@ -62,26 +62,34 @@ def get_match_id(url):
 '''
 
 def parse_games(soup):
-    sp = soup.find('div', attrs={'data-testid': 'match_rows-root'}).find_all('div', recursive=False)
+    sp = soup.find('div', attrs={'class': 'wa'}).find_all('div', recursive=False)
     games = defaultdict(list)
     date = ''
 
     for i in range(1, len(sp)):
         line = sp[i]
         match = {}
-        date_html = line.find('span', attrs={'data-testid': re.compile('category_header-date.*')})
+        date_html = line.find('span', attrs={'class': re.compile('Ya')})
         if date_html:
             date = date_html.text
+            
         else:
             match_details_url = line.find('a', href=True).get('href')
             match_id = get_match_id(match_details_url)
             
             if match_details_url and match_id:
-                mst = line.find('span', attrs={'data-testid': f'match_row_time-status_or_time_{match_id}'}).text
-                ht = line.find('span', attrs={'data-testid': f'football_match_row-home_team_{match_id}'}).text
-                hts = line.find('span', attrs={'data-testid': f'football_match_row-home_score_{match_id}'}).text
-                at = line.find('span', attrs={'data-testid': f'football_match_row-away_team_{match_id}'}).text
-                ats = line.find('span', attrs={'data-testid': f'football_match_row-away_score_{match_id}'}).text
+                # Extracting team and score spans
+                team_spans = line.find_all('span', attrs={'class': 'Dh'})
+                score_spans = line.find_all('span', attrs={'class': 'Gh'}) + line.find_all('span', attrs={'class': 'Hh'})
+
+                # Accessing home and away teams and scores
+                ht = team_spans[0].text  # Home Team: "Brighton"
+                at = team_spans[1].text  # Away Team: "Manchester City"
+                hts = score_spans[0].text  # Home Score: "2"
+                ats = score_spans[1].text  # Away Score: "1"
+
+                # Match status
+                mst = line.find('span', attrs={'class': 'jh fh'}).text  # "FT"
 
                 match = {
                     'match_status': mst,
