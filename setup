@@ -1,13 +1,37 @@
-#!/bin/sh
+#!/bin/bash
 
-echo "livescore-cli; installing dependencies..."
-if pip3 install bs4 requests; then
-    echo "livescore-cli; dependencies installed."
-    echo "livescore-cli; copying required files."
-    rsync -aqv --exclude .git . ~/.livescore-cli
-    sudo ln -sf ~/.livescore-cli/livescore.py /usr/local/bin/livescore
-echo "livescore-cli; setup completed."
-else
-    echo "livescore-cli; installation failed."
+# Function to display messages
+function echo_message {
+    echo "livescore-cli; $1"
+}
+
+# Check for required commands
+command -v python3 >/dev/null 2>&1 || { echo_message "Python 3 is not installed. Please install it first."; exit 1; }
+command -v pip3 >/dev/null 2>&1 || { echo_message "pip is not installed. Please install it first."; exit 1; }
+command -v git >/dev/null 2>&1 || { echo_message "git is not installed. Please install it first."; exit 1; }
+
+# Create a virtual environment
+echo_message "Setting up virtual environment..."
+if ! python3 -m venv ~/.livescore-cli-env; then
+    echo_message "Failed to create virtual environment. Please ensure you have python3-venv installed."
+    exit 1
 fi
 
+# Activate the virtual environment
+source ~/.livescore-cli-env/bin/activate
+
+# Install dependencies
+echo_message "Installing dependencies..."
+if ! pip install -r requirements.txt; then
+    echo_message "Failed to install dependencies. Please check your internet connection and try again."
+    exit 1
+fi
+
+# Copy required files
+echo_message "Copying required files..."
+rsync -aqv --exclude .git . ~/.livescore-cli
+
+# Create a symbolic link for easy access
+sudo ln -sf ~/.livescore-cli/livescore.py /usr/local/bin/livescore
+
+echo_message "Setup completed successfully! You can now run the application using 'livescore -t bpl'."
