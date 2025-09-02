@@ -6,13 +6,13 @@ base_url = "https://livescores.com"
 details = {
     "competition": {
         "bpl": {
-            "title": "Barclay's Premier League",
+            "title": "Premier League",
             "country": "England",
             "description": "",
             "url": f'{base_url}/football/england/premier-league'
         },
         "laliga": {
-            "title": "La Liga BBVA",
+            "title": "La Liga",
             "country": "Spain",
             "description": "",
             "url": f'{base_url}/football/spain/laliga-santander'
@@ -39,13 +39,13 @@ details = {
             "title": "UEFA Champions League",
             "country": "",
             "description": "",
-            "url": f'{base_url}/football/champions-league'
+            "url": f'{base_url}/football/champions-league/league-stage'
         },
         "uel": {
             "title": "UEFA Europa League",
             "country": "",
             "description": "",
-            "url": f'{base_url}/football/europa-league'
+            "url": f'{base_url}/football/europa-league/league-stage'
         }
     }
 }
