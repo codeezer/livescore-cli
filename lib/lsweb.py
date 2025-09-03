@@ -140,3 +140,11 @@ def get_table(name, event_type='competition'):
     soup = get_soup(name, event_type)
     table = parse_table(soup)
     return table
+
+def get_scorers(name, event_type='competition'):
+    soup = get_soup(name, event_type)
+    scorers = parse_scorers(soup)
+    return scorers
+
+def parse_scorers(soup):
+    pass
