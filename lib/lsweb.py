@@ -161,14 +161,15 @@ def parse_scorers(soup):
     Returns a list containing tuples with the following structure:
     (name, team, goals)
 
-    players = [('Dusan Vlahovic', 'Juventus', '2'),
+    players = [('Player', 'Team', 'Goals'),
+               ('Dusan Vlahovic', 'Juventus', '2'),
                (''Marcus Thuram', 'Inter', '2'),
                ('Jonathan David', 'Juventus', '1'),
                ...]
     '''
 
     players_html = soup.find_all('div', attrs = {'class': 'e'})
-    players = []
+    players = [('Player','Team','Goals')]
 
     for player in players_html:
         name_div  = player.find('div', attrs = {'class': 'h'})
