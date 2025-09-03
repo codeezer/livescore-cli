@@ -21,14 +21,24 @@ def get_tz_offset():
     return offset / 60 / 60 * -1
 
 
-def get_livescores_url(name, type):
+def get_livescores_url(name, type, scorers = False):
     tz_offset = get_tz_offset()
-    url = details.get(type).get(name).get('url') + f'/?tz={tz_offset}'
+    if not scorers:
+        url = details.get(type).get(name).get('url') + f'/?tz={tz_offset}'
+    else:
+        url = details.get(type).get(name).get('url') + f'/stats/goals/'
+        url =  url[:17] + url[18:]
+        # Line 30 removes the trailing 's' from 'livescores'.
+        # This is due to the fact that the top scorers ranking was no
+        # longer available in the old website
+        # New website: www.livescore.com
+        # Old website: www.livescores.com
+                    
     return url
 
 
-def get_soup(name='bpl', event_type='competition'):
-    url = get_livescores_url(name, event_type)
+def get_soup(name='bpl', event_type='competition', scorers = False):
+    url = get_livescores_url(name, event_type, scorers)
     html = requests.get(url).text
     soup = BeautifulSoup(html, 'html.parser')
     return soup
@@ -140,3 +150,41 @@ def get_table(name, event_type='competition'):
     soup = get_soup(name, event_type)
     table = parse_table(soup)
     return table
+
+def get_scorers(name, event_type='competition'):
+    soup = get_soup(name, event_type, scorers = True)
+    scorers = parse_scorers(soup)
+    return scorers
+
+def parse_scorers(soup):
+    '''
+    Returns a list containing tuples with the following structure:
+    (name, team, goals)
+
+    players = [('Player', 'Team', 'Goals'),
+               ('Dusan Vlahovic', 'Juventus', '2'),
+               (''Marcus Thuram', 'Inter', '2'),
+               ('Jonathan David', 'Juventus', '1'),
+               ...]
+    '''
+
+    players_html = soup.find_all('div', attrs = {'class': 'e'})
+    players = [('Player','Team','Goals')]
+
+    for player in players_html:
+        name_div  = player.find('div', attrs = {'class': 'h'})
+        name = name_div.text.strip() if name_div else None
+        
+        team_div  = name_div.parent.find_all('div')
+        team = team_div[1].text.strip() if len(team_div) > 1 and team_div[1] else None
+
+        goals_span = player.find('span', attrs = {'class': 'i'})
+        goals = goals_span.text.strip() if goals_span else None
+
+        if goals and team and name:
+            players.append((name,team,goals))
+        
+    return players
+
+    
+

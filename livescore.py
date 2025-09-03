@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-from lib.lsweb import get_games, get_table, is_connected
-from lib.lsprint import display_games, display_table, clear_screen
+from lib.lsweb import get_games, get_table, is_connected, get_scorers
+from lib.lsprint import display_games, display_table, clear_screen, display_scorers
 from lib.cli import args
 from lib.urls import details, base_url
 import time
@@ -11,12 +11,13 @@ import time
 def main():
     b_score = bool(args.score)
     b_table = bool(args.table)
+    b_scorers = bool(args.scorers)
 
     prev_data = {}
     while True:
         try:
             for cname in args.competition:
-                if is_connected('www.livescores.com'):
+                if is_connected('www.livescores.com') and is_connected('www.livescore.com'):
                     event_type = 'competition'
                     title = details.get(event_type).get(cname).get('title')
                     
@@ -33,6 +34,11 @@ def main():
                         print(f'displaying table for {title}')
                         clear_screen()
                         display_table(table, title)
+                    if b_scorers:
+                        scorers = get_scorers(cname, event_type)
+                        print(f'displaying top scorers for {title}')
+                        clear_screen()
+                        display_scorers(scorers, title)
                 
                 else:
                     print(f"couldn't connect to the livescore website. check your internet connection.")

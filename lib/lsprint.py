@@ -193,3 +193,33 @@ def display_table(table, title='No Title'):
         tlen += len(temp)
     print(text)
     print_pattern('+', lmax, c.BLUE)
+
+
+def display_scorers(scorers, title = "No title"):
+    title = f'{title} TOP SCORERS'
+    length = _max_length_scorers(scorers)
+    max_length = sum(length) + 9 #(3*3)
+
+    print_pattern('+', max_length, c.BLUE)
+    print(title.center(max_length))
+    print_pattern('+', max_length, c.BLUE)
+    
+    color = c.GREEN
+    for i, row in enumerate(scorers):
+        if i == 1:
+            print_pattern('-', max_length, c.RESET)
+        line = f' {"   ".join([e.ljust(length[j]) for j, e in enumerate(row)])}'
+        print(color + line)
+        color = c.DRAW
+
+    print_pattern('+', max_length, c.BLUE)
+
+
+
+
+def _max_length_scorers(scorers):
+    length = [0] * 3
+    for scorer in scorers:
+        for i in range(3):
+            length[i] = max(length[i], len(scorer[i]))
+    return length
