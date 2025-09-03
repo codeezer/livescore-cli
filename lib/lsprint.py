@@ -193,3 +193,8 @@ def display_table(table, title='No Title'):
         tlen += len(temp)
     print(text)
     print_pattern('+', lmax, c.BLUE)
+
+
+def display_scorers(scorers, title = "No title"):
+    for scorer in scorers:
+        print(scorer)

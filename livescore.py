@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 
 from lib.lsweb import get_games, get_table, is_connected, get_scorers
-from lib.lsprint import display_games, display_table, clear_screen
+from lib.lsprint import display_games, display_table, clear_screen, display_scorers
 from lib.cli import args
 from lib.urls import details, base_url
 import time
@@ -36,6 +36,9 @@ def main():
                         display_table(table, title)
                     if b_scorers:
                         scorers = get_scorers(cname, event_type)
+                        print(f'displaying top scorers for {title}')
+                        clear_screen()
+                        display_scorers(scorers, title)
                 
                 else:
                     print(f"couldn't connect to the livescore website. check your internet connection.")
