@@ -121,18 +121,56 @@ def get_games(name='bpl', event_type='competition'):
 
 '''
 def parse_table(soup):
-    lt = soup.find('div', attrs={'class': 'Gc'})
-    body = lt.find('tbody')
-    
     header = ['LP', '', 'Team Name', 'GP', 'W', 'D', 'L', 'GF', 'GA', 'GD', 'Pts']
-    table = []
-    table.append(header)
-    for l in body.find_all('tr'):
-        temp = l.find_all(text=True)
+    table = [header]
+
+    # Try with the old selector first
+    lt = soup.find('div', attrs={'class': 'Gc'})
+
+    # If it doesn't find anything, try searching for a table directly
+    if lt is None:
+        lt = soup.find('table')
+
+    if lt is None:
+        print("Errore: tabella non trovata nella pagina.")
+        return table
+
+    body = lt.find('tbody')
+
+    # If tbody is not there, try using the table directly
+    if body is None:
+        rows = lt.find_all('tr')
+    else:
+        rows = body.find_all('tr')
+
+    if not rows:
+        print("Errore: nessuna riga trovata nella tabella.")
+        return table
+
+    for l in rows:
+        cells = l.find_all(['td', 'th'])
+        temp = [c.get_text(strip=True) for c in cells]
+
+        
+        if not temp:
+            continue
+
+        # If the icon/span you previously checked is missing
         if not l.find('span', attrs={'class': 'wj'}):
-            temp.insert(1, '')
+            if len(temp) > 1:
+                temp.insert(1, '')
+            else:
+                temp.append('')
+
+        # Normalize the length to avoid problems
+        while len(temp) < len(header):
+            temp.append('')
+
+        if len(temp) > len(header):
+            temp = temp[:len(header)]
+
         table.append(temp)
-    
+
     return table
 
 
